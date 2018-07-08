@@ -66,7 +66,7 @@ using namespace glm;
 		}
 
 			pickedShape = linksNum-1;
-			addShape(0,3,"./res/textures/apple.png",-1);
+			addShape(0,3,"./res/textures/plane.png",-1);
 			shapeTransformation(zScale,scaleFactor);	
 			
 			shapeTransformation(zGlobalTranslate,1.0);

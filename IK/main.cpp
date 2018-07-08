@@ -66,9 +66,9 @@ int main(int argc, char** argv)
 	                          };
 
 
-	scn.init(vertices,indices,sizeof(vertices)/sizeof(vertices[0]), sizeof(indices)/sizeof(indices[0]));
-	scn.addShader("./res/shaders/basicShader");
-	scn.addShader("./res/shaders/pickingShader");	
+	ikScn.init(vertices,indices,sizeof(vertices)/sizeof(vertices[0]), sizeof(indices)/sizeof(indices[0]));
+	ikScn.addShader("./res/shaders/basicShader");
+	ikScn.addShader("./res/shaders/pickingShader");	
 	//scn.addShape("./res/monkey3.obj","./res/grass.bmp");
 	//Shader shader("./res/basicShader");
 
@@ -78,10 +78,10 @@ int main(int argc, char** argv)
 	
 	while(!glfwWindowShouldClose(display.m_window))
 	{
-		if(scn.isActive())
+		if(ikScn.isActive())
 		{
 			Sleep(30);
-			scn.makeChange();
+			ikScn.makeChange();
 		}
 			display.Clear(1.0f, 1.0f, 1.0f, 1.0f);
 			if(display.IsFullscreen())
@@ -90,7 +90,7 @@ int main(int argc, char** argv)
 				glfwGetFramebufferSize(display.m_window, &viewport[2], &viewport[3] );
 				window_size_callback(display.m_window, viewport[2],viewport[3]);
 			}
-		scn.draw(0,0,false); //change false to true for axis in every joint
+		ikScn.draw(0,0,false); //change false to true for axis in every joint
 
 		display.SwapBuffers();
 		glfwPollEvents();

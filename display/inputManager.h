@@ -2,8 +2,6 @@
 #include "GLFW\glfw3.h"
 #include "IK.h"
 
-
-
 const int DISPLAY_WIDTH = 1200;
 const int DISPLAY_HEIGHT = 800;
 const float FAR = 100.0f;
@@ -13,7 +11,7 @@ float relation = (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT;
 
 Display display(DISPLAY_WIDTH, DISPLAY_HEIGHT, "OpenGL");
 
-IK scn(glm::vec3(0.0f, 5.0f, -20.0f), CAM_ANGLE, relation, NEAR, FAR);
+IK ikScn(glm::vec3(0.0f, 5.0f, -20.0f), CAM_ANGLE, relation, NEAR, FAR);
 
 float factor = 1.0;
 
@@ -33,74 +31,86 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_RIGHT:
 			// Rotates picked link around the previous link Z axis (right)
 			//scn.shapeTransformation(scn.zGlobalRotate,-20.1f);
-			if (scn.getPicked() != linksNum) {
-				scn.shapeTransformation(scn.zLocalRotate, 5.f);
+			/*
+			if (ikScn.getPicked() != linksNum) {
+				ikScn.shapeTransformation(ikScn.zLocalRotate, 5.f);
 			}else
 			{
-				scn.shapeTransformation(scn.xGlobalTranslate, 5.f);
-			}
-			//						cout<< "right: "<<endl;
+				ikScn.shapeTransformation(ikScn.xGlobalTranslate, 5.f);
+			}*/
+			
+			/// Go to the right of the screen
+			std::cout<< "right: "<< std::endl;
 			break;
 		case GLFW_KEY_LEFT:
 			// Rotates picked link around the previous link Z axis (left)
 			//scn.shapeTransformation(scn.zGlobalRotate,20.1f);
-			if (scn.getPicked() != linksNum) {
-				scn.shapeTransformation(scn.zLocalRotate, -5.f);
+			/*
+			if (ikScn.getPicked() != linksNum) {
+				ikScn.shapeTransformation(ikScn.zLocalRotate, -5.f);
 			}else
 			{
-				scn.shapeTransformation(scn.xGlobalTranslate, -5.f);
-			}
-			//					cout<< "left: "<<endl;
+				ikScn.shapeTransformation(ikScn.xGlobalTranslate, -5.f);
+			}*/
+
+			/// Go to the left of the screen
+			std::cout<< "left: "<< std::endl;
 			break;
 		case GLFW_KEY_UP:
 			// Rotates picked link around the previous link X axis using Euler angles
 			//cout<< "up: "<<endl;
-			if (scn.getPicked() != linksNum) {
-				scn.shapeTransformation(scn.xGlobalRotate, 5.f);
+			/*
+			if (ikScn.getPicked() != linksNum) {
+				ikScn.shapeTransformation(ikScn.xGlobalRotate, 5.f);
 			}else
 			{
-				scn.shapeTransformation(scn.zLocalTranslate, 5.f);
-			}
+				ikScn.shapeTransformation(ikScn.zLocalTranslate, 5.f);
+			}*/
+
+			/// Go to the up of the screen
+			std::cout << "up: " << std::endl;
 			break;
 		case GLFW_KEY_DOWN:
 			// Rotates picked link around the previous link X axis using Euler angles
-			if (scn.getPicked() != linksNum) {
-				scn.shapeTransformation(scn.xGlobalRotate, -5.f);
+			/*if (ikScn.getPicked() != linksNum) {
+				ikScn.shapeTransformation(ikScn.xGlobalRotate, -5.f);
 			}else
 			{
-				scn.shapeTransformation(scn.zLocalTranslate, -5.f);
-			}
-			//cout<< "down: "<<endl;
+				ikScn.shapeTransformation(ikScn.zLocalTranslate, -5.f);
+			}*/
+
+			/// Go to the down of the screen
+			std::cout<< "down: "<< std::endl;
 			break;
 		case GLFW_KEY_SPACE:
 			// Starts and stops the IK Solver
-			scn.isActive() ? scn.dActivate() : scn.Activate();
+			ikScn.isActive() ? ikScn.dActivate() : ikScn.Activate();
 			//std::cout<< "change direction "<<std::endl;
 			//scn.changeDirection();
 			break;
 		case GLFW_KEY_B:
 			// Pick the box if it's not picked, else - pick the first link.
 			// The first link is picked by default
-			scn.pick_box();
+			//ikScn.pick_box();
 			break;
 		case GLFW_KEY_N:
 			// Change the picked link to the next one (modulu)
-			scn.pick_next_box();
+			//ikScn.pick_next_box();
 			break;
 		case GLFW_KEY_P:
 			// Change the picked linke to the previous one (modulu)
-			scn.pick_previous_box();
+			//ikScn.pick_previous_box();
 			break;
 		case GLFW_KEY_C:
 			// Camera Mode - in this mode the arrows will rotate
 			// the camera around the origin of the scene
-			scn.changeMode();
-			if(scn.getMode())
+			ikScn.changeMode();
+			if(ikScn.getMode())
 			{
-				scn.setPicked(linksNum);
+				ikScn.setPicked(linksNum);
 			}else
 			{
-				scn.setPicked(0);
+				ikScn.setPicked(0);
 			}
 			break;
 		default:
@@ -117,11 +127,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		y2 = ypos;
 	}
 
-	
-
 	void window_size_callback(GLFWwindow* window, int width, int height)
 	{
 		
-		scn.resize(width,height,NEAR,FAR);
+		ikScn.resize(width,height,NEAR,FAR);
 		relation = (float)width/(float)height;
 	}
