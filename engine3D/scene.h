@@ -10,6 +10,7 @@ class Scene : public MovableGLM
 	std::vector<Camera*> cameras; //light will have the properties of camera
 	
 	Shape *axisMesh;
+	
 protected:
 	std::vector<int> chainParents;
 	int pickedShape;
@@ -53,5 +54,6 @@ public:
 	inline void setParent(int indx,int newValue) {chainParents[indx]=newValue;}
 	virtual ~Scene(void);
 
+	
 };
 

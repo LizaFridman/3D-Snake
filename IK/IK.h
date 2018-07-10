@@ -1,5 +1,6 @@
-#pragma once
+
 #include "scene.h"
+
 
 #define EPSILON 1e-4f
 

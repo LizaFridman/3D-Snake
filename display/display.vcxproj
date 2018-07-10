@@ -12,10 +12,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="display.cpp" />
+    <ClCompile Include="GLErrorHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debugTimer.h" />
     <ClInclude Include="display.h" />
+    <ClInclude Include="GLErrorHandler.h" />
     <ClInclude Include="inputManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -144,7 +144,7 @@ using namespace glm;
 		}
 		linkTipPositions.push_back(getTipPosition(linksNum - 1));
 
-		std::cout << "==> Starting Step 1" << std::endl;
+		//std::cout << "==> Starting Step 1" << std::endl;
 
 		auto last_tip_position = linkTipPositions[linksNum];
 		auto factor = 0.1f;
@@ -166,7 +166,7 @@ using namespace glm;
 
 		linkTipPositions[0] = goal;
 
-		std::cout << "==> Starting Step 2" << std::endl;
+		//std::cout << "==> Starting Step 2" << std::endl;
 		goal = start;
 
 		for (uint i = 1; i < linkTipPositions.size(); i++)
@@ -179,7 +179,7 @@ using namespace glm;
 		linkTipPositions[linksNum] = goal;
 
 		//Rotation
-		std::cout << "==> Starting Rotation" << std::endl;
+		//std::cout << "==> Starting Rotation" << std::endl;
 		auto yAxis = vec3(0, 1, 0);
 		auto zAxis = vec3(0, 0, 1);
 
@@ -249,8 +249,8 @@ using namespace glm;
 		//std::cout << "distPosition = " << distPosition.x << ", " << distPosition.y << ", "<< distPosition.z << std::endl;
 		
 		auto dist = distance(tipPosition, distPosition);
-		std::cout << "Distance = " << dist << std::endl;
-		std::cout << "Delta = " << delta << std::endl;
+		//std::cout << "Distance = " << dist << std::endl;
+		
 		
 		if(dist < delta)
 		{

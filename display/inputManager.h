@@ -26,7 +26,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		switch (key)
 		{
 		case GLFW_KEY_ESCAPE:
-			glfwSetWindowShouldClose(window, GLFW_TRUE);
+			GLCall(glfwSetWindowShouldClose(window, GLFW_TRUE));
 			break;
 		case GLFW_KEY_RIGHT:
 			// Rotates picked link around the previous link Z axis (right)
