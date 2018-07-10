@@ -29,6 +29,7 @@ Display::Display(int width, int height, const std::string& title)
 	//glEnable(GL_SMOOTH);
 	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_FRONT_AND_BACK);
+
 }
 
 Display::~Display()

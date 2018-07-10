@@ -4,6 +4,7 @@
 
 #include <GLFW/glfw3.h>
 #include <string>
+#include "GLErrorHandler.h"
 
 class Display
 {
@@ -23,6 +24,7 @@ public:
 
 	GLFWwindow* m_window;
 	int error;
+
 };
 
 #endif

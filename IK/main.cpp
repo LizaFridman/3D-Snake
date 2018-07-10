@@ -2,15 +2,19 @@
 #include "display.h"
 #include "inputManager.h"
 #include <Windows.h>
+
+GLErrorHandler errorHandler;
+
 void init()
 {
 	glfwSetKeyCallback(display.m_window,key_callback);
 	glfwSetWindowSizeCallback(display.m_window,window_size_callback);
 }
 
-
 int main(int argc, char** argv)
 {
+	errorHandler.PrintMessage();
+
 	Vertex vertices[] =
 	{
 		Vertex(glm::vec3(-1, -1, -1), glm::vec2(1, 0), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
