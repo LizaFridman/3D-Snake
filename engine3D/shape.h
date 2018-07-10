@@ -24,7 +24,7 @@ public:
 	void addLineMesh(LineVertex* vertices, unsigned int numVertices,unsigned int* indices, unsigned int numIndices);
 	std::vector<glm::vec3> getVertexPositions();
 	void draw(int mode);
-
+	unsigned int getTexture();
 	virtual ~Shape(void);
 };
 

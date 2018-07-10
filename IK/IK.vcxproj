@@ -83,10 +83,6 @@
   <ItemGroup>
     <ClInclude Include="IK.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\textures\apple.jpg" />
-    <Image Include="res\textures\apple.png" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

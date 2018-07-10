@@ -9,6 +9,9 @@ public:
 	Texture(const std::string& fileName);
 
 	void Bind();
+	void Unbind();
+
+	unsigned int getTexture(){ return m_texture; }
 
 	virtual ~Texture();
 protected:

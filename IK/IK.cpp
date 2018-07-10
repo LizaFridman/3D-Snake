@@ -51,14 +51,14 @@ using namespace glm;
 	{
 		myRotate(-90.0f,vec3(1,0,0),-1);
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
-		addShape(0,2,"./res/textures/plane.png",-1);
+		addShape(0,2,"./res/textures/apple.png",-1);
 		pickedShape = 0;
 		shapeTransformation(zScale,scaleFactor);
 
 		for (int i = 1; i < linksNum-1; i++)
 		{
 			pickedShape = i;
-			addShape(1,1,"./res/textures/plane.png",-1);
+			addShape(1,1,"./res/textures/apple.png",-1);
 			shapeTransformation(zScale,scaleFactor);	
 		
 			shapeTransformation(zGlobalTranslate,1.0);
@@ -66,7 +66,7 @@ using namespace glm;
 		}
 
 			pickedShape = linksNum-1;
-			addShape(0,3,"./res/textures/plane.png",-1);
+			addShape(0,3,"./res/textures/apple.png",-1);
 			shapeTransformation(zScale,scaleFactor);	
 			
 			shapeTransformation(zGlobalTranslate,1.0);
@@ -218,7 +218,7 @@ using namespace glm;
 
 	}
 	
-	void IK::makeChange()
+	void IK::makeIKChange()
 	{
 		distPosition=getGoalPosition();
 		tipPosition = getTipPosition(linksNum - 1);

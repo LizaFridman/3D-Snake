@@ -48,7 +48,7 @@ Vertex axisVertices[] =
 	{
 		GLCall(glLineWidth(3));
 		cameras.push_back(new Camera(position,angle,hwRelation,near,far));
-	//	axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
+		axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
 		pickedShape = -1;
 	}
 
@@ -95,12 +95,12 @@ Vertex axisVertices[] =
 	void Scene::addShader(const std::string& fileName)
 	{
 		shaders.push_back(new Shader(fileName));
-		if(!axisMesh)
+		/*if(!axisMesh)
 		{	
 			axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
 			axisMesh->myScale(vec3(2.0*scaleFactor,2.0*scaleFactor,2.0*scaleFactor));
 			axisMesh->myTranslate(vec3(0,0,0.5),1);
-		}
+		}*/
 	}
 
 	mat4 Scene::GetViewProjection(int indx) const
@@ -120,10 +120,9 @@ Vertex axisVertices[] =
 		vector<mat4> trans;
 
 		shaders[shaderIndx]->Bind();
+
 		for (int i=0; i<shapes.size();i++)
 		{
-			//int j = i;
-//			int counter = 0;
 			mat4 Normal1 = mat4(1);
 			for (int j = i; chainParents[j] > -1; j = chainParents[j])
 			{
@@ -136,14 +135,14 @@ Vertex axisVertices[] =
 			
 			if(shaderIndx==0 && drawAxis && chainParents[i]>=0)
 			{
-				shaders[shaderIndx]->Update(axisMesh->makeTransScale(MVP1), axisMesh->makeTransScale(Normal1), 0, trans);
+				shaders[shaderIndx]->Update(axisMesh->makeTransScale(MVP1), axisMesh->makeTransScale(Normal1), 0, trans, 0);
 				axisMesh->draw(GL_LINES);
 			}
 
 			MVP1 = MVP1 * shapes[i]->makeTransScale(mat4(1));
 			Normal1 = Normal1 * shapes[i]->makeTrans();
 			trans.push_back(MVP1);
-			shaders[shaderIndx]->Update(MVP1,Normal1,i, trans);
+			shaders[shaderIndx]->Update(MVP1,Normal1,i, trans, shapes[i]->getTexture());
 
 			if(shaderIndx == 1)
 				shapes[i]->draw(GL_TRIANGLES);
@@ -153,7 +152,7 @@ Vertex axisVertices[] =
 		if(shaderIndx==0 )
 		{
 			shaders[shaderIndx]->Bind();
-			shaders[shaderIndx]->Update(cameras[0]->GetViewProjection()*scale(vec3(10,10,10)),Normal*scale(vec3(10,10,10)),0, trans);
+			shaders[shaderIndx]->Update(cameras[0]->GetViewProjection()*scale(vec3(10,10,10)),Normal*scale(vec3(10,10,10)),0, trans, 0);
 			axisMesh->draw(GL_LINES);
 		}
 	}

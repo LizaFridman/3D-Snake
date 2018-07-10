@@ -82,7 +82,7 @@ int main(int argc, char** argv)
 		if(ikScn.isActive())
 		{
 			Sleep(30);
-			ikScn.makeChange();
+			ikScn.makeIKChange();
 		}
 			display.Clear(1.0f, 1.0f, 1.0f, 1.0f);
 			if(display.IsFullscreen())

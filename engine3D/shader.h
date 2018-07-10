@@ -11,13 +11,13 @@ public:
 	Shader(const std::string& fileName);
 
 	void Bind();
-	void Update( glm::mat4 MVP ,glm::mat4 Normal , int const shpIndx, std::vector<glm::mat4> transformations);
+	void Update(glm::mat4 MVP, glm::mat4 Normal, int const shpIndx, std::vector<glm::mat4> trans, int texture);
 
 	virtual ~Shader();
 protected:
 private:
 	static const unsigned int NUM_SHADERS = 2;
-	static const unsigned int NUM_UNIFORMS = 7;
+	static const unsigned int NUM_UNIFORMS = 8;
 	void operator=(const Shader& shader) {}
 	Shader(const Shader& shader) {}
 	
