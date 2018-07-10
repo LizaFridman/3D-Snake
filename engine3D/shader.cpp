@@ -23,20 +23,21 @@ Shader::Shader(const std::string& fileName)
 	m_shaders[0] = CreateShader(LoadShader(fileName + ".vs"), GL_VERTEX_SHADER);
 	m_shaders[1] = CreateShader(LoadShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
 
-	for(unsigned int i = 0; i < NUM_SHADERS; i++)
-		glAttachShader(m_program, m_shaders[i]);
+	for (unsigned int i = 0; i < NUM_SHADERS; i++) {
+		GLCall(glAttachShader(m_program, m_shaders[i]));
+	}
 
-	glBindAttribLocation(m_program, 0, "position");
-	glBindAttribLocation(m_program, 1, "texCoord");
-	glBindAttribLocation(m_program, 2, "normal");
-	glBindAttribLocation(m_program, 3, "color");
-	glBindAttribLocation(m_program, 4, "weight");
+	GLCall(glBindAttribLocation(m_program, 0, "position"));
+	GLCall(glBindAttribLocation(m_program, 1, "texCoord"));
+	GLCall(glBindAttribLocation(m_program, 2, "normal"));
+	GLCall(glBindAttribLocation(m_program, 3, "color"));
+	GLCall(glBindAttribLocation(m_program, 4, "weight"));
 
 
-	glLinkProgram(m_program);
+	GLCall(glLinkProgram(m_program));
 	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error linking shader program");
 
-	glValidateProgram(m_program);
+	GLCall(glValidateProgram(m_program));
 	CheckShaderError(m_program, GL_LINK_STATUS, true, "Invalid shader program");
 
 	m_uniforms[0] = glGetUniformLocation(m_program, "MVP");
@@ -52,16 +53,16 @@ Shader::~Shader()
 {
 	for(unsigned int i = 0; i < NUM_SHADERS; i++)
     {
-        glDetachShader(m_program, m_shaders[i]);
-        glDeleteShader(m_shaders[i]);
+        GLCall(glDetachShader(m_program, m_shaders[i]));
+        GLCall(glDeleteShader(m_shaders[i]));
     }
 
-	glDeleteProgram(m_program);
+	GLCall(glDeleteProgram(m_program));
 }
 
 void Shader::Bind()
 {
-	glUseProgram(m_program);
+	GLCall(glUseProgram(m_program));
 }
 
 void Shader::Update( glm::mat4 MVP ,glm::mat4 Normal , int const shpIndx, std::vector<glm::mat4> trans)
@@ -77,14 +78,14 @@ void Shader::Update( glm::mat4 MVP ,glm::mat4 Normal , int const shpIndx, std::v
 	int r = ((shpIndx+1) & 0x000000FF) >>  0;
 	int g = ((shpIndx+1) & 0x0000FF00) >>  8;
 	int b = ((shpIndx+1) & 0x00FF0000) >> 16;
-	glUniformMatrix4fv(m_uniforms[0], 1, GL_FALSE, &MVP[0][0]);
-	glUniformMatrix4fv(m_uniforms[1], 1, GL_FALSE, &Normal[0][0]);
-	glUniform3f(m_uniforms[2], 0.0f, 0.0f, 1.0f);
-	glUniform3f(m_uniforms[3], r/255.0f, g/255.0f, b/255.0f);
+	GLCall(glUniformMatrix4fv(m_uniforms[0], 1, GL_FALSE, &MVP[0][0]));
+	GLCall(glUniformMatrix4fv(m_uniforms[1], 1, GL_FALSE, &Normal[0][0]));
+	GLCall(glUniform3f(m_uniforms[2], 0.0f, 0.0f, 1.0f));
+	GLCall(glUniform3f(m_uniforms[3], r/255.0f, g/255.0f, b/255.0f));
 
-	glUniformMatrix4fv(m_uniforms[4], trans.size(), GL_FALSE, &trans[0][0][0]);
-	glUniform1i(m_uniforms[5], shpIndx);
-	glUniform1i(m_uniforms[6], linksNum);
+	GLCall(glUniformMatrix4fv(m_uniforms[4], trans.size(), GL_FALSE, &trans[0][0][0]));
+	GLCall(glUniform1i(m_uniforms[5], shpIndx));
+	GLCall(glUniform1i(m_uniforms[6], linksNum));
 }
 
 std::string Shader::LoadShader(const std::string& fileName)
@@ -116,17 +117,21 @@ void Shader::CheckShaderError(unsigned int shader, unsigned int flag, bool isPro
     GLint success = 0;
     GLchar error[1024] = { 0 };
 
-    if(isProgram)
-        glGetProgramiv(shader, flag, &success);
-    else
-        glGetShaderiv(shader, flag, &success);
+	if (isProgram) {
+		GLCall(glGetProgramiv(shader, flag, &success));
+	}
+	else {
+		GLCall(glGetShaderiv(shader, flag, &success));
+	}
 
     if(success == GL_FALSE)
     {
-        if(isProgram)
-            glGetProgramInfoLog(shader, sizeof(error), NULL, error);
-        else
-            glGetShaderInfoLog(shader, sizeof(error), NULL, error);
+		if (isProgram) {
+			GLCall(glGetProgramInfoLog(shader, sizeof(error), NULL, error));
+		}
+		else {
+			GLCall(glGetShaderInfoLog(shader, sizeof(error), NULL, error));
+		}
 
         std::cerr << errorMessage << ": '" << error << "'" << std::endl;
     }
@@ -144,8 +149,8 @@ unsigned int Shader::CreateShader(const std::string& text, unsigned int type)
     GLint lengths[1];
     lengths[0] = text.length();
 
-    glShaderSource(shader, 1, p, lengths);
-    glCompileShader(shader);
+    GLCall(glShaderSource(shader, 1, p, lengths));
+    GLCall(glCompileShader(shader));
 
     CheckShaderError(shader, GL_COMPILE_STATUS, false, "Error compiling shader!");
 

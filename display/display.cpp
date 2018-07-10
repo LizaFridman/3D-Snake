@@ -3,7 +3,6 @@
 #include <iostream>
 #include "display.h"
 
-
 Display::Display(int width, int height, const std::string& title)
 {
 	/* Initialize the library */
@@ -13,7 +12,7 @@ Display::Display(int width, int height, const std::string& title)
 	m_window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 	if(!m_window)
 	{
-		glfwTerminate();
+		GLCall(glfwTerminate());
 		error = -1;
 	}
 	glfwMakeContextCurrent(m_window);
@@ -25,7 +24,7 @@ Display::Display(int width, int height, const std::string& title)
 		std::cerr << "Glew failed to initialize!" << std::endl;
     }
 	isFullScreen = false;
-	glEnable(GL_DEPTH_TEST);
+	GLCall(glEnable(GL_DEPTH_TEST));
 	//glEnable(GL_SMOOTH);
 	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_FRONT_AND_BACK);
@@ -42,8 +41,8 @@ Display::~Display()
 
 void Display::Clear(float r, float g, float b, float a)
 {
-	glClearColor(r, g, b, a);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	GLCall(glClearColor(r, g, b, a));
+	GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 
 bool Display::IsFullscreen( void )
@@ -59,5 +58,5 @@ bool Display::IsFullscreen( void )
 
 void Display::SwapBuffers()
 {
-	glfwSwapBuffers(m_window);
+	GLCall(glfwSwapBuffers(m_window));
 }

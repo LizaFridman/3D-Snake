@@ -3,7 +3,7 @@
 #include "scene.h"
 #include <iostream>
 #include "../IK/IK.h"
-
+#include "GLErrorHandler.h"
 using namespace std;
 using namespace glm;
 
@@ -16,6 +16,7 @@ using namespace glm;
 		LineVertex(glm::vec3(0,0,1),glm::vec3(0,0,1)),
 		LineVertex(glm::vec3(0,0,-1),glm::vec3(0,0,1)),
 	};*/
+
 
 Vertex axisVertices[] =
 {
@@ -45,7 +46,7 @@ Vertex axisVertices[] =
 
 	Scene::Scene(vec3 position,float angle,float hwRelation,float near, float far)
 	{
-		glLineWidth(3);
+		GLCall(glLineWidth(3));
 		cameras.push_back(new Camera(position,angle,hwRelation,near,far));
 	//	axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
 		pickedShape = -1;
@@ -338,22 +339,22 @@ Vertex axisVertices[] =
 	
 	void Scene::resize(int width,int height,int near,int far)
 	{
-		glViewport(0,0,width,height);
+		GLCall(glViewport(0,0,width,height));
 		cameras[0]->setProjection((float)width/(float)height,near,far);
 	}
 
 	float Scene::picking(double x,double y)
 	{
 		float depth;
-		glClearColor(0.0,0.0,0.0,0.0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		GLCall(glClearColor(0.0,0.0,0.0,0.0));
+		GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 		draw(1,0,false); 
 						
 		GLint viewport[4];  
 		unsigned char data[4];
-		glGetIntegerv(GL_VIEWPORT, viewport); //reading viewport parameters
-		glReadPixels(x,viewport[3] - y,1,1, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		glReadPixels(x,viewport[3] - y,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&depth);
+		GLCall(glGetIntegerv(GL_VIEWPORT, viewport)); //reading viewport parameters
+		GLCall(glReadPixels(x,viewport[3] - y,1,1, GL_RGBA, GL_UNSIGNED_BYTE, data));
+		GLCall(glReadPixels(x,viewport[3] - y,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&depth));
 		cout<<"depth "<<depth<<endl;
 		int pickedID = data[0] + data[1]*256 + data[2]*256*256 - 1;
 		if(data[0] == 0 && data[1] == 0 && data[2] == 0)

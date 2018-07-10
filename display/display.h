@@ -24,7 +24,6 @@ public:
 
 	GLFWwindow* m_window;
 	int error;
-
 };
 
 #endif

@@ -6,6 +6,8 @@
 #include <vector>
 #include "obj_loader.h"
 
+#include "GLErrorHandler.h"
+
 struct LineVertex
 {
 public:
