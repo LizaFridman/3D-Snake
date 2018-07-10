@@ -36,7 +36,7 @@ public:
 
 	void inline changeMode(){cameraMode = !cameraMode;}
 	bool inline getMode() { return cameraMode; }
-	void makeChange();
+	void makeIKChange();
 	void reset_euler_angles(int shapeIndex);
 	void calculateStep(bool EulerVersion);
 	float Distance(int indx1, int indx2);

@@ -92,6 +92,11 @@ void Shape::draw(int mode)
 		lineMesh->Draw();
 }
 
+unsigned int Shape::getTexture()
+{
+	return tex->getTexture();
+}
+
 Shape::~Shape(void)
 {
 	if(!isCopy)
