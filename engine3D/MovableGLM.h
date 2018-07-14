@@ -20,6 +20,9 @@ private:
 	
 	//glm::vec3 getXdirection(glm::mat4 &prevTransformations);
 	//glm::vec3 getZdirection(glm::mat4 &prevTransformations);
+
+	glm::vec3 v;
+
 public:
 	//vec3 findAxis(vec4 &vec, int indx);
 	//vec3 findAxis2(vec4 &vec, int indx);
@@ -29,6 +32,7 @@ public:
 	glm::mat4 makeTransScale() const;
 	glm::mat4 makeTrans(glm::mat4 &prevTransformations) const;
 	glm::mat4 makeTrans() const;
+
 	void myRotate(float ang, glm::vec3 &vec, int indx);
 	void myTranslate(glm::vec3 &vec, int indx);
 	void myScale(glm::vec3 &vec);
@@ -39,7 +43,11 @@ public:
 	void copyTranslations(MovableGLM *mGLM);
 	void translateInSystem(const MovableGLM  &system,glm::vec3 &vec, int indx, bool toScale);
 
+	void update();
+	void set_velocity(glm::vec3 v);
+	void add_velocity(glm::vec3 v);
 
+	glm::vec4 getTraslate();
 	glm::vec3 getPointInSystem(glm::mat4 &prevTransformations,glm::vec3 point);
 	glm::vec3 getVectorInSystem(glm::mat4 &prevTransformations,glm::vec3 vec);
 	glm::vec3 getCenterOfRotation(glm::mat4 &prevTransformations);

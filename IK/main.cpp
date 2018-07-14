@@ -79,6 +79,14 @@ int main(int argc, char** argv)
 	
 	while(!glfwWindowShouldClose(display.m_window))
 	{
+
+		/*if(scn.shapes[0]->collides_with(scn.shapes[1]))
+		{
+			for (auto &shape : scn.shapes)
+			{
+				shape->set_velocity(glm::vec3(0));
+			}
+		}*/
 		if(ikScn.isActive())
 		{
 			Sleep(30);

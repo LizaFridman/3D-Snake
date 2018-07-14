@@ -51,14 +51,14 @@ using namespace glm;
 	{
 		myRotate(-90.0f,vec3(1,0,0),-1);
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
-		addShape(0,2,"./res/textures/apple.png",-1);
+		addShape(0,2,"./res/textures/grass.bmp",-1);
 		pickedShape = 0;
 		shapeTransformation(zScale,scaleFactor);
 
 		for (int i = 1; i < linksNum-1; i++)
 		{
 			pickedShape = i;
-			addShape(1,1,"./res/textures/apple.png",-1);
+			addShape(1,1,"./res/textures/Green-Barbed.bmp",-1);
 			shapeTransformation(zScale,scaleFactor);	
 		
 			shapeTransformation(zGlobalTranslate,1.0);
@@ -66,7 +66,7 @@ using namespace glm;
 		}
 
 			pickedShape = linksNum-1;
-			addShape(0,3,"./res/textures/apple.png",-1);
+			addShape(0,3,"./res/textures/Stone_02_COLOR.bmp",-1);
 			shapeTransformation(zScale,scaleFactor);	
 			
 			shapeTransformation(zGlobalTranslate,1.0);

@@ -8,6 +8,9 @@ Display::Display(int width, int height, const std::string& title)
 	/* Initialize the library */
     if (!glfwInit())
         error =  -1;
+	
+	//GLCall(glEnable(GL_BLEND));
+	//GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
 	m_window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 	if(!m_window)
