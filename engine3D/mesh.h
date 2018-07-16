@@ -7,6 +7,7 @@
 #include "obj_loader.h"
 #include "GLErrorHandler.h"
 #include "kdtree.h"
+
 struct Vertex
 {
 public:

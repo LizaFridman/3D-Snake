@@ -5,6 +5,9 @@
 
 class MovableGLM : public EulerAngles
 {
+public :
+	enum Direction { NONE = 0, RIGHT, LEFT, UP, DOWN };
+
 private:
 	glm::mat4 translateMat[2];
 	glm::mat4 rotateMat;
@@ -20,16 +23,16 @@ private:
 	
 	//glm::vec3 getXdirection(glm::mat4 &prevTransformations);
 	//glm::vec3 getZdirection(glm::mat4 &prevTransformations);
-
+protected:
 	glm::vec3 v;
+	Direction direction;
 
 public:
 	//vec3 findAxis(vec4 &vec, int indx);
 	//vec3 findAxis2(vec4 &vec, int indx);
 	MovableGLM();
-	
 	glm::mat4 makeTransScale(glm::mat4 &prevTransformations) const;
-	glm::mat4 makeTransScale() const;
+	//glm::mat4 makeTransScale() const;
 	glm::mat4 makeTrans(glm::mat4 &prevTransformations) const;
 	glm::mat4 makeTrans() const;
 
@@ -46,6 +49,12 @@ public:
 	void update();
 	void set_velocity(glm::vec3 v);
 	void add_velocity(glm::vec3 v);
+	
+	Direction getDirection() { return direction; }
+	void setDirectionRight() { direction = RIGHT; }
+	void setDirectionLeft() { direction = LEFT; }
+	void setDirectionUp() { direction = UP; }
+	void setDirectionDown() { direction = DOWN; }
 
 	glm::vec4 getTraslate();
 	glm::vec3 getPointInSystem(glm::mat4 &prevTransformations,glm::vec3 point);

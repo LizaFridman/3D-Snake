@@ -57,7 +57,7 @@ Shape::Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, 
 		tex = new Texture(textureFileName); 
 		isCopy = false;
 
-		this->surrounding_box = create_box(mesh->tree.getRoot(), glm::vec3(0.0f, 0.0f, 1.0f));
+		//this->surrounding_box = create_box(mesh->tree.getRoot(), glm::vec3(0.0f, 0.0f, 1.0f));
 	}
 
 void Shape::addMesh(Vertex* vertices, unsigned int numVertices,unsigned int* indices, unsigned int numIndices, const std::string& textureFileName)

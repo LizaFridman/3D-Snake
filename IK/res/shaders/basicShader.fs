@@ -16,6 +16,6 @@ void main()
 	//vec3 texColor = texture(u_Texture, texCoord0).rgb;
 	//gl_FragColor = texture2D(u_Texture, texCoord0) *clamp(vec4(color0,1.0), 0.0, 1.0);
     //gl_FragColor = clamp(vec4(color0,1.0), 0.0, 1.0);//clamp(texColor,0.0,1.0);
-	gl_FragColor = texture2D(u_Texture, texCoord0) * clamp(vec4(color0,1.0), 0.0, 1.0);;
-	//gl_FragColor = clamp(vec4(color0,1.0), 0.0, 1.0);
+	//gl_FragColor = texture2D(u_Texture, texCoord0) * clamp(vec4(color0,1.0), 0.0, 1.0);;
+	gl_FragColor = clamp(vec4(color0,1.0), 0.0, 1.0);
 }
