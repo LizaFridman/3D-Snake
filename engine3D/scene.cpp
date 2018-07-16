@@ -332,8 +332,168 @@ Vertex axisVertices[] =
 			default:
 				break;
 			}
+	}
 
-		
+	void Scene::shapeTransformation(int type, float amt, vec3 vec)
+	{
+		vec3 newAxis;
+		switch (type)
+		{
+		case xLocalTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec, 1);
+			else
+			{
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+				shapes[i]->myTranslate(vec, 1);
+			}
+			break;
+		case yLocalTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec, 1);
+			else
+			{
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+				shapes[i]->myTranslate(vec, 1);
+			}
+			break;
+		case zLocalTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec, 1);
+			else
+			{
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+				shapes[i]->myTranslate(vec, 1);
+			}
+			break;
+		case xGlobalTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec, 0);
+			else
+			{
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+				shapes[i]->myTranslate(vec, 0);
+			}
+			break;
+		case yGlobalTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec, 0);
+			else
+			{
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+				shapes[i]->myTranslate(vec, 0);
+			}
+			break;
+		case zGlobalTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec, 0);
+			else
+			{
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+				shapes[i]->myTranslate(vec, 0);
+			}
+			break;
+		case xLocalRotate:
+			if (pickedShape == -1)
+				myRotate(amt, vec, xAxis1);
+			else
+				shapes[pickedShape]->myRotate(amt, vec, xAxis1);
+			break;
+		case yLocalRotate:
+			if (pickedShape == -1)
+				myRotate(amt, vec3(0, 1, 0), -1);
+			else
+				shapes[pickedShape]->myRotate(amt, vec, -1);
+			break;
+		case zLocalRotate:
+			if (pickedShape == -1)
+				myRotate(amt, vec3(0, 0, 1), zAxis12);
+			else
+				shapes[pickedShape]->myRotate(amt, vec, zAxis12);
+			break;
+		case xGlobalRotate:
+			if (pickedShape == -1)
+				globalSystemRot(amt, vec3(1, 0, 0), xAxis1);
+			else
+				shapes[pickedShape]->globalSystemRot(amt, vec, xAxis1);
+			break;
+		case yGlobalRotate:
+			if (pickedShape == -1)
+				globalSystemRot(amt, vec3(0, 1, 0), -1);
+			else
+				shapes[pickedShape]->globalSystemRot(amt, vec, -1);
+			break;
+		case zGlobalRotate:
+			if (pickedShape == -1)
+				globalSystemRot(amt, vec, zAxis12);
+			else
+				shapes[pickedShape]->globalSystemRot(amt, vec, zAxis12);
+			break;
+		case xScale:
+			if (pickedShape == -1)
+				myScale(vec3(amt, 1, 1));
+			else
+				shapes[pickedShape]->myScale(vec3(amt, 1, 1));
+			break;
+		case yScale:
+			if (pickedShape == -1)
+				myScale(vec3(1, amt, 1));
+			else
+				shapes[pickedShape]->myScale(vec3(1, amt, 1));
+			break;
+		case zScale:
+			if (pickedShape == -1)
+				myScale(vec3(1, 1, amt));
+			else
+				shapes[pickedShape]->myScale(vec3(1, 1, amt));
+			break;
+		case xCameraTranslate: //camera plane translate
+			if (pickedShape == -1)
+				myTranslate(vec3(amt / 5.0, 0, 0), 0);
+			else
+			{
+				//newAxis = findAxis(vec3(1,0,0));					
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+
+				shapes[i]->translateInSystem(*this, vec3(amt, 0, 0), 0, false);
+			}
+			break;
+		case yCameraTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec3(0, amt / 5.0, 0), 0);
+			else
+			{
+				//newAxis = findAxis(vec3(0,1,0));
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+
+				shapes[i]->translateInSystem(*this, vec3(0, amt, 0), 0, false);
+			}
+			break;
+		case zCameraTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec3(0, 0, amt / 5.0), 0);
+			else
+			{
+				//	newAxis = findAxis(vec3(0,0,1));
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+
+				shapes[i]->translateInSystem(*this, vec3(0, 0, amt), 0, false);
+			}
+			break;
+		default:
+			break;
+		}
+
+
 	}
 	
 	void Scene::resize(int width,int height,int near,int far)
