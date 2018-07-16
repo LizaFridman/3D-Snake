@@ -41,6 +41,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			
 			/// Go to the right of the screen
 			std::cout<< "right: "<< std::endl;
+			ikScn.setDirectionRight();
+			ikScn.UpdateSnakeMovement();
 			break;
 		case GLFW_KEY_LEFT:
 			// Rotates picked link around the previous link Z axis (left)
@@ -55,6 +57,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 			/// Go to the left of the screen
 			std::cout<< "left: "<< std::endl;
+			ikScn.setDirectionLeft();
+			ikScn.UpdateSnakeMovement();
 			break;
 		case GLFW_KEY_UP:
 			// Rotates picked link around the previous link X axis using Euler angles
@@ -69,6 +73,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 			/// Go to the up of the screen
 			std::cout << "up: " << std::endl;
+			ikScn.setDirectionUp();
+			ikScn.UpdateSnakeMovement();
 			break;
 		case GLFW_KEY_DOWN:
 			// Rotates picked link around the previous link X axis using Euler angles
@@ -81,6 +87,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 			/// Go to the down of the screen
 			std::cout<< "down: "<< std::endl;
+			//ikScn.shapeTransformation(ikScn.zLocalTranslate, -1.f);
+			ikScn.setDirectionDown();
+			ikScn.UpdateSnakeMovement();
 			break;
 		case GLFW_KEY_SPACE:
 			// Starts and stops the IK Solver
@@ -91,15 +100,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_B:
 			// Pick the box if it's not picked, else - pick the first link.
 			// The first link is picked by default
-			//ikScn.pick_box();
+			ikScn.pick_box();
 			break;
 		case GLFW_KEY_N:
 			// Change the picked link to the next one (modulu)
-			//ikScn.pick_next_box();
+			ikScn.pick_next_box();
 			break;
 		case GLFW_KEY_P:
 			// Change the picked linke to the previous one (modulu)
-			//ikScn.pick_previous_box();
+			ikScn.pick_previous_box();
 			break;
 		case GLFW_KEY_C:
 			// Camera Mode - in this mode the arrows will rotate

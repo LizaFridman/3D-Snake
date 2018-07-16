@@ -3,6 +3,7 @@
 
 
 #define EPSILON 1e-4f
+#define VELOCITY 0.01f
 
 const int linksNum = 6;
 const int maximumIterations = 1;
@@ -19,6 +20,7 @@ class IK : public Scene
 	float linkLength;
 
 public:
+	
 
 	IK(void);
 	virtual ~IK(void);
@@ -36,10 +38,14 @@ public:
 
 	void inline changeMode(){cameraMode = !cameraMode;}
 	bool inline getMode() { return cameraMode; }
+	
+	void IK::UpdateSnakeMovement(glm::vec3 velocity);
+	void IK::UpdateSnakeMovement();
 	void makeIKChange();
+	
 	void reset_euler_angles(int shapeIndex);
 	void calculateStep(bool EulerVersion);
-	float Distance(int indx1, int indx2);
+	//float Distance(int indx1, int indx2);
 	bool inline isActive() const { return isIKactive;} 
 	void inline dActivate() { isIKactive = false;}
 	void inline Activate() { isIKactive = true; }

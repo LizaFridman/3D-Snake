@@ -6,6 +6,8 @@
 #include <vector>
 #include "obj_loader.h"
 #include "GLErrorHandler.h"
+#include "kdtree.h"
+
 struct Vertex
 {
 public:
@@ -40,6 +42,8 @@ public:
 	
 	void Draw(int mode);
 	IndexedModel& getIndexedModel() { return indexedModel; }
+
+	Kdtree tree;
 	virtual ~Mesh();
 protected:
 private:

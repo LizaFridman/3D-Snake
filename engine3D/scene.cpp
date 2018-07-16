@@ -456,6 +456,7 @@ glm::mat4 Scene::getNormalForShape(int shapeIndex)
 }
 
 
+
 Scene::~Scene(void)
 {
 	for (Shape* shp : shapes)

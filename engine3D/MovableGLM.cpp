@@ -42,6 +42,8 @@ MovableGLM::MovableGLM()
 	translateMat[1] = mat4(1);  //translation to COM
 	rotateMat = mat4(1);     //rotation around general point or (0,0,0) of global coordinate
 	scaleFactor = vec3(1);
+	v = vec3(1);
+	direction = NONE;
 }
 
 mat4 MovableGLM::makeTransScale(mat4 & prevTransformations) const
@@ -129,6 +131,21 @@ void MovableGLM::translateInSystem(const MovableGLM  &system,vec3 &vec, int indx
 	translateMat[indx] = translate(translateMat[indx], tmp);	
 }
 
+void MovableGLM::update()
+{
+	myTranslate(v, 1);
+}
+
+void MovableGLM::set_velocity(glm::vec3 v)
+{
+	this->v = v;
+}
+
+void MovableGLM::add_velocity(glm::vec3 v)
+{
+	this->v += v;
+}
+
 void MovableGLM::changeCenterOfRotation(vec3 & Pvec)
 {
 	myTranslate(Pvec, 0 );
@@ -146,6 +163,13 @@ void MovableGLM::getTraslate(vec4 & vec)
 	mat4 mat = makeTrans();
 	vec = mat[3];
 }
+
+vec4 MovableGLM::getTraslate()
+{
+	mat4 mat = makeTrans();
+	return mat[3];
+}
+
 
 //vec3 MovableGLM::getTipPos(mat4 &prevTransformations)
 //{

@@ -79,11 +79,18 @@ int main(int argc, char** argv)
 	
 	while(!glfwWindowShouldClose(display.m_window))
 	{
-		if(ikScn.isActive())
+		//if(scn.shapes[0]->collides_with(scn.shapes[1]))
+		
+		
+		/*if(ikScn.isActive())
 		{
 			Sleep(30);
 			ikScn.makeIKChange();
-		}
+		}*/
+		
+
+			//ikScn.UpdateSnakeMovement();
+		
 			display.Clear(1.0f, 1.0f, 1.0f, 1.0f);
 			if(display.IsFullscreen())
 			{

@@ -32,6 +32,8 @@ public:
 	void addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent);
 	
 	void addShader(const std::string& fileName);
+	std::vector<Shape*> GetShapes() { return shapes; }
+	std::vector<Camera*> GetCameras() { return cameras; }
 
 	glm::mat4 GetViewProjection(int indx) const;
 	glm::mat4 GetShapeTransformation() const;
