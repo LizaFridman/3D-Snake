@@ -38,12 +38,17 @@ public:
 	glm::mat4 GetViewProjection(int indx) const;
 	glm::mat4 GetShapeTransformation() const;
 	void draw(int shaderIndx,int cameraIndx,bool drawAxis);
+	
 	void shapeTransformation(int type,float amt);
+	void shapeTransformation(int type, float amt, glm::vec3 vec);
+
 	void shapeRotation(glm::vec3 v, float ang,int indx);
 	void shapeEulerAnglesRotation(float z_angle, float x_angle, int index);//
+	
 	void inline setPicked(int pickID) { pickedShape = pickID; }//
 	int inline getPicked() { return pickedShape; }//
 	float picking(double x,double y);
+	
 	void resize(int width,int hight,int near,int far);
 	//void updateTipPosition(int indx);
 	glm::vec3 getTipPosition(int indx);

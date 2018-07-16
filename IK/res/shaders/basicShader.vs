@@ -52,7 +52,7 @@ void main()
 	texCoord0 = texCoord;
 	vec3 texColor = texture(u_Texture, texCoord).rgb;
 	color0 = vec4(color * texColor, 1.0);
-
+	color0 = vec4(color,1.0);
 	normal0 = (Normal * vec4(normal, 0.0)).xyz;
 	weight0 = weight;
 }

@@ -55,14 +55,14 @@ using namespace glm;
 		addShape(0,2,"./res/textures/grass.bmp",-1);
 
 		pickedShape = 0;
-		shapeTransformation(zScale,scaleFactor);
+		shapeTransformation(zScale,scaleFactor/2);
 
 		for (int i = 1; i < linksNum-1; i++)
 		{
 			pickedShape = i;
 
 			addShape(1,1,"./res/textures/Green-Barbed.bmp",-1);
-			shapeTransformation(zScale,scaleFactor);	
+			shapeTransformation(zScale,scaleFactor/2);	
 		
 			shapeTransformation(zGlobalTranslate,1.0);
 			setParent(i,i-1);
@@ -71,7 +71,7 @@ using namespace glm;
 			pickedShape = linksNum-1;
 
 			addShape(0,3,"./res/textures/Stone_02_COLOR.bmp",-1);
-			shapeTransformation(zScale,scaleFactor);	
+			shapeTransformation(zScale,scaleFactor/2);	
 			
 			shapeTransformation(zGlobalTranslate,1.0);
 			setParent(linksNum - 1, linksNum - 2);
@@ -236,13 +236,18 @@ using namespace glm;
 
 			switch (direction) {
 			case LEFT:
-				shapeTransformation(xGlobalTranslate, .5f);
+				shapeTransformation(yLocalRotate, 20.f);
+				//shapeTransformation(xGlobalTranslate, .5f);
 				break;
 			case RIGHT:
-				shapeTransformation(xGlobalTranslate, -.5f);
+				shapeTransformation(yLocalRotate, -20.f);
+				//shapeTransformation(xGlobalTranslate, -.5f);
 				break;
 			case UP:
+				//auto headTipPosition = getTipPosition(linksNum -1);
+				//pickedShape = linksNum - 2;
 				shapeTransformation(zLocalTranslate, .5f);
+				//pickedShape = i;
 				break;
 			case DOWN:
 				shapeTransformation(zLocalTranslate, -.5f);
