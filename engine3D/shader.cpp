@@ -29,9 +29,9 @@ Shader::Shader(const std::string& fileName)
 
 	GLCall(glBindAttribLocation(m_program, 0, "position"));
 	GLCall(glBindAttribLocation(m_program, 1, "texCoord"));
-	GLCall(glBindAttribLocation(m_program, 2, "normal"));
 	GLCall(glBindAttribLocation(m_program, 3, "color"));
 	GLCall(glBindAttribLocation(m_program, 4, "weight"));
+	GLCall(glBindAttribLocation(m_program, 2, "normal"));
 
 
 	GLCall(glLinkProgram(m_program));
