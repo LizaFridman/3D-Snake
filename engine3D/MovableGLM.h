@@ -2,17 +2,19 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "EulerAngles.h"
+#define V_UP vec3(0,1,0);
+#define V_DOWN vec3(0,-1,0);
+#define V_LEFT vec3(1,0,0);
+#define V_RIGHT vec3(-1,0,0);
 
 class MovableGLM : public EulerAngles
 {
 public :
 	enum Direction { NONE = 0, RIGHT, LEFT, UP, DOWN };
-
+	
 private:
 	glm::mat4 translateMat[2];
 	glm::mat4 rotateMat;
-	
-	
 	//vec3 findAxis2(vec3 vec, int indx);
 
 	glm::vec3 scaleFactor;
@@ -36,6 +38,9 @@ public:
 	glm::mat4 makeTrans(glm::mat4 &prevTransformations) const;
 	glm::mat4 makeTrans() const;
 
+	//glm::mat4 getRotationMatrix() { return rotateMat; }
+	//glm::mat4 setRotationMatrix(glm::mat4 newMatrix) { rotateMat = newMatrix; }
+
 	void myRotate(float ang, glm::vec3 &vec, int indx);
 	void myTranslate(glm::vec3 &vec, int indx);
 	void myScale(glm::vec3 &vec);
@@ -51,10 +56,6 @@ public:
 	void add_velocity(glm::vec3 v);
 	
 	Direction getDirection() { return direction; }
-	void setDirectionRight() { direction = RIGHT; }
-	void setDirectionLeft() { direction = LEFT; }
-	void setDirectionUp() { direction = UP; }
-	void setDirectionDown() { direction = DOWN; }
 
 	glm::vec4 getTraslate();
 	glm::vec3 getPointInSystem(glm::mat4 &prevTransformations,glm::vec3 point);
@@ -62,4 +63,6 @@ public:
 	glm::vec3 getCenterOfRotation(glm::mat4 &prevTransformations);
 	//float getTraslateZ() { return makeTrans()[3][2]; }
 	//inline void rotateVec4(vec4 &vec) { vec = rotateMat[0] *vec; }
+
+	float findAngleBetweenTwoVectors(glm::vec3 baseVec, glm::vec3 newVec);
 };

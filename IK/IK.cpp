@@ -26,7 +26,9 @@ using namespace glm;
 		cameraMode = false;
 		isIKactive = false;
 		delta = 1e-1;
-
+		//headDirection = direction;
+		headLink = linksNum - 1;
+		direction = UP;
 		/*distPosition = vec3(1,0,0);
 		tipPosition = vec3(0,0,2*linksNum*scaleFactor);
 		maxDistance = linksNum*2.0f*scaleFactor;*/
@@ -37,7 +39,8 @@ using namespace glm;
 		cameraMode = false;
 		isIKactive = false;
 		delta = 1e-1;
-
+		direction = UP;
+		headLink = linksNum - 1;
 		/*distPosition = vec3(1,0,0);
 		tipPosition = vec3(0,0,2*linksNum*scaleFactor);
 		maxDistance = linksNum*2.0f*scaleFactor;*/
@@ -51,7 +54,6 @@ using namespace glm;
 	{
 		myRotate(-90.0f,vec3(1,0,0),-1);
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
-
 		addShape(0,2,"./res/textures/grass.bmp",-1);
 
 		pickedShape = 0;
@@ -221,50 +223,119 @@ using namespace glm;
 				shapeEulerAnglesRotation(z_angle, -x_angle, i);
 			}
 		}
-
 	}
-	void IK::UpdateSnakeMovement() {
-		//Sleep(100);
+
+	void IK::setDirectionRight() {
+		Sleep(50);
+
 		for (int i = 1; i < linksNum - 1; i++)
 		{
-			pickedShape = i;
-			//addShape(1, 1, "./res/textures/plane.png", -1);
-			//shapeTransformation(zScale, scaleFactor);
+			pickedShape = headLink;
+			shapeTransformation(yLocalRotate, -ROTATION_ANGLE);
+		}
 
-			//shapeTransformation(zGlobalTranslate, 1.0);
-			//setParent(i, i - 1);
+		if (direction == UP) {
+			direction = RIGHT;
+		}
+		else if (direction == DOWN) {
+			//shapeTransformation(yLocalRotate, ROTATION_ANGLE);
+			direction = LEFT;
+			//shapeTransformation(xLocalTranslate, .5f);
+		}
+		else if (direction == LEFT) {
+			direction = UP;
+		}
+		else {
+			direction = DOWN;
+		}
+	}
+	void IK::setDirectionLeft() {
+		Sleep(50);
+		for (int i = 1; i < linksNum - 1; i++)
+		{
+			pickedShape = headLink;
+			shapeTransformation(yLocalRotate, ROTATION_ANGLE);
+		}
+
+		if (direction == UP) {
+			direction = LEFT;
+		}
+		else if (direction == DOWN) {
+			//shapeTransformation(yLocalRotate, ROTATION_ANGLE);
+			direction = RIGHT;
+			//shapeTransformation(xLocalTranslate, .5f);
+		}
+		else if (direction == LEFT) {
+			direction = DOWN;
+		}
+		else {
+			direction = UP;
+		}
+	}
+
+	void IK::setDirectionUp() {
+		Sleep(50);
+		//auto rotateMat = makeRot();
+		
+		auto angle = ROTATION_ANGLE;//findAngleBetweenTwoVectors(vec3(rotateMat[0].z, rotateMat[1].z, rotateMat[2].z), vec3(0,1,0));
+		if (direction == RIGHT) {
+			angle = ROTATION_ANGLE;
+		}
+		else if (direction == DOWN) {
+			angle = 2 * ROTATION_ANGLE;
+		}
+		else if (direction == LEFT) {
+			angle = -ROTATION_ANGLE;
+		}
+
+		shapeTransformation(yLocalRotate, angle);
+		direction = UP;
+	}
+
+	void IK::setDirectionDown() {
+		Sleep(50);
+
+		auto angle = ROTATION_ANGLE;
+		if (direction == RIGHT) {
+			angle = -ROTATION_ANGLE;
+		}
+		else if (direction == UP) {
+			angle = 2 * ROTATION_ANGLE;
+		}
+		else if (direction == LEFT) {
+			angle = ROTATION_ANGLE;
+		}
+
+		shapeTransformation(yLocalRotate, angle);
+		direction = DOWN;
+	}
+
+	void IK::UpdateSnakeMovement() {
+		Sleep(30);
+		//for (int i = 1; i < linksNum - 1; i++)
+		//{
+			pickedShape = headLink;
 
 			switch (direction) {
 			case LEFT:
-				shapeTransformation(yLocalRotate, 20.f);
-				//shapeTransformation(xGlobalTranslate, .5f);
+					shapeTransformation(xGlobalTranslate, DISTANCE_DELTA);
 				break;
 			case RIGHT:
-				shapeTransformation(yLocalRotate, -20.f);
-				//shapeTransformation(xGlobalTranslate, -.5f);
+					shapeTransformation(xGlobalTranslate, -DISTANCE_DELTA);
 				break;
 			case UP:
-				//auto headTipPosition = getTipPosition(linksNum -1);
-				//pickedShape = linksNum - 2;
-				shapeTransformation(zLocalTranslate, .5f);
-				//pickedShape = i;
+					shapeTransformation(zLocalTranslate, DISTANCE_DELTA);
 				break;
 			case DOWN:
-				shapeTransformation(zLocalTranslate, -.5f);
+					shapeTransformation(zLocalTranslate, -DISTANCE_DELTA);
 				break;
 			default:
 				break;
 			}
 			//shapes[i]->update();
-		}
+		//}
 	}
-	void IK::UpdateSnakeMovement(vec3 velocity) {
-		/*add_velocity(velocity);
-		for (int i = 0; i< linksNum; i++)
-		{
-			shapes[i]->update();
-		}*/
-	}
+	
 	void IK::makeIKChange()
 	{
 		distPosition=getGoalPosition();

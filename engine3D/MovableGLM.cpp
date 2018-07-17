@@ -205,3 +205,19 @@ glm::vec3 MovableGLM::getVectorInSystem(glm::mat4 &prevTransformations,glm::vec3
 {
 	return vec3(makeTrans(prevTransformations) * vec4(vec,0));
 }
+
+float MovableGLM::findAngleBetweenTwoVectors(glm::vec3 baseVec, glm::vec3 newVec) {
+
+	//first, make copies of the vectors
+	vec3 baseCopy(baseVec);
+	vec3 newCopy(newVec);
+
+	//next, ensure they're normalized
+	normalize(baseCopy);//baseCopy
+	normalize(newCopy);
+
+	//the arc-cosine is the angle between the two vectors
+	//this is used as the "cannonAngle" value (does not work)
+
+	return (float)glm::acos(glm::dot(newCopy, baseCopy));//.acos(newCopy.dot(baseCopy));
+}
