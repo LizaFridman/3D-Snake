@@ -230,7 +230,7 @@ using namespace glm;
 
 		for (int i = 1; i < linksNum - 1; i++)
 		{
-			pickedShape = headLink;
+			pickedShape = i;
 			shapeTransformation(yLocalRotate, -ROTATION_ANGLE);
 		}
 
@@ -253,7 +253,7 @@ using namespace glm;
 		Sleep(50);
 		for (int i = 1; i < linksNum - 1; i++)
 		{
-			pickedShape = headLink;
+			pickedShape = i;
 			shapeTransformation(yLocalRotate, ROTATION_ANGLE);
 		}
 
@@ -275,9 +275,8 @@ using namespace glm;
 
 	void IK::setDirectionUp() {
 		Sleep(50);
-		//auto rotateMat = makeRot();
-		
-		auto angle = ROTATION_ANGLE;//findAngleBetweenTwoVectors(vec3(rotateMat[0].z, rotateMat[1].z, rotateMat[2].z), vec3(0,1,0));
+
+		auto angle = 0;
 		if (direction == RIGHT) {
 			angle = ROTATION_ANGLE;
 		}
@@ -288,25 +287,31 @@ using namespace glm;
 			angle = -ROTATION_ANGLE;
 		}
 
-		shapeTransformation(yLocalRotate, angle);
+		for (int i = 1; i < linksNum - 1; i++)
+		{
+			pickedShape = i;
+			shapeTransformation(yLocalRotate, angle);
+		}
+		
 		direction = UP;
 	}
 
 	void IK::setDirectionDown() {
 		Sleep(50);
 
-		auto angle = ROTATION_ANGLE;
+		auto angle = 0;
 		if (direction == RIGHT) {
 			angle = -ROTATION_ANGLE;
-		}
-		else if (direction == UP) {
-			angle = 2 * ROTATION_ANGLE;
 		}
 		else if (direction == LEFT) {
 			angle = ROTATION_ANGLE;
 		}
+		for (int i = 1; i < linksNum - 1; i++)
+		{
+			pickedShape = i;
+			shapeTransformation(yLocalRotate, angle);
+		}
 
-		shapeTransformation(yLocalRotate, angle);
 		direction = DOWN;
 	}
 

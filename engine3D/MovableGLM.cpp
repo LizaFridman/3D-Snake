@@ -74,8 +74,6 @@ mat4 MovableGLM::makeTrans() const
 
 void MovableGLM::myRotate(float ang, glm::vec3 &vec, int indx)
 {
-	//ang = ang / 180.0*pi;
-	
 	if(indx >=0 && indx <=3)
 	{
 		alignedRot(indx,ang,0);
