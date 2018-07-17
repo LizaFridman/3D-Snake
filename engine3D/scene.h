@@ -44,7 +44,7 @@ public:
 
 	void shapeRotation(glm::vec3 v, float ang,int indx);
 	void shapeEulerAnglesRotation(float z_angle, float x_angle, int index);//
-	
+
 	void inline setPicked(int pickID) { pickedShape = pickID; }//
 	int inline getPicked() { return pickedShape; }//
 	float picking(double x,double y);

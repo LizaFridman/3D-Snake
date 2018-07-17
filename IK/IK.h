@@ -1,13 +1,12 @@
 
 #include "scene.h"
-
-
 #define EPSILON 1e-4f
-#define VELOCITY 0.01f
+#define ROTATION_ANGLE 22.5f
+#define DISTANCE_DELTA 0.5f
 
 const int linksNum = 6;
 const int maximumIterations = 1;
-	
+
 class IK : public Scene
 {
 	bool cameraMode;
@@ -16,9 +15,10 @@ class IK : public Scene
 	bool isIKactive;
 	double delta;
     float maxDistance;
-	
 	float linkLength;
 
+	int headLink;
+	//Direction headDirection;
 public:
 	
 
@@ -39,7 +39,6 @@ public:
 	void inline changeMode(){cameraMode = !cameraMode;}
 	bool inline getMode() { return cameraMode; }
 	
-	void IK::UpdateSnakeMovement(glm::vec3 velocity);
 	void IK::UpdateSnakeMovement();
 	void makeIKChange();
 	
@@ -49,6 +48,11 @@ public:
 	bool inline isActive() const { return isIKactive;} 
 	void inline dActivate() { isIKactive = false;}
 	void inline Activate() { isIKactive = true; }
+
+	void setDirectionRight();
+	void setDirectionLeft();
+	void setDirectionUp();
+	void setDirectionDown();
 
 	void pick_box();
 	void pick_next_box();

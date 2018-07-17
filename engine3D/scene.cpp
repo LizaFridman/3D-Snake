@@ -4,6 +4,7 @@
 #include <iostream>
 #include "../IK/IK.h"
 #include "GLErrorHandler.h"
+
 using namespace std;
 using namespace glm;
 
@@ -157,22 +158,22 @@ Vertex axisVertices[] =
 		}
 	}
 
-		void Scene::shapeRotation(vec3 v, float ang,int indx)
-		{
-			if(v.x >0.999)
-				shapes[indx]->myRotate(ang,v,xAxis1);
-			else 
-				if(v.z >0.999)
-					shapes[indx]->myRotate(ang,v,zAxis12);
+	void Scene::shapeRotation(vec3 v, float ang, int indx)
+	{
+		if (v.x > 0.999)
+			shapes[indx]->myRotate(ang, v, xAxis1);
+		else
+			if (v.z > 0.999)
+				shapes[indx]->myRotate(ang, v, zAxis12);
 			else
-				shapes[indx]->myRotate(ang,v,-1);
-		}
+				shapes[indx]->myRotate(ang, v, -1);
+	}
 
-		void Scene::shapeEulerAnglesRotation(float z_angle, float x_angle, int index)
-		{
-			shapes[index]->myRotate(x_angle, vec3(0), xAxis1);
-			shapes[index]->myRotate(z_angle, vec3(0), zAxis12);
-		}
+	void Scene::shapeEulerAnglesRotation(float z_angle, float x_angle, int index)
+	{
+		shapes[index]->myRotate(x_angle, vec3(0), xAxis1);
+		shapes[index]->myRotate(z_angle, vec3(0), zAxis12);
+	}
 
 	void Scene::shapeTransformation(int type,float amt)
 	{
@@ -492,9 +493,9 @@ Vertex axisVertices[] =
 		default:
 			break;
 		}
-
-
 	}
+
+	
 	
 	void Scene::resize(int width,int height,int near,int far)
 	{
