@@ -228,7 +228,7 @@ using namespace glm;
 	void IK::setDirectionRight() {
 		Sleep(50);
 
-		for (int i = 1; i < linksNum - 1; i++)
+		for (int i = headLink; i > 0; i--)
 		{
 			pickedShape = i;
 			shapeTransformation(yLocalRotate, -ROTATION_ANGLE);
@@ -251,7 +251,7 @@ using namespace glm;
 	}
 	void IK::setDirectionLeft() {
 		Sleep(50);
-		for (int i = 1; i < linksNum - 1; i++)
+		for (int i = headLink; i > 0; i--)
 		{
 			pickedShape = i;
 			shapeTransformation(yLocalRotate, ROTATION_ANGLE);
@@ -287,7 +287,7 @@ using namespace glm;
 			angle = -ROTATION_ANGLE;
 		}
 
-		for (int i = 1; i < linksNum - 1; i++)
+		for (int i = 0; i < linksNum - 1; i++)
 		{
 			pickedShape = i;
 			shapeTransformation(yLocalRotate, angle);
@@ -306,7 +306,7 @@ using namespace glm;
 		else if (direction == LEFT) {
 			angle = ROTATION_ANGLE;
 		}
-		for (int i = 1; i < linksNum - 1; i++)
+		for (int i = 0; i < linksNum - 1; i++)
 		{
 			pickedShape = i;
 			shapeTransformation(yLocalRotate, angle);
@@ -319,8 +319,23 @@ using namespace glm;
 		Sleep(30);
 		//for (int i = 1; i < linksNum - 1; i++)
 		//{
-			pickedShape = headLink;
 
+		/*
+		for (int i = linkTipPositions.size() - 1 ; i > 0 ; i--)
+		{
+			linkTipPositions[i] = goal;
+			auto direction = normalize(linkTipPositions[i - 1] - goal);
+			goal = goal + (float)scaleFactor * direction;
+		}
+		*/
+			pickedShape = headLink;
+			shapeTransformation(yLocalTranslate, DISTANCE_DELTA);
+			/* 
+			Direction = After the rotation is done, get the NEW tip position of the head and using the base position
+			of the head we get the new direction.
+
+			*/
+			/*for(int i=headLink; )
 			switch (direction) {
 			case LEFT:
 					shapeTransformation(xGlobalTranslate, DISTANCE_DELTA);
@@ -336,7 +351,7 @@ using namespace glm;
 				break;
 			default:
 				break;
-			}
+			}*/
 			//shapes[i]->update();
 		//}
 	}

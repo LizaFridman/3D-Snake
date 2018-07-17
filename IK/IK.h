@@ -1,8 +1,8 @@
 
 #include "scene.h"
 #define EPSILON 1e-4f
-#define ROTATION_ANGLE 22.5f
-#define DISTANCE_DELTA 0.5f
+#define ROTATION_ANGLE 11.25f
+#define DISTANCE_DELTA 0.01f
 
 const int linksNum = 6;
 const int maximumIterations = 1;
