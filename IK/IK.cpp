@@ -54,12 +54,12 @@ using namespace glm;
 	{
 		myRotate(-90.0f,vec3(1,0,0),-1);
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
-		addShape(0,2,"./res/textures/grass.bmp",-1);
+		addShape(0,2,"./res/textures/Green-Barbed.bmp",-1);
 
 		pickedShape = 0;
 		shapeTransformation(zScale,scaleFactor/2);
 
-		for (int i = 1; i < linksNum-1; i++)
+		for (int i = headLink - 1 ; i >= 0; i--)
 		{
 			pickedShape = i;
 
@@ -72,7 +72,7 @@ using namespace glm;
 
 			pickedShape = linksNum-1;
 
-			addShape(0,3,"./res/textures/Stone_02_COLOR.bmp",-1);
+			addShape(0,3,"./res/textures/Green-Barbed.bmp",-1);
 			shapeTransformation(zScale,scaleFactor/2);	
 			
 			shapeTransformation(zGlobalTranslate,1.0);
@@ -228,6 +228,7 @@ using namespace glm;
 	void IK::setDirectionRight() {
 		Sleep(50);
 
+
 		//for (int i = 1; i < linksNum - 1; i++)
 		//{
 			pickedShape = headLink;
@@ -257,7 +258,6 @@ using namespace glm;
 		//for (int i = 1; i < linksNum - 1; i++)
 		//{
 			pickedShape = headLink;
-
 			shapeTransformation(yLocalRotate, ROTATION_ANGLE);
 		//}
 
@@ -291,9 +291,9 @@ using namespace glm;
 			angle = -ROTATION_ANGLE;
 		}
 
-		for (int i = 1; i < linksNum - 1; i++)
-		{
-			pickedShape = i;
+		//for (int i = 0; i < linksNum - 1; i++)
+		//{
+			pickedShape = 0;
 			shapeTransformation(yLocalRotate, angle);
 		}*/
 		//shapeTransformation(yLocalRotate, angle);
@@ -311,11 +311,11 @@ using namespace glm;
 		else if (direction == LEFT) {
 			angle = ROTATION_ANGLE;
 		}
-		for (int i = 1; i < linksNum - 1; i++)
-		{
-			pickedShape = i;
+		//for (int i = 0; i < linksNum - 1; i++)
+		//{
+			pickedShape = 0;
 			shapeTransformation(yLocalRotate, angle);
-		}
+		//}
 
 		direction = DOWN;*/
 		UpdateSnakeMovement();
@@ -325,7 +325,6 @@ using namespace glm;
 		Sleep(30);
 		//for (int i = 1; i < linksNum - 1; i++)
 		//{
-
 			/*
 			# Get the direction of the head after rotation
 			# Save the previous location of the head

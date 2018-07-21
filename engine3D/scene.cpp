@@ -194,7 +194,7 @@ Vertex axisVertices[] =
 				if(pickedShape ==-1)
 					myTranslate(vec3(0,amt,0),1);
 				else
-								{
+					{
 						int i = pickedShape;
 						for (; chainParents[i] > -1; i = chainParents[i]);
 						shapes[i]->myTranslate(vec3(0,amt,0),1);
@@ -552,6 +552,24 @@ Vertex axisVertices[] =
 	{
 		return vec3(shapes[linksNum]->makeTrans()*vec4(0, 0, 0, 1));
 	}
+
+	/*glm::vec3 Scene::getGoalPosition()
+	{
+		switch (direction) {
+		case LEFT:
+
+			break;
+		case RIGHT:
+			break;
+		case UP:
+			break;
+		case DOWN:
+			break;
+		default:
+			return vec3(shapes[linksNum]->makeTrans()*vec4(0, 0, 0, 1));
+			break;
+		}
+	}*/
 
 	vec3 Scene::getDistination(int indx)
 	{
