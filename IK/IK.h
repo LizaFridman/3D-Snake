@@ -1,8 +1,8 @@
 
 #include "scene.h"
 #define EPSILON 1e-4f
-#define ROTATION_ANGLE 11.25f
-#define DISTANCE_DELTA 0.01f
+#define ROTATION_ANGLE 22.5f
+#define DISTANCE_DELTA 0.1f
 
 const int linksNum = 6;
 const int maximumIterations = 1;
@@ -18,6 +18,7 @@ class IK : public Scene
 	float linkLength;
 
 	int headLink;
+	//glm::mat4 prevRotate;
 	//Direction headDirection;
 public:
 	
