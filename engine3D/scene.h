@@ -15,9 +15,10 @@ protected:
 	std::vector<int> chainParents;
 	int pickedShape;
 	static const int scaleFactor = 3;
-	std::vector<Shape*> shapes;
 
 public:
+	std::vector<Shape*> shapes;
+
 	enum axis{xAxis,yAxis,zAxis};
 	enum transformations{xLocalTranslate,yLocalTranslate,zLocalTranslate,xGlobalTranslate,yGlobalTranslate,zGlobalTranslate,
 		xLocalRotate,yLocalRotate,zLocalRotate,xGlobalRotate,yGlobalRotate,zGlobalRotate,xScale,yScale,zScale,xCameraTranslate,yCameraTranslate,zCameraTranslate};

@@ -168,6 +168,12 @@ vec4 MovableGLM::getTraslate()
 	return mat[3];
 }
 
+mat4 MovableGLM::getRotate()
+{
+	return rotateMat;
+
+}
+
 
 //vec3 MovableGLM::getTipPos(mat4 &prevTransformations)
 //{
