@@ -206,7 +206,7 @@ Vertex axisVertices[] =
 				else
 				{
 					int i = pickedShape;
-					for (; chainParents[i] > -1; i = chainParents[i]);
+					//for (; chainParents[i] > -1; i = chainParents[i]);
 					shapes[i]->myTranslate(vec3(0,0,amt),1);
 				}
 				break;
@@ -216,7 +216,7 @@ Vertex axisVertices[] =
 				else
 				{
 					int i = pickedShape;
-					for (; chainParents[i] > -1; i = chainParents[i]);
+					//for (; chainParents[i] > -1; i = chainParents[i]);
 					shapes[i]->myTranslate(vec3(amt,0,0),0);
 				}
 				break;

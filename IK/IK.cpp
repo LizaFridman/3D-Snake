@@ -54,12 +54,15 @@ using namespace glm;
 	{
 		myRotate(-90.0f,vec3(1,0,0),-1);
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
-		addShape(0,2,"./res/textures/Green-Barbed.bmp",-1);
-
+		
 		pickedShape = 0;
-		shapeTransformation(zScale,scaleFactor/2);
 
-		for (int i = headLink - 1 ; i >= 0; i--)
+		addShape(0, 2, "./res/textures/Green-Barbed.bmp", -1);
+		shapeTransformation(zScale, scaleFactor/1.1);
+		shapeTransformation(zGlobalTranslate, 1.0);
+		//setParent(0, -1);
+		int i = 1;
+		for (; i <linksNum -1; i++)
 		{
 			pickedShape = i;
 
@@ -67,19 +70,14 @@ using namespace glm;
 			shapeTransformation(zScale,scaleFactor/2);	
 		
 			shapeTransformation(zGlobalTranslate,1.0);
-			setParent(i,i-1);
+			setParent(i, i - 1);
 		}
 
-			pickedShape = linksNum-1;
+			addShape(0, 2, "./res/textures/Green-Barbed.bmp", -1);
+			pickedShape = i;
+			shapeTransformation(zScale, scaleFactor/2);
+			setParent(i, i-1);
 
-			addShape(0,3,"./res/textures/Green-Barbed.bmp",-1);
-			shapeTransformation(zScale,scaleFactor/2);	
-			
-			shapeTransformation(zGlobalTranslate,1.0);
-			setParent(linksNum - 1, linksNum - 2);
-
-		pickedShape = 0;
-		// distination point
 		pickedShape = linksNum;
 		
 		//addShape(0,"./res/textures/box0.bmp",-1);
@@ -230,7 +228,7 @@ using namespace glm;
 
 		//for (int i = headLink; i > 0; i--)
 		//{
-			pickedShape = 0;
+			pickedShape = headLink;
 			shapeTransformation(yLocalRotate, -ROTATION_ANGLE);
 		//}
 
@@ -253,7 +251,7 @@ using namespace glm;
 		Sleep(50);
 		//for (int i = headLink; i > 0; i--)
 		//{
-			pickedShape = 0;
+			pickedShape = headLink;
 			shapeTransformation(yLocalRotate, ROTATION_ANGLE);
 		//}
 
@@ -289,7 +287,7 @@ using namespace glm;
 
 		//for (int i = 0; i < linksNum - 1; i++)
 		//{
-			pickedShape = 0;
+			pickedShape = headLink;
 			shapeTransformation(yLocalRotate, angle);
 		//}
 		
@@ -308,7 +306,7 @@ using namespace glm;
 		}
 		//for (int i = 0; i < linksNum - 1; i++)
 		//{
-			pickedShape = 0;
+			pickedShape = headLink;
 			shapeTransformation(yLocalRotate, angle);
 		//}
 
@@ -336,7 +334,7 @@ using namespace glm;
 
 		*/
 		//for(int i=headLink; )
-		pickedShape = 0;
+		pickedShape = headLink;
 		switch (direction) {
 		case LEFT:
 			shapeTransformation(xGlobalTranslate, DISTANCE_DELTA);
