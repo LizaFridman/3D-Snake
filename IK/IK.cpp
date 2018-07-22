@@ -57,6 +57,8 @@ using namespace glm;
 		addShape(0,2,"./res/textures/grass.bmp",-1);
 
 		pickedShape = 0;
+		shapeTransformation(zScale,scaleFactor/2);
+
 		for (int i = 1; i < linksNum-1; i++)
 		{
 			pickedShape = i;
@@ -248,7 +250,6 @@ using namespace glm;
 	}
 	void IK::setDirectionLeft() {
 		Sleep(50);
-
 		for (int i = headLink; i > 0; i--)
 		{
 			pickedShape = i;
