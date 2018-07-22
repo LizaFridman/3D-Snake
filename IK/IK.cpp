@@ -54,15 +54,10 @@ using namespace glm;
 	{
 		myRotate(-90.0f,vec3(1,0,0),-1);
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
-		
-		pickedShape = 0;
+		addShape(0,2,"./res/textures/grass.bmp",-1);
 
-		addShape(0, 2, "./res/textures/Green-Barbed.bmp", -1);
-		shapeTransformation(zScale, scaleFactor/1.1);
-		shapeTransformation(zGlobalTranslate, 1.0);
-		//setParent(0, -1);
-		int i = 1;
-		for (; i <linksNum -1; i++)
+		pickedShape = 0;
+		for (int i = 1; i < linksNum-1; i++)
 		{
 			pickedShape = i;
 
@@ -73,10 +68,13 @@ using namespace glm;
 			setParent(i, i - 1);
 		}
 
-			addShape(0, 2, "./res/textures/Green-Barbed.bmp", -1);
-			pickedShape = i;
-			shapeTransformation(zScale, scaleFactor/2);
-			setParent(i, i-1);
+			pickedShape = linksNum-1;
+
+			addShape(0,3,"./res/textures/Stone_02_COLOR.bmp",-1);
+			shapeTransformation(zScale,scaleFactor/2);	
+			
+			shapeTransformation(zGlobalTranslate,1.0);
+			setParent(linksNum - 1, linksNum - 2);
 
 		pickedShape = linksNum;
 		
@@ -226,13 +224,11 @@ using namespace glm;
 	void IK::setDirectionRight() {
 		Sleep(50);
 
-
-		//for (int i = 1; i < linksNum - 1; i++)
-		//{
-			pickedShape = headLink;
-			//prevRotate = shapes[pickedShape]->getRotationMatrix();
+		for (int i = headLink; i > 0; i--)
+		{
+			pickedShape = i;
 			shapeTransformation(yLocalRotate, -ROTATION_ANGLE);
-		//}
+		}
 
 		if (direction == UP) {
 			direction = RIGHT;
@@ -252,11 +248,12 @@ using namespace glm;
 	}
 	void IK::setDirectionLeft() {
 		Sleep(50);
-		//for (int i = 1; i < linksNum - 1; i++)
-		//{
-			pickedShape = headLink;
+
+		for (int i = headLink; i > 0; i--)
+		{
+			pickedShape = i;
 			shapeTransformation(yLocalRotate, ROTATION_ANGLE);
-		//}
+		}
 
 		if (direction == UP) {
 			direction = LEFT;
@@ -288,14 +285,13 @@ using namespace glm;
 			angle = -ROTATION_ANGLE;
 		}
 
-		//for (int i = 0; i < linksNum - 1; i++)
-		//{
-			pickedShape = headLink;
+		for (int i = 0; i < linksNum - 1; i++)
+		{
+			pickedShape = i;
 			shapeTransformation(yLocalRotate, angle);
-		}*/
-		//shapeTransformation(yLocalRotate, angle);
-		//direction = UP;
-		UpdateSnakeMovement();
+		}
+		
+		direction = UP;
 	}
 
 	void IK::setDirectionDown() {
@@ -308,11 +304,11 @@ using namespace glm;
 		else if (direction == LEFT) {
 			angle = ROTATION_ANGLE;
 		}
-		//for (int i = 0; i < linksNum - 1; i++)
-		//{
-			pickedShape = headLink;
+		for (int i = 0; i < linksNum - 1; i++)
+		{
+			pickedShape = i;
 			shapeTransformation(yLocalRotate, angle);
-		//}
+		}
 
 		direction = DOWN;*/
 		UpdateSnakeMovement();
@@ -330,54 +326,23 @@ using namespace glm;
 			one (might need to copy rotation too)
 			*/
 
-		auto prevLinkDirection = getAxisDirection(headLink, xAxis);
-
-		
-		//auto prevDirection = vec3(shapes[pickedShape]->getTraslate());
-		/*auto prevRotate = shapes[pickedShape]->getRotationMatrix();
-		auto preTrans0 = shapes[pickedShape]->getTranslationMatrix(0);
-		auto preTrans1 = shapes[pickedShape]->getTranslationMatrix(1);
-		auto prevCenter = shapes[pickedShape]->getCenterOfRotation(mat4(1));*/
-		pickedShape = headLink;
-		shapeTransformation(xLocalTranslate, 0.01f, prevLinkDirection);
-		
-		/*for (int i = 1 ; i < linksNum; i++) {
-			pickedShape = i;
-			
-			shapes[pickedShape + 1]->setRotationMatrix(prevRotate);
-		}*/
-
-		for (int i = headLink - 1; i > -1; i--) {
-			/*
-			auto tempTrans0 = shapes[i]->getTranslationMatrix(0);
-			//auto tempTrans1 = shapes[i]->getTranslationMatrix(1);
-			auto tempRotate = shapes[i]->getRotationMatrix();
-
-			shapes[i]->setTranslationMatrix(preTrans0, 0);
-			//shapes[i]->setTranslationMatrix(preTrans1, 1);
-			shapes[i]->setRotationMatrix(prevRotate);
-
-			preTrans0 = tempTrans0;
-			//preTrans1 = tempTrans1;
-			prevRotate = tempRotate;*/
-
-			//linkDirection = getAxisDirection(i+1, -1);
-			
-			auto temp = getAxisDirection(i, xAxis);
-			//shapes[i]->changeCenterOfRotation(prevCenter);
-			pickedShape = i;
-			shapeTransformation(xLocalTranslate, 0.01f, normalize(prevLinkDirection));
-			prevLinkDirection = temp;
-			//pickedShape = i;
-			//shapeTransformation(xGlobalTranslate, 0.01f, snakeDirection);
+		/*
+		for (int i = linkTipPositions.size() - 1 ; i > 0 ; i--)
+		{
+			linkTipPositions[i] = goal;
+			auto direction = normalize(linkTipPositions[i - 1] - goal);
+			goal = goal + (float)scaleFactor * direction;
 		}
+		*/
+			pickedShape = headLink;
+			shapeTransformation(yLocalTranslate, DISTANCE_DELTA);
+			/* 
+			Direction = After the rotation is done, get the NEW tip position of the head and using the base position
+			of the head we get the new direction.
 
-		//shapeTransformation(xLocalTranslate, DISTANCE_DELTA, headDirection);
-
-		/*for (int i = headLink; i > 0; i--) {
-			pickedShape = i;
-			shapeTransformation(xGlobalTranslate, DISTANCE_DELTA,snakeDirection);
-			/*switch (direction) {
+			*/
+			/*for(int i=headLink; )
+			switch (direction) {
 			case LEFT:
 					shapeTransformation(xGlobalTranslate, DISTANCE_DELTA);
 				break;
@@ -394,7 +359,6 @@ using namespace glm;
 				break;
 			}*/
 			//shapes[i]->update();
-		//}
 		//}
 	}
 	
