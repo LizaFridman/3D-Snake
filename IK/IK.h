@@ -1,8 +1,8 @@
 
 #include "scene.h"
 #define EPSILON 1e-4f
-#define ROTATION_ANGLE 11.25f
-#define DISTANCE_DELTA 0.01f
+#define ROTATION_ANGLE 45.f
+#define DISTANCE_DELTA 0.5f
 
 const int linksNum = 6;
 const int maximumIterations = 1;
@@ -39,7 +39,7 @@ public:
 	void inline changeMode(){cameraMode = !cameraMode;}
 	bool inline getMode() { return cameraMode; }
 	
-	void IK::UpdateSnakeMovement();
+	void IK::UpdateSnakeMovement(int dirFactor);
 	void makeIKChange();
 	
 	void reset_euler_angles(int shapeIndex);

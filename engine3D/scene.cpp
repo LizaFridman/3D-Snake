@@ -254,9 +254,9 @@ Vertex axisVertices[] =
 				break;
 			case zLocalRotate:
 				if(pickedShape ==-1)
-					myRotate(amt,vec3(0,0,1),zAxis12);
+					myRotate(amt,vec3(0,0,1),-1);
 				else
-					shapes[pickedShape]->myRotate(amt,vec3(0,0,1),zAxis12);
+					shapes[pickedShape]->myRotate(amt,vec3(0,0,1),-1);
 			break;
 			case xGlobalRotate:
 				if(pickedShape ==-1)
@@ -408,25 +408,25 @@ Vertex axisVertices[] =
 			break;
 		case yLocalRotate:
 			if (pickedShape == -1)
-				myRotate(amt, vec3(0, 1, 0), -1);
+				myRotate(amt, vec, -1);
 			else
 				shapes[pickedShape]->myRotate(amt, vec, -1);
 			break;
 		case zLocalRotate:
 			if (pickedShape == -1)
-				myRotate(amt, vec3(0, 0, 1), zAxis12);
+				myRotate(amt, vec, zAxis12);
 			else
 				shapes[pickedShape]->myRotate(amt, vec, zAxis12);
 			break;
 		case xGlobalRotate:
 			if (pickedShape == -1)
-				globalSystemRot(amt, vec3(1, 0, 0), xAxis1);
+				globalSystemRot(amt, vec, xAxis1);
 			else
 				shapes[pickedShape]->globalSystemRot(amt, vec, xAxis1);
 			break;
 		case yGlobalRotate:
 			if (pickedShape == -1)
-				globalSystemRot(amt, vec3(0, 1, 0), -1);
+				globalSystemRot(amt, vec, -1);
 			else
 				shapes[pickedShape]->globalSystemRot(amt, vec, -1);
 			break;

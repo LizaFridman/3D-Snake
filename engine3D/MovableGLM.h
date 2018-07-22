@@ -18,7 +18,7 @@ private:
 	//vec3 findAxis2(vec3 vec, int indx);
 
 	glm::vec3 scaleFactor;
-	glm::vec3 findAxis(glm::vec3 vec) const;
+	
 
 	//glm::vec3 getTipPos(glm::mat4 &prevTransformations);
 	//glm::vec3 getRootPos(glm::mat4 &prevTransformations);
@@ -28,6 +28,8 @@ private:
 protected:
 	glm::vec3 v;
 	Direction direction;
+
+	glm::vec3 findAxis(glm::vec3 vec) const;
 
 public:
 	//vec3 findAxis(vec4 &vec, int indx);

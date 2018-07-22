@@ -87,7 +87,7 @@ int main(int argc, char** argv)
 			Sleep(30);
 			ikScn.makeIKChange();
 		}*/
-			ikScn.UpdateSnakeMovement();
+			//ikScn.UpdateSnakeMovement();
 		
 			display.Clear(1.0f, 1.0f, 1.0f, 1.0f);
 			if(display.IsFullscreen())
