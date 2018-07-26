@@ -31,8 +31,13 @@ protected:
 	glm::vec3 findAxis(glm::vec3 vec) const;
 
 public:
-	glm::vec3 v = glm::vec3(0, 0, 1);
-	glm::vec3 normal = glm::vec3(0, 1, 0);
+	glm::vec3 forwardDirection = glm::vec3(0, 0, 1);
+	glm::vec3 upDirection = glm::vec3(0, 1, 0);
+
+	glm::vec3 getRightDirection() {
+		return glm::cross(forwardDirection, upDirection);
+	}
+
 	//vec3 findAxis(vec4 &vec, int indx);
 	//vec3 findAxis2(vec4 &vec, int indx);
 	MovableGLM();

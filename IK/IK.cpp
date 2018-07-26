@@ -53,6 +53,7 @@ using namespace glm;
 	void IK::init(Vertex *vertices, unsigned int *indices, int verticesSize, int indicesSize)
 	{
 		myRotate(-90.0f, vec3(1, 0, 0), -1);
+		//myRotate(90.0f, vec3(0, 0, 1), -1);
 		pickedShape = -1;
 		shapeTransformation(zCameraTranslate,150.f);
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
@@ -161,6 +162,7 @@ using namespace glm;
 	
 	void IK::calculateSnakeStep()
 	{
+		Sleep(30);
 		const auto start = getBase(0);
 		vector<vec3> linkTipPositions;
 
@@ -175,8 +177,8 @@ using namespace glm;
 		//auto last_tip_position = linkTipPositions[linksNum];
 		//auto factor = 0.1f;
 
-		auto velocity = shapes[headLink]->v;
-		vec3 movement = DISTANCE_DELTA * velocity;
+		auto velocity = shapes[headLink]->forwardDirection;
+		vec3 movement = DISTANCE_DELTA * 2.f* velocity;
 		auto directionToMove = vec3(getNormalForShape(headLink) * vec4(movement, 0));
 		auto goal = getTipPosition(headLink) + directionToMove;//factor * getGoalPosition() + (1.0f - factor) * last_tip_position;
 		
@@ -209,7 +211,9 @@ using namespace glm;
 
 		linkTipPositions[0] = goal;
 		*/
-		shapeLocalTranslation(linkTipPositions[0] - start, 0);
+
+		auto translationVec = linkTipPositions[0] - start;
+		shapeLocalTranslation(translationVec, 0);
 
 		//Rotation
 		//std::cout << "==> Starting Rotation" << std::endl;
@@ -251,18 +255,20 @@ using namespace glm;
 		}
 	}
 
+	Shape & IK::getSnakeHead()
+	{
+		return *(shapes[headLink]);
+	}
+
 	void IK::setDirectionRight() {
 		Sleep(50);
 		/*
-		//for (int i = headLink; i > 0; i--)
+		//for (int i = 1; i < linksNum - 1; i++)
 		//{
-			pickedShape = 0;
-			//auto prevCenter = shapes[pickedShape]->getCenterOfRotation(shapes[pickedShape]->findAxis());
-			//shapes[pickedShape]->changeCenterOfRotation(vec3(0.f));
-			auto center = vec3(shapes[pickedShape]->getTraslate());
-			shapeTransformation(yGlobalRotate, ROTATION_ANGLE, center);
+			pickedShape = headLink;
 
-			//shapes[pickedShape]->changeCenterOfRotation(prevCenter);
+			//prevRotate = shapes[pickedShape]->getRotationMatrix();
+			shapeTransformation(yLocalRotate, -ROTATION_ANGLE);
 
 		//}
 
@@ -279,14 +285,14 @@ using namespace glm;
 		}
 		else {
 			direction = DOWN;
-
 		}*/
 
-		//Shape& head = getSnakeHead();
-		auto velocity = shapes[headLink]->v;
-		auto rotation = glm::rotate(-ROTATION_ANGLE, shapes[headLink]->normal);
-		auto velDir = rotation * vec4(shapes[headLink]->v, 0);
-		shapes[headLink]->v = glm::vec3(velDir);
+		Shape& head = getSnakeHead();
+		auto rotation = glm::rotate(-ROTATION_ANGLE, head.upDirection);
+		auto velDir = rotation * vec4(head.forwardDirection, 0);
+		head.forwardDirection = glm::vec3(velDir);
+
+		//calculateSnakeStep();
 	}
 	void IK::setDirectionLeft() {
 		Sleep(50);
@@ -299,7 +305,6 @@ using namespace glm;
 			shapeTransformation(yGlobalRotate, -ROTATION_ANGLE, center);
 
 			//shapes[pickedShape]->(center);
-
 		//}
 
 		if (direction == UP) {
@@ -317,11 +322,13 @@ using namespace glm;
 			direction = UP;
 		}*/
 
-		//Shape& head = getSnakeHead();
-		auto velocity = shapes[headLink]->v;
-		auto rotation = glm::rotate(ROTATION_ANGLE, shapes[headLink]->normal);
-		auto velDir = rotation * vec4(shapes[headLink]->v, 0);
-		shapes[headLink]->v = glm::vec3(velDir);
+		Shape& head = getSnakeHead();
+		//auto velocity = shapes[headLink]->forwardDirection;
+		auto rotation = glm::rotate(ROTATION_ANGLE, head.upDirection);
+		auto velDir = rotation * vec4(head.forwardDirection, 0);
+		head.forwardDirection = glm::vec3(velDir);
+
+		//calculateSnakeStep();
 	}
 
 	void IK::setDirectionUp() {
@@ -346,8 +353,17 @@ using namespace glm;
 		//}
 		
 		direction = UP;*/
-		UpdateSnakeMovement(1);
-
+		//UpdateSnakeMovement(1);
+		/*
+		Shape& head = getSnakeHead();
+		auto right = head.getRightDirection();
+		auto rotation = glm::rotate(ROTATION_ANGLE, right);
+		auto forward = rotation * glm::vec4(head.forwardDirection, 0);
+		auto up = rotation * glm::vec4(head.upDirection, 0);
+		head.forwardDirection = glm::vec3(forward);
+		head.upDirection = glm::vec3(up);*/
+		
+		calculateSnakeStep();
 	}
 
 	void IK::setDirectionDown() {
@@ -367,7 +383,15 @@ using namespace glm;
 		//}
 
 		direction = DOWN;*/
-		UpdateSnakeMovement(-1);
+		//UpdateSnakeMovement(-1);
+
+		Shape& head = getSnakeHead();
+		auto right = head.getRightDirection();
+		auto rotation = glm::rotate(-ROTATION_ANGLE, right);
+		auto forward = rotation * glm::vec4(head.forwardDirection, 0);
+		auto up = rotation * glm::vec4(head.upDirection, 0);
+		head.forwardDirection = glm::vec3(forward);
+		head.upDirection = glm::vec3(up);
 	}
 
 	void IK::UpdateSnakeMovement(int dirFactor) {
@@ -424,7 +448,7 @@ using namespace glm;
 			//pickedShape = i;
 			//shapeTransformation(xGlobalTranslate, 0.01f, snakeDirection);
 		}
-		*/
+		
 			pickedShape = 0;
 			shapeTransformation(zLocalTranslate, dirFactor * DISTANCE_DELTA);
 			/* 
