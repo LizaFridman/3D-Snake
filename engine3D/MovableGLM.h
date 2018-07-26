@@ -41,8 +41,11 @@ public:
 	glm::mat4 makeTrans(glm::mat4 &prevTransformations) const;
 	glm::mat4 makeTrans() const;
 
-	//glm::mat4 getRotationMatrix() { return rotateMat; }
-	//glm::mat4 setRotationMatrix(glm::mat4 newMatrix) { rotateMat = newMatrix; }
+	glm::mat4 getRotationMatrix() { return rotateMat; }
+	void setRotationMatrix(glm::mat4 newMatrix) { rotateMat = newMatrix; }
+
+	glm::mat4 getTranslationMatrix(int indx) { return translateMat[indx]; }
+	void setTranslationMatrix(glm::mat4 newMatrix, int indx) { translateMat[indx] = newMatrix; }
 
 	void myRotate(float ang, glm::vec3 &vec, int indx);
 	void myTranslate(glm::vec3 &vec, int indx);
@@ -61,6 +64,8 @@ public:
 	Direction getDirection() { return direction; }
 
 	glm::vec4 getTraslate();
+	glm::mat4 getRotate();
+
 	glm::vec3 getPointInSystem(glm::mat4 &prevTransformations,glm::vec3 point);
 	glm::vec3 getVectorInSystem(glm::mat4 &prevTransformations,glm::vec3 vec);
 	glm::vec3 getCenterOfRotation(glm::mat4 &prevTransformations);

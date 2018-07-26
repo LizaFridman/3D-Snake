@@ -18,6 +18,7 @@ class IK : public Scene
 	float linkLength;
 
 	int headLink;
+	//glm::mat4 prevRotate;
 	//Direction headDirection;
 public:
 	

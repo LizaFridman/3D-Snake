@@ -353,7 +353,7 @@ Vertex axisVertices[] =
 			else
 			{
 				int i = pickedShape;
-				for (; chainParents[i] > -1; i = chainParents[i]);
+				//for (; chainParents[i] > -1; i = chainParents[i]);
 				shapes[i]->myTranslate(vec, 1);
 			}
 			break;
