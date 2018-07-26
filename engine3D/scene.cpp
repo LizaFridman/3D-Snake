@@ -49,7 +49,7 @@ Vertex axisVertices[] =
 	{
 		GLCall(glLineWidth(3));
 		cameras.push_back(new Camera(position,angle,hwRelation,near,far));
-		axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
+		//axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
 		pickedShape = -1;
 	}
 
@@ -96,12 +96,12 @@ Vertex axisVertices[] =
 	void Scene::addShader(const std::string& fileName)
 	{
 		shaders.push_back(new Shader(fileName));
-		/*if(!axisMesh)
+		if(!axisMesh)
 		{	
 			axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
 			axisMesh->myScale(vec3(2.0*scaleFactor,2.0*scaleFactor,2.0*scaleFactor));
 			axisMesh->myTranslate(vec3(0,0,0.5),1);
-		}*/
+		}
 	}
 
 	mat4 Scene::GetViewProjection(int indx) const
@@ -144,6 +144,7 @@ Vertex axisVertices[] =
 			Normal1 = Normal1 * shapes[i]->makeTrans();
 			trans.push_back(MVP1);
 			shaders[shaderIndx]->Update(MVP1,Normal1,i, trans, shapes[i]->getTexture());
+			//shaders[shaderIndx]->Update(MVP1,Normal1,cameras[0]->GetPos(), i, transformations);
 
 			if(shaderIndx == 1)
 				shapes[i]->draw(GL_TRIANGLES);
@@ -154,6 +155,7 @@ Vertex axisVertices[] =
 		{
 			shaders[shaderIndx]->Bind();
 			shaders[shaderIndx]->Update(cameras[0]->GetViewProjection()*scale(vec3(10,10,10)),Normal*scale(vec3(10,10,10)),0, trans, 0);
+			//shaders[shaderIndx]->Update(cameras[0]->GetViewProjection()*scale(vec3(10, 10, 10)), Normal*scale(vec3(10, 10, 10)), cameras[0]->GetPos(), 0, transformations);
 			axisMesh->draw(GL_LINES);
 		}
 	}
@@ -333,6 +335,11 @@ Vertex axisVertices[] =
 			default:
 				break;
 			}
+	}
+
+	void Scene::shapeLocalTranslation(vec3& v, int indx)
+	{
+		shapes[indx]->myTranslate(v, 1);
 	}
 
 	void Scene::shapeTransformation(int type, float amt, vec3 vec)
@@ -571,7 +578,7 @@ Vertex axisVertices[] =
 		}
 	}*/
 
-	vec3 Scene::getDistination(int indx)
+	vec3 Scene::getBase(int indx)
 	{
 		mat4 Normal1 = mat4(1);
 		if( indx>-1)

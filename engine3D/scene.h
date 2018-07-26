@@ -40,6 +40,7 @@ public:
 	glm::mat4 GetShapeTransformation() const;
 	void draw(int shaderIndx,int cameraIndx,bool drawAxis);
 	
+	void shapeLocalTranslation(glm::vec3& v, int indx);
 	void shapeTransformation(int type,float amt);
 	void shapeTransformation(int type, float amt, glm::vec3 vec);
 
@@ -55,7 +56,7 @@ public:
 	glm::vec3 getTipPosition(int indx);
 	glm::vec3 getGoalPosition();//
 	glm::vec3 getAxisDirection(int indx,int axis);
-	glm::vec3 getDistination(int index);
+	glm::vec3 getBase(int index);
 	void restartAnglesForShape(int indx);//
 	glm::mat4 getNormalForShape(int shapeIndex);//
 
