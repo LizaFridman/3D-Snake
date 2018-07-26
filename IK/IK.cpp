@@ -254,15 +254,6 @@ using namespace glm;
 	void IK::setDirectionRight() {
 		Sleep(50);
 		/*
-		//for (int i = headLink; i > 0; i--)
-		//{
-			pickedShape = 0;
-			//auto prevCenter = shapes[pickedShape]->getCenterOfRotation(shapes[pickedShape]->findAxis());
-			//shapes[pickedShape]->changeCenterOfRotation(vec3(0.f));
-			auto center = vec3(shapes[pickedShape]->getTraslate());
-			shapeTransformation(yGlobalRotate, ROTATION_ANGLE, center);
-
-
 		//for (int i = 1; i < linksNum - 1; i++)
 		//{
 			pickedShape = headLink;
@@ -346,10 +337,12 @@ using namespace glm;
 		//{
 			pickedShape = 0;
 			shapeTransformation(yLocalRotate, angle);
+
 		//}
 		
 		direction = UP;*/
 		UpdateSnakeMovement(1);
+
 	}
 
 	void IK::setDirectionDown() {
