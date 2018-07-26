@@ -15,6 +15,7 @@ public:
 	Mesh *surrounding_box;
 	Mesh *collision_box;
 
+
 public:
 	enum{triangles,lines};
 	Shape(const Shape& shape);
