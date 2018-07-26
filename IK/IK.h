@@ -1,8 +1,8 @@
 
 #include "scene.h"
 #define EPSILON 1e-4f
-#define ROTATION_ANGLE 5.f
-#define DISTANCE_DELTA 0.01f
+#define ROTATION_ANGLE 10.f
+#define DISTANCE_DELTA 0.09f
 
 const int linksNum = 6;
 const int maximumIterations = 1;
@@ -28,7 +28,7 @@ public:
 	IK(glm::vec3 position,float angle,float hwRelation,float near, float far);
 	
 	void init(Vertex *vertices,unsigned int *indices,int verticesSize,int indicesSize);
-	void buildLevel();
+	//void buildLevel();
 
 	void addShape(int type, int parent);
 	void addShape(const std::string& fileName, int parent);
@@ -46,6 +46,8 @@ public:
 	
 	void reset_euler_angles(int shapeIndex);
 	void calculateSnakeStep();
+	Shape & getSnakeHead();
+
 	//float Distance(int indx1, int indx2);
 	bool inline isActive() const { return isIKactive;} 
 	void inline dActivate() { isIKactive = false;}
