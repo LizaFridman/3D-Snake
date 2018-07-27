@@ -47,7 +47,7 @@ Shader::Shader(const std::string& fileName)
 	m_uniforms[4] = glGetUniformLocation(m_program, "Tjs");
 	m_uniforms[5] = glGetUniformLocation(m_program, "boneIndex");
 	m_uniforms[6] = glGetUniformLocation(m_program, "bonesNum");
-	m_uniforms[7] = glGetUniformLocation(m_program, "u_Texture");
+	//m_uniforms[7] = glGetUniformLocation(m_program, "u_Texture");
 }
 
 Shader::~Shader()
@@ -87,7 +87,7 @@ void Shader::Update( glm::mat4 MVP ,glm::mat4 Normal , int const shpIndx, std::v
 	GLCall(glUniformMatrix4fv(m_uniforms[4], trans.size(), GL_FALSE, &trans[0][0][0]));
 	GLCall(glUniform1i(m_uniforms[5], shpIndx));
 	GLCall(glUniform1i(m_uniforms[6], linksNum));
-	GLCall(glUniform1i(m_uniforms[7], texture));
+	//GLCall(glUniform1i(m_uniforms[7], texture));
 }
 
 std::string Shader::LoadShader(const std::string& fileName)
