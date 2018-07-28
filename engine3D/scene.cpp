@@ -146,10 +146,11 @@ Vertex axisVertices[] =
 			shaders[shaderIndx]->Update(MVP1,Normal1,i, trans, shapes[i]->getTexture());
 			//shaders[shaderIndx]->Update(MVP1,Normal1,cameras[0]->GetPos(), i, transformations);
 
-			if(shaderIndx == 1)
+			//if (i != destinationIndex) {
 				shapes[i]->draw(GL_TRIANGLES);
-			else 
-				shapes[i]->draw(GL_TRIANGLES);
+			//}
+			/*else 
+				shapes[i]->draw(GL_TRIANGLES);*/
 		}
 		if(shaderIndx==0 )
 		{
@@ -235,7 +236,7 @@ Vertex axisVertices[] =
 			case zGlobalTranslate:
 				if(pickedShape ==-1)
 					myTranslate(vec3(0,0,amt/5.0),0);
-								else
+				else
 				{
 					int i = pickedShape;
 					for (; chainParents[i] > -1; i = chainParents[i]);
@@ -560,6 +561,15 @@ Vertex axisVertices[] =
 		return vec3(shapes[linksNum]->makeTrans()*vec4(0, 0, 0, 1));
 	}
 
+	glm::vec3 Scene::getNextGoalPosition()
+	{
+		/*auto velocity = shapes[shapeIndex]->forwardDirection;
+		vec3 movement = DISTANCE_DELTA * 2.f* velocity;
+		auto directionToMove = vec3(getNormalForShape(shapeIndex) * vec4(movement, 0));
+		auto goal = vec3(shapes[shapeIndex]->makeTrans()*vec4(0, 0, 0, 1)) ;
+		return goal + directionToMove;*/
+		return vec3(shapes[destinationIndex]->makeTrans()*vec4(0, 0, 0, 1));
+	}
 	/*glm::vec3 Scene::getGoalPosition()
 	{
 		switch (direction) {
