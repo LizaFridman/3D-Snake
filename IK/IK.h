@@ -1,30 +1,32 @@
 
 #include "scene.h"
-
-
 #define EPSILON 1e-4f
+#define ROTATION_ANGLE 10.f
+#define DISTANCE_DELTA 10.f
 
 const int linksNum = 6;
 const int maximumIterations = 1;
-	
+const int headLink = linksNum - 1;
 class IK : public Scene
 {
 	bool cameraMode;
 	glm::vec3 tipPosition;
-	glm::vec3 distPosition;
+	glm::vec3 destinationPosition;
 	bool isIKactive;
 	double delta;
     float maxDistance;
-	
 	float linkLength;
-
+	//glm::mat4 prevRotate;
+	//Direction headDirection;
 public:
+	bool movementActive = true;
 
 	IK(void);
 	virtual ~IK(void);
 	IK(glm::vec3 position,float angle,float hwRelation,float near, float far);
 	
 	void init(Vertex *vertices,unsigned int *indices,int verticesSize,int indicesSize);
+	//void buildLevel();
 
 	void addShape(int type, int parent);
 	void addShape(const std::string& fileName, int parent);
@@ -36,13 +38,23 @@ public:
 
 	void inline changeMode(){cameraMode = !cameraMode;}
 	bool inline getMode() { return cameraMode; }
+	
+	void IK::UpdateSnakeMovement(int dirFactor);
 	void makeIKChange();
+	
 	void reset_euler_angles(int shapeIndex);
-	void calculateStep(bool EulerVersion);
-	float Distance(int indx1, int indx2);
+	void calculateSnakeStep();
+	Shape & getSnakeHead();
+
+	//float Distance(int indx1, int indx2);
 	bool inline isActive() const { return isIKactive;} 
 	void inline dActivate() { isIKactive = false;}
 	void inline Activate() { isIKactive = true; }
+
+	void setDirectionRight();
+	void setDirectionLeft();
+	void setDirectionUp();
+	void setDirectionDown();
 
 	void pick_box();
 	void pick_next_box();

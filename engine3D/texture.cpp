@@ -14,22 +14,17 @@ Texture::Texture(const std::string& fileName)
 	if (data == NULL) {
 		std::cout << "Unable to load texture: " << fileName << std::endl;
 	}
-        
-    GLCall(glGenTextures(1, &m_texture));
-    GLCall(glBindTexture(GL_TEXTURE_2D, m_texture));
 
-	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
-	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+	GLCall(glGenTextures(1, &m_texture));
+	GLCall(glBindTexture(GL_TEXTURE_2D, m_texture));
 
-    GLCall(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-	GLCall(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
-        
-    
-    GLCall(glTexImage2D(GL_TEXTURE_2D, 1, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data));
-	
-	if (data) {
-		stbi_image_free(data);
-	}
+	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
+
+	GLCall(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+	GLCall(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+	GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data));
+	stbi_image_free(data);
 }
 
 Texture::~Texture()
@@ -39,7 +34,7 @@ Texture::~Texture()
 
 void Texture::Bind()
 {
-	GLCall(glActiveTexture(GL_TEXTURE0));
+	//GLCall(glActiveTexture(GL_TEXTURE0));
 	GLCall(glBindTexture(GL_TEXTURE_2D, m_texture));
 }
 

@@ -4,6 +4,7 @@
 #include <iostream>
 #include "../IK/IK.h"
 #include "GLErrorHandler.h"
+
 using namespace std;
 using namespace glm;
 
@@ -48,7 +49,7 @@ Vertex axisVertices[] =
 	{
 		GLCall(glLineWidth(3));
 		cameras.push_back(new Camera(position,angle,hwRelation,near,far));
-		axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
+		//axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
 		pickedShape = -1;
 	}
 
@@ -95,12 +96,12 @@ Vertex axisVertices[] =
 	void Scene::addShader(const std::string& fileName)
 	{
 		shaders.push_back(new Shader(fileName));
-		/*if(!axisMesh)
+		if(!axisMesh)
 		{	
 			axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
 			axisMesh->myScale(vec3(2.0*scaleFactor,2.0*scaleFactor,2.0*scaleFactor));
 			axisMesh->myTranslate(vec3(0,0,0.5),1);
-		}*/
+		}
 	}
 
 	mat4 Scene::GetViewProjection(int indx) const
@@ -143,36 +144,39 @@ Vertex axisVertices[] =
 			Normal1 = Normal1 * shapes[i]->makeTrans();
 			trans.push_back(MVP1);
 			shaders[shaderIndx]->Update(MVP1,Normal1,i, trans, shapes[i]->getTexture());
+			//shaders[shaderIndx]->Update(MVP1,Normal1,cameras[0]->GetPos(), i, transformations);
 
-			if(shaderIndx == 1)
+			//if (i != destinationIndex) {
 				shapes[i]->draw(GL_TRIANGLES);
-			else 
-				shapes[i]->draw(GL_TRIANGLES);
+			//}
+			/*else 
+				shapes[i]->draw(GL_TRIANGLES);*/
 		}
 		if(shaderIndx==0 )
 		{
 			shaders[shaderIndx]->Bind();
 			shaders[shaderIndx]->Update(cameras[0]->GetViewProjection()*scale(vec3(10,10,10)),Normal*scale(vec3(10,10,10)),0, trans, 0);
+			//shaders[shaderIndx]->Update(cameras[0]->GetViewProjection()*scale(vec3(10, 10, 10)), Normal*scale(vec3(10, 10, 10)), cameras[0]->GetPos(), 0, transformations);
 			axisMesh->draw(GL_LINES);
 		}
 	}
 
-		void Scene::shapeRotation(vec3 v, float ang,int indx)
-		{
-			if(v.x >0.999)
-				shapes[indx]->myRotate(ang,v,xAxis1);
-			else 
-				if(v.z >0.999)
-					shapes[indx]->myRotate(ang,v,zAxis12);
+	void Scene::shapeRotation(vec3 v, float ang, int indx)
+	{
+		if (v.x > 0.999)
+			shapes[indx]->myRotate(ang, v, xAxis1);
+		else
+			if (v.z > 0.999)
+				shapes[indx]->myRotate(ang, v, zAxis12);
 			else
-				shapes[indx]->myRotate(ang,v,-1);
-		}
+				shapes[indx]->myRotate(ang, v, -1);
+	}
 
-		void Scene::shapeEulerAnglesRotation(float z_angle, float x_angle, int index)
-		{
-			shapes[index]->myRotate(x_angle, vec3(0), xAxis1);
-			shapes[index]->myRotate(z_angle, vec3(0), zAxis12);
-		}
+	void Scene::shapeEulerAnglesRotation(float z_angle, float x_angle, int index)
+	{
+		shapes[index]->myRotate(x_angle, vec3(0), xAxis1);
+		shapes[index]->myRotate(z_angle, vec3(0), zAxis12);
+	}
 
 	void Scene::shapeTransformation(int type,float amt)
 	{
@@ -193,7 +197,7 @@ Vertex axisVertices[] =
 				if(pickedShape ==-1)
 					myTranslate(vec3(0,amt,0),1);
 				else
-								{
+					{
 						int i = pickedShape;
 						for (; chainParents[i] > -1; i = chainParents[i]);
 						shapes[i]->myTranslate(vec3(0,amt,0),1);
@@ -232,7 +236,7 @@ Vertex axisVertices[] =
 			case zGlobalTranslate:
 				if(pickedShape ==-1)
 					myTranslate(vec3(0,0,amt/5.0),0);
-								else
+				else
 				{
 					int i = pickedShape;
 					for (; chainParents[i] > -1; i = chainParents[i]);
@@ -332,9 +336,174 @@ Vertex axisVertices[] =
 			default:
 				break;
 			}
-
-		
 	}
+
+	void Scene::shapeLocalTranslation(vec3& v, int indx)
+	{
+		shapes[indx]->myTranslate(v, 1);
+	}
+
+	void Scene::shapeTransformation(int type, float amt, vec3 vec)
+	{
+		vec3 newAxis;
+		switch (type)
+		{
+		case xLocalTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec, 1);
+			else
+			{
+				int i = pickedShape;
+				//for (; chainParents[i] > -1; i = chainParents[i]);
+				shapes[i]->myTranslate(vec, 1);
+			}
+			break;
+		case yLocalTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec, 1);
+			else
+			{
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+				shapes[i]->myTranslate(vec, 1);
+			}
+			break;
+		case zLocalTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec, 1);
+			else
+			{
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+				shapes[i]->myTranslate(vec, 1);
+			}
+			break;
+		case xGlobalTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec, 0);
+			else
+			{
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+				shapes[i]->myTranslate(vec, 0);
+			}
+			break;
+		case yGlobalTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec, 0);
+			else
+			{
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+				shapes[i]->myTranslate(vec, 0);
+			}
+			break;
+		case zGlobalTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec, 0);
+			else
+			{
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+				shapes[i]->myTranslate(vec, 0);
+			}
+			break;
+		case xLocalRotate:
+			if (pickedShape == -1)
+				myRotate(amt, vec, xAxis1);
+			else
+				shapes[pickedShape]->myRotate(amt, vec, xAxis1);
+			break;
+		case yLocalRotate:
+			if (pickedShape == -1)
+				myRotate(amt, vec, -1);
+			else
+				shapes[pickedShape]->myRotate(amt, vec, -1);
+			break;
+		case zLocalRotate:
+			if (pickedShape == -1)
+				myRotate(amt, vec, zAxis12);
+			else
+				shapes[pickedShape]->myRotate(amt, vec, zAxis12);
+			break;
+		case xGlobalRotate:
+			if (pickedShape == -1)
+				globalSystemRot(amt, vec, xAxis1);
+			else
+				shapes[pickedShape]->globalSystemRot(amt, vec, xAxis1);
+			break;
+		case yGlobalRotate:
+			if (pickedShape == -1)
+				globalSystemRot(amt, vec, -1);
+			else
+				shapes[pickedShape]->globalSystemRot(amt, vec, -1);
+			break;
+		case zGlobalRotate:
+			if (pickedShape == -1)
+				globalSystemRot(amt, vec, zAxis12);
+			else
+				shapes[pickedShape]->globalSystemRot(amt, vec, zAxis12);
+			break;
+		case xScale:
+			if (pickedShape == -1)
+				myScale(vec3(amt, 1, 1));
+			else
+				shapes[pickedShape]->myScale(vec3(amt, 1, 1));
+			break;
+		case yScale:
+			if (pickedShape == -1)
+				myScale(vec3(1, amt, 1));
+			else
+				shapes[pickedShape]->myScale(vec3(1, amt, 1));
+			break;
+		case zScale:
+			if (pickedShape == -1)
+				myScale(vec3(1, 1, amt));
+			else
+				shapes[pickedShape]->myScale(vec3(1, 1, amt));
+			break;
+		case xCameraTranslate: //camera plane translate
+			if (pickedShape == -1)
+				myTranslate(vec3(amt / 5.0, 0, 0), 0);
+			else
+			{
+				//newAxis = findAxis(vec3(1,0,0));					
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+
+				shapes[i]->translateInSystem(*this, vec3(amt, 0, 0), 0, false);
+			}
+			break;
+		case yCameraTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec3(0, amt / 5.0, 0), 0);
+			else
+			{
+				//newAxis = findAxis(vec3(0,1,0));
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+
+				shapes[i]->translateInSystem(*this, vec3(0, amt, 0), 0, false);
+			}
+			break;
+		case zCameraTranslate:
+			if (pickedShape == -1)
+				myTranslate(vec3(0, 0, amt / 5.0), 0);
+			else
+			{
+				//	newAxis = findAxis(vec3(0,0,1));
+				int i = pickedShape;
+				for (; chainParents[i] > -1; i = chainParents[i]);
+
+				shapes[i]->translateInSystem(*this, vec3(0, 0, amt), 0, false);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	
 	
 	void Scene::resize(int width,int height,int near,int far)
 	{
@@ -392,7 +561,34 @@ Vertex axisVertices[] =
 		return vec3(shapes[linksNum]->makeTrans()*vec4(0, 0, 0, 1));
 	}
 
-	vec3 Scene::getDistination(int indx)
+	glm::vec3 Scene::getNextGoalPosition()
+	{
+		/*auto velocity = shapes[shapeIndex]->forwardDirection;
+		vec3 movement = DISTANCE_DELTA * 2.f* velocity;
+		auto directionToMove = vec3(getNormalForShape(shapeIndex) * vec4(movement, 0));
+		auto goal = vec3(shapes[shapeIndex]->makeTrans()*vec4(0, 0, 0, 1)) ;
+		return goal + directionToMove;*/
+		return vec3(shapes[destinationIndex]->makeTrans()*vec4(0, 0, 0, 1));
+	}
+	/*glm::vec3 Scene::getGoalPosition()
+	{
+		switch (direction) {
+		case LEFT:
+
+			break;
+		case RIGHT:
+			break;
+		case UP:
+			break;
+		case DOWN:
+			break;
+		default:
+			return vec3(shapes[linksNum]->makeTrans()*vec4(0, 0, 0, 1));
+			break;
+		}
+	}*/
+
+	vec3 Scene::getBase(int indx)
 	{
 		mat4 Normal1 = mat4(1);
 		if( indx>-1)
@@ -454,6 +650,7 @@ glm::mat4 Scene::getNormalForShape(int shapeIndex)
 
 	return shapes[shapeIndex]->makeTrans(Normal1);
 }
+
 
 
 Scene::~Scene(void)

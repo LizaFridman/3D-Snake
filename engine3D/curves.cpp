@@ -167,18 +167,18 @@ std::vector <glm::vec3> Surface::calcSurface(const std::vector <glm::vec3> &cont
 
 	std::vector <glm::vec3> contSurface;
 	contSurface.clear();
-	float r , R;
+	float r, R;
 	float const alpha = M_PI / 2.0 / (float)(degree2 - 1);
-	float const rathio =  1.0/ cos(alpha);
+	float const rathio = 1.0 / cos(alpha);
 
 	for (int k = 0; k < subNum; k++)
 	{
 		for (int m = 0; m < 4; m++) //full ring
 		{
-			
-			for (int i = 1, j = 0; j < degree2; i +=	degree - 1 , j++) // square 
+
+			for (int i = 1, j = 0; j < degree2; i += degree - 1, j++) // square 
 			{
-				
+
 				for (int l = 0; l < degree; l++) // part of ring
 				{
 					glm::vec3 p1, n1;
@@ -186,22 +186,22 @@ std::vector <glm::vec3> Surface::calcSurface(const std::vector <glm::vec3> &cont
 					if (l == 0 || l == degree - 1)
 					{
 						r = contour[(degree - 1) * k + l].y;
-						if (j  == 0 || j  == degree2 - 1)
-							p1 = glm::vec3( r*sin((float)((degree2 -1) * m + j)*alpha), r*cos((float)((degree2 -1) * m + j)*alpha),contour[(degree - 1) * k + l].x);
+						if (j == 0 || j == degree2 - 1)
+							p1 = glm::vec3(r*sin((float)((degree2 - 1) * m + j)*alpha), r*cos((float)((degree2 - 1) * m + j)*alpha), contour[(degree - 1) * k + l].x);
 						else
 						{
-							R = r*rathio;
-							p1 = glm::vec3( R*sin((float)((degree2 - 1) * m + j)*alpha), R*cos((float)((degree2 - 1) * m + j)*alpha),contour[(degree - 1) * k + l].x);
+							R = r * rathio;
+							p1 = glm::vec3(R*sin((float)((degree2 - 1) * m + j)*alpha), R*cos((float)((degree2 - 1) * m + j)*alpha), contour[(degree - 1) * k + l].x);
 						}
 						//n1 = glm::vec3(0, cos((float)(3 * m + j)*M_PI / 6.0), sin((float)(3 * m + j)*M_PI / 6.0));
 					}
 					else
 					{
-						if (j >0 && j < degree2 - 1)
+						if (j > 0 && j < degree2 - 1)
 							R = contour[(degree - 1) * k + l].y*rathio;
 						else R = contour[(degree - 1) * k + l].y;
-
-						p1 = glm::vec3( R*sin((float)((degree2 - 1) * m + j)*alpha), R*cos((float)((degree2 - 1) * m + j)*alpha),contour[(degree - 1) * k + l].x);
+						
+						p1 = glm::vec3(R*sin((float)((degree2 - 1) * m + j)*alpha), R*cos((float)((degree2 - 1) * m + j)*alpha), contour[(degree - 1) * k + l].x);
 					}
 					contSurface.push_back(p1);
 					//normals.push_back(n1);
@@ -246,8 +246,9 @@ IndexedModel Surface::ToIndexedModel()
 	else i=0;
 	
 	float	l = r;
-	if(shpType == middle || shpType == end)
-		l = 0; 
+	if (shpType == middle || shpType == end) {
+		l = 0;
+	}
 	p2 = glm::vec3(l + r*sin((float)i*beta),r*cos((float)i*beta),0);
 		contour.push_back(p2);
 			
@@ -291,7 +292,7 @@ IndexedModel Surface::ToIndexedModel()
 			{
 				for (int k = 0; k < degree; k++) //p1, h1,h2,p2
 				{
-					int indx1 = k + m*degree + n*degree2*degree + degree2 * 4 * degree*o;
+					int indx1 = k + m*degree + n*degree2*degree + degree2 * 2 * degree*o;
 					s.push_back(contSurface[indx1]);
 				}
 			}

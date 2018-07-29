@@ -38,10 +38,12 @@ vec3 MovableGLM::findAxis(vec3 vec) const
 
 MovableGLM::MovableGLM()
 {
-	translateMat[0] = mat4(1);  //translation to general point
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              translateMat[0] = mat4(1);  //translation to general point
 	translateMat[1] = mat4(1);  //translation to COM
 	rotateMat = mat4(1);     //rotation around general point or (0,0,0) of global coordinate
 	scaleFactor = vec3(1);
+	forwardDirection = vec3(1);
+	direction = NONE;
 }
 
 mat4 MovableGLM::makeTransScale(mat4 & prevTransformations) const
@@ -72,8 +74,6 @@ mat4 MovableGLM::makeTrans() const
 
 void MovableGLM::myRotate(float ang, glm::vec3 &vec, int indx)
 {
-	//ang = ang / 180.0*pi;
-	
 	if(indx >=0 && indx <=3)
 	{
 		alignedRot(indx,ang,0);
@@ -131,17 +131,17 @@ void MovableGLM::translateInSystem(const MovableGLM  &system,vec3 &vec, int indx
 
 void MovableGLM::update()
 {
-	myTranslate(v, 0);
+	myTranslate(forwardDirection, 1);
 }
 
 void MovableGLM::set_velocity(glm::vec3 v)
 {
-	this->v = v;
+	this->forwardDirection = v;
 }
 
 void MovableGLM::add_velocity(glm::vec3 v)
 {
-	this->v += v;
+	this->forwardDirection += v;
 }
 
 void MovableGLM::changeCenterOfRotation(vec3 & Pvec)
@@ -166,6 +166,12 @@ vec4 MovableGLM::getTraslate()
 {
 	mat4 mat = makeTrans();
 	return mat[3];
+}
+
+mat4 MovableGLM::getRotate()
+{
+	return rotateMat;
+
 }
 
 
@@ -202,4 +208,20 @@ glm::vec3 MovableGLM::getPointInSystem(glm::mat4 &prevTransformations,glm::vec3 
 glm::vec3 MovableGLM::getVectorInSystem(glm::mat4 &prevTransformations,glm::vec3 vec)
 {
 	return vec3(makeTrans(prevTransformations) * vec4(vec,0));
+}
+
+float MovableGLM::findAngleBetweenTwoVectors(glm::vec3 baseVec, glm::vec3 newVec) {
+
+	//first, make copies of the vectors
+	vec3 baseCopy(baseVec);
+	vec3 newCopy(newVec);
+
+	//next, ensure they're normalized
+	normalize(baseCopy);//baseCopy
+	normalize(newCopy);
+
+	//the arc-cosine is the angle between the two vectors
+	//this is used as the "cannonAngle" value (does not work)
+
+	return (float)glm::acos(glm::dot(newCopy, baseCopy));//.acos(newCopy.dot(baseCopy));
 }

@@ -15,9 +15,11 @@ protected:
 	std::vector<int> chainParents;
 	int pickedShape;
 	static const int scaleFactor = 3;
-	std::vector<Shape*> shapes;
 
 public:
+	std::vector<Shape*> shapes;
+	int destinationIndex;
+
 	enum axis{xAxis,yAxis,zAxis};
 	enum transformations{xLocalTranslate,yLocalTranslate,zLocalTranslate,xGlobalTranslate,yGlobalTranslate,zGlobalTranslate,
 		xLocalRotate,yLocalRotate,zLocalRotate,xGlobalRotate,yGlobalRotate,zGlobalRotate,xScale,yScale,zScale,xCameraTranslate,yCameraTranslate,zCameraTranslate};
@@ -32,22 +34,32 @@ public:
 	void addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent);
 	
 	void addShader(const std::string& fileName);
+	std::vector<Shape*> GetShapes() { return shapes; }
+	std::vector<Camera*> GetCameras() { return cameras; }
 
 	glm::mat4 GetViewProjection(int indx) const;
 	glm::mat4 GetShapeTransformation() const;
 	void draw(int shaderIndx,int cameraIndx,bool drawAxis);
+	
+	void shapeLocalTranslation(glm::vec3& v, int indx);
 	void shapeTransformation(int type,float amt);
+	void shapeTransformation(int type, float amt, glm::vec3 vec);
+
 	void shapeRotation(glm::vec3 v, float ang,int indx);
 	void shapeEulerAnglesRotation(float z_angle, float x_angle, int index);//
+
 	void inline setPicked(int pickID) { pickedShape = pickID; }//
 	int inline getPicked() { return pickedShape; }//
 	float picking(double x,double y);
+	
 	void resize(int width,int hight,int near,int far);
 	//void updateTipPosition(int indx);
 	glm::vec3 getTipPosition(int indx);
 	glm::vec3 getGoalPosition();//
+	glm::vec3 getNextGoalPosition();
+
 	glm::vec3 getAxisDirection(int indx,int axis);
-	glm::vec3 getDistination(int index);
+	glm::vec3 getBase(int index);
 	void restartAnglesForShape(int indx);//
 	glm::mat4 getNormalForShape(int shapeIndex);//
 

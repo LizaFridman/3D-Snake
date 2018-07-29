@@ -29,62 +29,32 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			GLCall(glfwSetWindowShouldClose(window, GLFW_TRUE));
 			break;
 		case GLFW_KEY_RIGHT:
-			// Rotates picked link around the previous link Z axis (right)
-			//scn.shapeTransformation(scn.zGlobalRotate,-20.1f);
-			/*
-			if (ikScn.getPicked() != linksNum) {
-				ikScn.shapeTransformation(ikScn.zLocalRotate, 5.f);
-			}else
-			{
-				ikScn.shapeTransformation(ikScn.xGlobalTranslate, 5.f);
-			}*/
-			
 			/// Go to the right of the screen
 			std::cout<< "right: "<< std::endl;
+			ikScn.setDirectionRight();
+			//ikScn.UpdateSnakeMovement();
 			break;
 		case GLFW_KEY_LEFT:
-			// Rotates picked link around the previous link Z axis (left)
-			//scn.shapeTransformation(scn.zGlobalRotate,20.1f);
-			/*
-			if (ikScn.getPicked() != linksNum) {
-				ikScn.shapeTransformation(ikScn.zLocalRotate, -5.f);
-			}else
-			{
-				ikScn.shapeTransformation(ikScn.xGlobalTranslate, -5.f);
-			}*/
-
 			/// Go to the left of the screen
 			std::cout<< "left: "<< std::endl;
+			ikScn.setDirectionLeft();
+			//ikScn.UpdateSnakeMovement();
 			break;
 		case GLFW_KEY_UP:
-			// Rotates picked link around the previous link X axis using Euler angles
-			//cout<< "up: "<<endl;
-			/*
-			if (ikScn.getPicked() != linksNum) {
-				ikScn.shapeTransformation(ikScn.xGlobalRotate, 5.f);
-			}else
-			{
-				ikScn.shapeTransformation(ikScn.zLocalTranslate, 5.f);
-			}*/
-
 			/// Go to the up of the screen
 			std::cout << "up: " << std::endl;
+			ikScn.setDirectionUp();
+			//ikScn.UpdateSnakeMovement();
 			break;
 		case GLFW_KEY_DOWN:
-			// Rotates picked link around the previous link X axis using Euler angles
-			/*if (ikScn.getPicked() != linksNum) {
-				ikScn.shapeTransformation(ikScn.xGlobalRotate, -5.f);
-			}else
-			{
-				ikScn.shapeTransformation(ikScn.zLocalTranslate, -5.f);
-			}*/
-
 			/// Go to the down of the screen
 			std::cout<< "down: "<< std::endl;
+			ikScn.setDirectionDown();
+			//ikScn.UpdateSnakeMovement();
 			break;
 		case GLFW_KEY_SPACE:
 			// Starts and stops the IK Solver
-			ikScn.isActive() ? ikScn.dActivate() : ikScn.Activate();
+			//ikScn.isActive() ? ikScn.dActivate() : ikScn.Activate();
 			//std::cout<< "change direction "<<std::endl;
 			//scn.changeDirection();
 			break;
@@ -104,18 +74,19 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_C:
 			// Camera Mode - in this mode the arrows will rotate
 			// the camera around the origin of the scene
-			ikScn.changeMode();
+			/*ikScn.changeMode();
 			if(ikScn.getMode())
 			{
 				ikScn.setPicked(linksNum);
 			}else
 			{
 				ikScn.setPicked(0);
-			}
+			}*/
 			break;
 		default:
 			break;
 		}
+		//ikScn.UpdateSnakeMovement();
 	}
 }
 	

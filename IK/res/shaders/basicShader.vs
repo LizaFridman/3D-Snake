@@ -1,9 +1,10 @@
-#version 120
+#version 130
 
 attribute vec3 position;
 attribute vec2 texCoord;
-attribute vec3 normal;
 attribute vec3 color;
+
+attribute vec3 normal;
 attribute vec3 weight;
 
 varying vec2 texCoord0;
