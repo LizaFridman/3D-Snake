@@ -27,11 +27,10 @@ using namespace glm;
 		isIKactive = false;
 		delta = 1e-1;
 		//headDirection = direction;
-		headLink = linksNum - 1;
-		direction = UP;
-		/*distPosition = vec3(1,0,0);
+		//direction = UP;
+		destinationPosition = vec3(1,0,0);
 		tipPosition = vec3(0,0,2*linksNum*scaleFactor);
-		maxDistance = linksNum*2.0f*scaleFactor;*/
+		maxDistance = linksNum*2.0f*scaleFactor;
 	}
 
 	IK::IK(vec3 position,float angle,float hwRelation,float nearf, float farf) : Scene( position,  angle,  hwRelation,  nearf,  farf)
@@ -39,11 +38,10 @@ using namespace glm;
 		cameraMode = false;
 		isIKactive = false;
 		delta = 1e-1;
-		direction = UP;
-		headLink = linksNum - 1;
-		/*distPosition = vec3(1,0,0);
+		//direction = UP;
+		destinationPosition = vec3(1,0,0);
 		tipPosition = vec3(0,0,2*linksNum*scaleFactor);
-		maxDistance = linksNum*2.0f*scaleFactor;*/
+		maxDistance = linksNum*2.0f*scaleFactor;
 	}
 
 	IK::~IK(void)
@@ -55,7 +53,8 @@ using namespace glm;
 		myRotate(-90.0f, vec3(1, 0, 0), -1);
 		//myRotate(90.0f, vec3(0, 0, 1), -1);
 		pickedShape = -1;
-		shapeTransformation(zCameraTranslate,150.f);
+		shapeTransformation(yCameraTranslate, 100.f);
+		shapeTransformation(zCameraTranslate,250.f);
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
 
 		addShape(0, 2, "./res/textures/Green-Barbed.bmp", -1);
@@ -86,17 +85,19 @@ using namespace glm;
 		//addShape(0,"./res/textures/box0.bmp",-1);
 		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/box0.bmp", -1);
 		pickedShape = linksNum;
+		destinationIndex = pickedShape;
+
 		shapeTransformation(xScale, 0.5);
 		shapeTransformation(yScale, 0.5);
 		shapeTransformation(zScale, 0.5);
-		shapeTransformation(xGlobalTranslate, -8.0f);
-		shapeTransformation(yGlobalTranslate, -3.0f);
-		shapeTransformation(zGlobalTranslate, -5.0f);
+		//shapeTransformation(xGlobalTranslate, -8.0f);
+		//shapeTransformation(yGlobalTranslate, -3.0f);
+		shapeTransformation(zGlobalTranslate, (linksNum + 3) * 4.0f);
 		pickedShape = 0;
 
 		//distPosition = getGoalPosition();
 
-		tipPosition = getTipPosition(linksNum - 1);
+		tipPosition = getTipPosition(headLink);
 		maxDistance = length(tipPosition);
 		linkLength = maxDistance / linksNum;
 		//pickedShape = linksNum;
@@ -162,10 +163,10 @@ using namespace glm;
 	
 	void IK::calculateSnakeStep()
 	{
-		Sleep(30);
-		const auto start = getBase(0);
+		movementActive = false;
 		vector<vec3> linkTipPositions;
-
+		auto tailBase = getBase(0);
+		auto nextGoal = getNextGoalPosition();
 		for (int i = 0; i < linksNum; i++)
 		{
 			linkTipPositions.push_back(getBase(i));
@@ -174,45 +175,44 @@ using namespace glm;
 
 		//std::cout << "==> Starting Step 1" << std::endl;
 
-		//auto last_tip_position = linkTipPositions[linksNum];
-		//auto factor = 0.1f;
-
+		auto last_tip_position = linkTipPositions[linksNum];
+		auto factor = 0.1f;
+		/*
 		auto velocity = shapes[headLink]->forwardDirection;
 		vec3 movement = DISTANCE_DELTA * 2.f* velocity;
 		auto directionToMove = vec3(getNormalForShape(headLink) * vec4(movement, 0));
-		auto goal = getTipPosition(headLink) + directionToMove;//factor * getGoalPosition() + (1.0f - factor) * last_tip_position;
-		
-		//auto targetDiff = goal - last_tip_position;
-		//auto distance = dot(targetDiff,targetDiff);
+		auto goal = getTipPosition(headLink) + directionToMove;//factor * getGoalPosition() + (1.0f - factor) * last_tip_position;*/
+		auto goal = factor * nextGoal + (1.0f - factor) * last_tip_position;;
+		auto targetDiff = goal - last_tip_position;
+		auto distance = dot(targetDiff, targetDiff);
 
-		/*if(distance > 0.5f)
+		if (distance > 0.5f)
 		{
 			goal = last_tip_position + 0.5f * normalize(targetDiff);
-		}*/
+		}
 
-		for (int i = linkTipPositions.size() - 1 ; i > 0 ; i--)
+		for (int i = linkTipPositions.size() - 1; i > 0; i--)
 		{
 			linkTipPositions[i] = goal;
 			auto direction = normalize(linkTipPositions[i - 1] - goal);
-			goal = goal + (float)scaleFactor * direction;
+			goal = goal + direction * (float)scaleFactor;
 		}
 
-		linkTipPositions[0] = goal;
-		/*
 		//std::cout << "==> Starting Step 2" << std::endl;
-		goal = start;
+		auto temp = linkTipPositions[0];
+		linkTipPositions[0] = goal;
+		/*goal = temp;
 
 		for (uint i = 1; i < linkTipPositions.size(); i++)
 		{
 			linkTipPositions[i - 1] = goal;
 			auto direction = normalize(linkTipPositions[i] - goal);
-			goal = goal + (float)scaleFactor * direction;
+			goal = goal + direction * (float)scaleFactor;
 		}
 
-		linkTipPositions[0] = goal;
+		linkTipPositions[linksNum] = goal;
 		*/
-
-		auto translationVec = linkTipPositions[0] - start;
+		auto translationVec = linkTipPositions[0] - tailBase;
 		shapeLocalTranslation(translationVec, 0);
 
 		//Rotation
@@ -220,7 +220,7 @@ using namespace glm;
 		auto yAxis = vec3(0, 1, 0);
 		auto zAxis = vec3(0, 0, 1);
 
-		for (uint i = 0;i < linksNum; i++)
+		for (uint i = 0; i < linksNum; i++)
 		{
 			reset_euler_angles(i);
 
@@ -228,32 +228,38 @@ using namespace glm;
 			auto nextLinkTip = linkTipPositions[i + 1];
 
 			auto diff = nextLinkTip - currentLinkTip;
-			auto direction = normalize(diff);
-			auto rAxis = cross(zAxis, direction);
+			auto newZaxis = normalize(diff);
+			auto rAxis = cross(zAxis, newZaxis);
 
-			if(length(rAxis) > EPSILON)
+			if (rAxis == vec3(0))
 			{
-				auto proj_on_xy = normalize(direction - dot(direction, zAxis) * zAxis);
+				movementActive = false;
+				return;
+			}
 
-				//Euler angles calculation
-				auto z_angle = degrees(acos(clamp(dot(yAxis, proj_on_xy), -1.0f, 1.0f)));
-				auto x_angle = degrees(acos(clamp(dot(zAxis, direction), -1.0f, 1.0f)));
-				
+			rAxis = normalize(rAxis);
+
+			if (length(rAxis) > EPSILON)
+			{
 				auto xAxis = cross(yAxis, zAxis);
+				auto proj_on_xy = normalize(newZaxis - dot(newZaxis, zAxis) * zAxis);
+				auto z_angle = degrees(acos(clamp(dot(yAxis, proj_on_xy), -1.0f, 1.0f)));
+				auto x_angle = degrees(acos(clamp(dot(zAxis, newZaxis), -1.0f, 1.0f)));
+
 
 				if (dot(proj_on_xy, xAxis) > 0)
 				{
 					z_angle = -z_angle;
 				}
 
-				rAxis = normalize(rAxis);// maybe normalize before the 'if'?
-				auto r_mat = rotate(x_angle, rAxis);
-				yAxis = vec3(r_mat * vec4(yAxis, 0));
-				zAxis = direction;
+				yAxis = vec3(rotate(x_angle, rAxis) * vec4(yAxis, 0));
+				zAxis = newZaxis;
 				shapeEulerAnglesRotation(z_angle, -x_angle, i);
 			}
 		}
+		movementActive = true;
 	}
+		
 
 	Shape & IK::getSnakeHead()
 	{
@@ -261,99 +267,37 @@ using namespace glm;
 	}
 
 	void IK::setDirectionRight() {
-		Sleep(50);
+		//Sleep(50);
 		/*
-		//for (int i = 1; i < linksNum - 1; i++)
-		//{
-			pickedShape = headLink;
-
-			//prevRotate = shapes[pickedShape]->getRotationMatrix();
-			shapeTransformation(yLocalRotate, -ROTATION_ANGLE);
-
-		//}
-
-		if (direction == UP) {
-			direction = RIGHT;
-		}
-		else if (direction == DOWN) {
-			//shapeTransformation(yLocalRotate, ROTATION_ANGLE);
-			direction = LEFT;
-			//shapeTransformation(xLocalTranslate, .5f);
-		}
-		else if (direction == LEFT) {
-			direction = UP;
-		}
-		else {
-			direction = DOWN;
-		}*/
-
 		Shape& head = getSnakeHead();
 		auto rotation = glm::rotate(-ROTATION_ANGLE, head.upDirection);
 		auto velDir = rotation * vec4(head.forwardDirection, 0);
-		head.forwardDirection = glm::vec3(velDir);
+		head.forwardDirection = glm::vec3(velDir);*/
 
-		//calculateSnakeStep();
+		pickedShape = destinationIndex;
+		shapeTransformation(xLocalTranslate, -DISTANCE_DELTA*2);
+
+		movementActive = true;
+		//Activate();
 	}
 	void IK::setDirectionLeft() {
-		Sleep(50);
-		/*//for (int i = headLink; i > 0; i--)
-		//{
-			pickedShape = 0;
-			auto center = vec3(shapes[pickedShape]->getTraslate());
-			//shapes[pickedShape]->changeCenterOfRotation(vec3(0.f));
-			
-			shapeTransformation(yGlobalRotate, -ROTATION_ANGLE, center);
-
-			//shapes[pickedShape]->(center);
-		//}
-
-		if (direction == UP) {
-			direction = LEFT;
-		}
-		else if (direction == DOWN) {
-			//shapeTransformation(yLocalRotate, ROTATION_ANGLE);
-			direction = RIGHT;
-			//shapeTransformation(xLocalTranslate, .5f);
-		}
-		else if (direction == LEFT) {
-			direction = DOWN;
-		}
-		else {
-			direction = UP;
-		}*/
-
+		//Sleep(50);
+		/*
 		Shape& head = getSnakeHead();
 		//auto velocity = shapes[headLink]->forwardDirection;
 		auto rotation = glm::rotate(ROTATION_ANGLE, head.upDirection);
 		auto velDir = rotation * vec4(head.forwardDirection, 0);
-		head.forwardDirection = glm::vec3(velDir);
+		head.forwardDirection = glm::vec3(velDir);*/
 
-		//calculateSnakeStep();
+		pickedShape = destinationIndex;
+		shapeTransformation(xLocalTranslate, DISTANCE_DELTA*2);
+
+		movementActive = true;
+		//Activate();
 	}
 
 	void IK::setDirectionUp() {
-		Sleep(50);
-		/*
-		auto angle = 0;
-		if (direction == RIGHT) {
-			angle = ROTATION_ANGLE;
-		}
-		else if (direction == DOWN) {
-			angle = 2 * ROTATION_ANGLE;
-		}
-		else if (direction == LEFT) {
-			angle = -ROTATION_ANGLE;
-		}
-
-		//for (int i = 0; i < linksNum - 1; i++)
-		//{
-			pickedShape = 0;
-			shapeTransformation(yLocalRotate, angle);
-
-		//}
-		
-		direction = UP;*/
-		//UpdateSnakeMovement(1);
+		//Sleep(50);
 		/*
 		Shape& head = getSnakeHead();
 		auto right = head.getRightDirection();
@@ -363,48 +307,35 @@ using namespace glm;
 		head.forwardDirection = glm::vec3(forward);
 		head.upDirection = glm::vec3(up);*/
 		
-		calculateSnakeStep();
+		pickedShape = destinationIndex;
+		shapeTransformation(zLocalTranslate, DISTANCE_DELTA);
+		//calculateSnakeStep();
+
+		movementActive = true;
+		//Activate();
 	}
 
 	void IK::setDirectionDown() {
-		Sleep(50);
+		//Sleep(50);
 		/*
-		auto angle = 0;
-		if (direction == RIGHT) {
-			angle = -ROTATION_ANGLE;
-		}
-		else if (direction == LEFT) {
-			angle = ROTATION_ANGLE;
-		}
-		//for (int i = 0; i < linksNum - 1; i++)
-		//{
-			pickedShape = 0;
-			shapeTransformation(yLocalRotate, angle);
-		//}
-
-		direction = DOWN;*/
-		//UpdateSnakeMovement(-1);
-
 		Shape& head = getSnakeHead();
 		auto right = head.getRightDirection();
 		auto rotation = glm::rotate(-ROTATION_ANGLE, right);
 		auto forward = rotation * glm::vec4(head.forwardDirection, 0);
 		auto up = rotation * glm::vec4(head.upDirection, 0);
 		head.forwardDirection = glm::vec3(forward);
-		head.upDirection = glm::vec3(up);
+		head.upDirection = glm::vec3(up);*/
+		
+		pickedShape = destinationIndex;
+		shapeTransformation(zLocalTranslate, -DISTANCE_DELTA);
+
+		movementActive = true;
+		//Activate();
 	}
 
 	void IK::UpdateSnakeMovement(int dirFactor) {
-		Sleep(30);
-		//for (int i = 1; i < linksNum - 1; i++)
-		//{
-			/*
-			# Get the direction of the head after rotation
-			# Save the previous location of the head
-			# translate in that direction (might be just the Y Axis)
-			# go over the other links and replace the location with the previous
-			one (might need to copy rotation too)
-			*/
+		Sleep(50);
+		
 
 		auto prevLinkDirection = getAxisDirection(headLink, xAxis);
 
@@ -483,44 +414,42 @@ using namespace glm;
 	
 	void IK::makeIKChange()
 	{
-		distPosition=getGoalPosition();
-		tipPosition = getTipPosition(linksNum - 1);
-		auto distFromBase = distance(getBase(0), distPosition);
+		destinationPosition=getNextGoalPosition();
+		tipPosition = getTipPosition(headLink);
+		auto distFromBase = distance(getBase(0), destinationPosition);
 
 		//Check if within reach
 		//std::cout << "base_distance = " << distFromBase << std::endl;
 		//std::cout << "max_distance = " << maxDistance << std::endl;
 		auto diff = (maxDistance - delta);
 		//std::cout << "max-distance - delta = " << diff << std::endl;
-
 		// Unreachable
-		if(distFromBase >= diff)
+		/*if(distFromBase >= diff)
 		{
 			std::cout << "De-activating" << std::endl;
 			dActivate();
 			return;
-		}
+		}*/
 
 		// Rotate Links
 		calculateSnakeStep();
 
 		//Check if reached to destination
-		tipPosition = getTipPosition(linksNum - 1);
-		//distPosition = getGoalPosition();
-		
+		tipPosition = getTipPosition(headLink);
 		//std::cout << "tipPosition = " << tipPosition.x << ", " << tipPosition.y << ", " << tipPosition.z << std::endl;
 		//std::cout << "distPosition = " << distPosition.x << ", " << distPosition.y << ", "<< distPosition.z << std::endl;
 		
-		auto dist = distance(tipPosition, distPosition);
+		auto dist = distance(tipPosition, destinationPosition);
 		//std::cout << "Distance = " << dist << std::endl;
-		
-		
 		if(dist < delta)
 		{
 			std::cout << "Reached Destination!!" << std::endl;
 			dActivate();
 			return;
 		}
+
+		/*pickedShape = 0;
+		shapeTransformation(zLocalTranslate, 0.05f);*/
 	}
 
 void IK::reset_euler_angles(int shapeIndex)

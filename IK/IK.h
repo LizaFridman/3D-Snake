@@ -2,26 +2,24 @@
 #include "scene.h"
 #define EPSILON 1e-4f
 #define ROTATION_ANGLE 10.f
-#define DISTANCE_DELTA 0.09f
+#define DISTANCE_DELTA 10.f
 
 const int linksNum = 6;
 const int maximumIterations = 1;
-
+const int headLink = linksNum - 1;
 class IK : public Scene
 {
 	bool cameraMode;
 	glm::vec3 tipPosition;
-	glm::vec3 distPosition;
+	glm::vec3 destinationPosition;
 	bool isIKactive;
 	double delta;
     float maxDistance;
 	float linkLength;
-
-	int headLink;
 	//glm::mat4 prevRotate;
 	//Direction headDirection;
 public:
-	
+	bool movementActive = true;
 
 	IK(void);
 	virtual ~IK(void);

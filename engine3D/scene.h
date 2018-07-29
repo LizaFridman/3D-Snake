@@ -18,6 +18,7 @@ protected:
 
 public:
 	std::vector<Shape*> shapes;
+	int destinationIndex;
 
 	enum axis{xAxis,yAxis,zAxis};
 	enum transformations{xLocalTranslate,yLocalTranslate,zLocalTranslate,xGlobalTranslate,yGlobalTranslate,zGlobalTranslate,
@@ -55,6 +56,8 @@ public:
 	//void updateTipPosition(int indx);
 	glm::vec3 getTipPosition(int indx);
 	glm::vec3 getGoalPosition();//
+	glm::vec3 getNextGoalPosition();
+
 	glm::vec3 getAxisDirection(int indx,int axis);
 	glm::vec3 getBase(int index);
 	void restartAnglesForShape(int indx);//

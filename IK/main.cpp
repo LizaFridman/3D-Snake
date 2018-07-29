@@ -87,7 +87,10 @@ int main(int argc, char** argv)
 			Sleep(30);
 			ikScn.makeIKChange();
 		}*/
-			ikScn.calculateSnakeStep();
+		if (ikScn.movementActive) {
+			Sleep(30);
+			ikScn.makeIKChange();
+		}
 		
 			display.Clear(1.0f, 1.0f, 1.0f, 1.0f);
 			if(display.IsFullscreen())

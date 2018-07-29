@@ -49,7 +49,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_DOWN:
 			/// Go to the down of the screen
 			std::cout<< "down: "<< std::endl;
-			//ikScn.setDirectionDown();
+			ikScn.setDirectionDown();
 			//ikScn.UpdateSnakeMovement();
 			break;
 		case GLFW_KEY_SPACE:
