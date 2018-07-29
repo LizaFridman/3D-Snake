@@ -2,11 +2,11 @@
 #include "scene.h"
 #define EPSILON 1e-4f
 #define ROTATION_ANGLE 10.f
-#define DISTANCE_DELTA 15.f
+#define DISTANCE_DELTA 10.f
 
 const int linksNum = 6;
 const int maximumIterations = 1;
-
+const int headLink = linksNum - 1;
 class IK : public Scene
 {
 	bool cameraMode;
@@ -16,12 +16,10 @@ class IK : public Scene
 	double delta;
     float maxDistance;
 	float linkLength;
-
-	int headLink;
 	//glm::mat4 prevRotate;
 	//Direction headDirection;
 public:
-	
+	bool movementActive = true;
 
 	IK(void);
 	virtual ~IK(void);
