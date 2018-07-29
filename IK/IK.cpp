@@ -356,20 +356,6 @@ using namespace glm;
 		}*/
 
 		for (int i = headLink - 1; i > -1; i--) {
-			/*
-			auto tempTrans0 = shapes[i]->getTranslationMatrix(0);
-			//auto tempTrans1 = shapes[i]->getTranslationMatrix(1);
-			auto tempRotate = shapes[i]->getRotationMatrix();
-
-			shapes[i]->setTranslationMatrix(preTrans0, 0);
-			//shapes[i]->setTranslationMatrix(preTrans1, 1);
-			shapes[i]->setRotationMatrix(prevRotate);
-
-			preTrans0 = tempTrans0;
-			//preTrans1 = tempTrans1;
-			prevRotate = tempRotate;*/
-
-			//linkDirection = getAxisDirection(i+1, -1);
 			
 			auto temp = getAxisDirection(i, xAxis);
 			//shapes[i]->changeCenterOfRotation(prevCenter);
@@ -382,33 +368,7 @@ using namespace glm;
 		
 			pickedShape = 0;
 			shapeTransformation(zLocalTranslate, dirFactor * DISTANCE_DELTA);
-			/* 
-			Direction = After the rotation is done, get the NEW tip position of the head and using the base position
-			of the head we get the new direction.
-
-		//shapeTransformation(xLocalTranslate, DISTANCE_DELTA, headDirection);
-
-		/*for (int i = headLink; i > 0; i--) {
-			pickedShape = i;
-			shapeTransformation(xGlobalTranslate, DISTANCE_DELTA,snakeDirection);
-			/*switch (direction) {
-			case LEFT:
-					shapeTransformation(xGlobalTranslate, DISTANCE_DELTA);
-				break;
-			case RIGHT:
-					shapeTransformation(xGlobalTranslate, -DISTANCE_DELTA);
-				break;
-			case UP:
-					shapeTransformation(zLocalTranslate, DISTANCE_DELTA);
-				break;
-			case DOWN:
-					shapeTransformation(zLocalTranslate, -DISTANCE_DELTA);
-				break;
-			default:
-				break;
-			}*/
-			//shapes[i]->update();
-		//}
+			
 		//}
 	}
 	
