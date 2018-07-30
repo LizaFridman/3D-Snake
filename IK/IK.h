@@ -20,6 +20,7 @@ class IK : public Scene
 	//Direction headDirection;
 public:
 	bool movementActive = true;
+	int pointsCounter = 0;
 
 	IK(void);
 	virtual ~IK(void);

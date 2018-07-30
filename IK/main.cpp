@@ -2,6 +2,8 @@
 #include "display.h"
 #include "inputManager.h"
 #include <Windows.h>
+#include "vendors/imgui.h"
+#include "vendors/imgui_impl_glfw_gl3.h"
 
 void init()
 {
@@ -77,16 +79,18 @@ int main(int argc, char** argv)
 	init();	
 	//glfwSetInputMode(display.m_window,GLFW_STICKY_MOUSE_BUTTONS,1);
 	
+	/// Create GUI ///
+	ImGui::CreateContext();
+	ImGui_ImplGlfwGL3_Init(display.m_window, true);
+	// Setup style
+	ImGui::StyleColorsDark();
+	//ImGui::StyleColorsClassic();
+
+
 	while(!glfwWindowShouldClose(display.m_window))
 	{
-		//if(scn.shapes[0]->collides_with(scn.shapes[1]))
-		
-		
-		/*if(ikScn.isActive())
-		{
-			Sleep(30);
-			ikScn.makeIKChange();
-		}*/
+		ImGui_ImplGlfwGL3_NewFrame();
+
 		if (ikScn.movementActive) {
 			Sleep(30);
 			ikScn.makeIKChange();
@@ -100,10 +104,27 @@ int main(int argc, char** argv)
 				window_size_callback(display.m_window, viewport[2],viewport[3]);
 			}
 		ikScn.draw(0,0,false); //change false to true for axis in every joint
-
-		display.SwapBuffers();
 		glfwPollEvents();
-	}
 
+		auto cameraPosition = ikScn.getTipPosition(-1);
+		static float f = 0.0f;
+		ikScn.setPicked(-1);
+		float oldF = f;
+		//ikScn.shapeTransformation(ikScn.zCameraTranslate, (cameraPosition - glm::vec3(0, 0, 250)).z);
+		if (ImGui::SliderFloat("Zoom", &f, -100.0f, 100.0f)) {
+				ikScn.shapeTransformation(ikScn.zCameraTranslate, f - oldF);
+		}
+		ImGui::Text("Points: %d", ikScn.pointsCounter);
+
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		
+		ImGui::Render();
+		ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
+		display.SwapBuffers();
+		
+		
+	}
+	ImGui_ImplGlfwGL3_Shutdown();
+	ImGui::DestroyContext();
 	return 0;
 }
