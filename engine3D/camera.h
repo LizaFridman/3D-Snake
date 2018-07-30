@@ -54,6 +54,7 @@ public:
 		up = glm::vec3(glm::normalize(rotation * glm::vec4(up, 0.0)));
 	}
 
+	glm::vec3 getCameraPosition() { return this->pos; }
 protected:
 private:
 	glm::mat4 projection;

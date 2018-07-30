@@ -47,6 +47,7 @@ Shader::Shader(const std::string& fileName)
 	m_uniforms[4] = glGetUniformLocation(m_program, "Tjs");
 	m_uniforms[5] = glGetUniformLocation(m_program, "boneIndex");
 	m_uniforms[6] = glGetUniformLocation(m_program, "bonesNum");
+	m_uniforms[7] = glGetUniformLocation(m_program, "eyePosition");
 	//m_uniforms[7] = glGetUniformLocation(m_program, "u_Texture");
 }
 
@@ -66,28 +67,33 @@ void Shader::Bind()
 	GLCall(glUseProgram(m_program));
 }
 
-void Shader::Update( glm::mat4 MVP ,glm::mat4 Normal , int const shpIndx, std::vector<glm::mat4> trans, unsigned int texture)
+int r = 0;//((shpIndx+1) & 0x000000FF) >>  0;
+int g = 128.;//((shpIndx+1) & 0x0000FF00) >>  8;
+int b = 255.;
+int increment = 1;
+
+void Shader::Update(glm::mat4 MVP, glm::mat4 Normal, int const shpIndx, std::vector<glm::mat4> trans, unsigned int texture, glm::vec3 cameraPosition)
 {
 
-	
+
 	//if(Normal[0][3]>0 || Normal[3][0]>0)
 	//{
 	//	printMat(Normal);
 	//	printMat(MVP);
 	//}
-	
-	int r = ((shpIndx+1) & 0x000000FF) >>  0;
-	int g = ((shpIndx+1) & 0x0000FF00) >>  8;
-	int b = ((shpIndx+1) & 0x00FF0000) >> 16;
+
+	r = 200;//(r + increment) % 255;
+	g = 50;//(g + increment) % 255;
+	b = 0;//(b + increment) % 255;
 	GLCall(glUniformMatrix4fv(m_uniforms[0], 1, GL_FALSE, &MVP[0][0]));
 	GLCall(glUniformMatrix4fv(m_uniforms[1], 1, GL_FALSE, &Normal[0][0]));
 	GLCall(glUniform3f(m_uniforms[2], 0.0f, 0.0f, 1.0f));
-	GLCall(glUniform3f(m_uniforms[3], r/255.0f, g/255.0f, b/255.0f));
+	GLCall(glUniform3f(m_uniforms[3], r / 255.0f, g / 255.0f, b / 255.0f));
 
 	GLCall(glUniformMatrix4fv(m_uniforms[4], trans.size(), GL_FALSE, &trans[0][0][0]));
 	GLCall(glUniform1i(m_uniforms[5], shpIndx));
 	GLCall(glUniform1i(m_uniforms[6], linksNum));
-	//GLCall(glUniform1i(m_uniforms[7], texture));
+	GLCall(glUniform4f(m_uniforms[7], cameraPosition.x, cameraPosition.y, cameraPosition.z, 1));
 }
 
 std::string Shader::LoadShader(const std::string& fileName)

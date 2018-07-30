@@ -19,6 +19,7 @@ Display::Display(int width, int height, const std::string& title)
 		error = -1;
 	}
 	glfwMakeContextCurrent(m_window);
+	glfwSwapInterval(1);
 	//m_glContext = SDL_GL_CreateContext(m_window);
 
 	GLenum res = glewInit();
