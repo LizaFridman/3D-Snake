@@ -1,12 +1,15 @@
-
 #include "scene.h"
 #define EPSILON 1e-4f
 #define ROTATION_ANGLE 10.f
-#define DISTANCE_DELTA 10.f
+#define DISTANCE_DELTA 1.f
 
 const int linksNum = 6;
 const int maximumIterations = 1;
 const int headLink = linksNum - 1;
+const int numOfObsticles = 1;
+const int obsticlesFirstIndex = linksNum + 1;
+const int obsticlesLastIndex = obsticlesFirstIndex + numOfObsticles - 1;
+
 class IK : public Scene
 {
 	bool cameraMode;
@@ -20,6 +23,7 @@ class IK : public Scene
 	//Direction headDirection;
 public:
 	bool movementActive = true;
+	bool gameOver = false;
 
 	IK(void);
 	virtual ~IK(void);
@@ -32,9 +36,9 @@ public:
 	void addShape(const std::string& fileName, int parent);
 	void addShape(const std::string& fileName,const std::string& textureFileName, int parent);
 	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, int parent);
-	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,const std::string& textureFileName, int parent);
+	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,const std::string& textureFileName, int parent, ShapeType type);
 	void addShape(int CylParts,int linkPosition,int parent);
-	void addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent);
+	void addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent, ShapeType type);
 
 	void inline changeMode(){cameraMode = !cameraMode;}
 	bool inline getMode() { return cameraMode; }
@@ -59,5 +63,7 @@ public:
 	void pick_box();
 	void pick_next_box();
 	void pick_previous_box();
+
+	Shape* is_snake_collided();
 };
 

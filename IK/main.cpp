@@ -11,8 +11,8 @@ void init()
 
 int main(int argc, char** argv)
 {
-	
-	Vertex vertices[] =
+
+	Vertex boxVertices[] =
 	{
 		Vertex(glm::vec3(-1, -1, -1), glm::vec2(1, 0), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
 		Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 0), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
@@ -47,7 +47,7 @@ int main(int argc, char** argv)
 
 
 
-	unsigned int indices[] = {0, 1, 2,
+	unsigned int boxIndices[] = { 0, 1, 2,
 							  0, 2, 3,
 
 							  6, 5, 4,
@@ -64,42 +64,59 @@ int main(int argc, char** argv)
 
 							  22, 21, 20,
 							  23, 22, 20
-	                          };
+	};
 
 
-	ikScn.init(vertices,indices,sizeof(vertices)/sizeof(vertices[0]), sizeof(indices)/sizeof(indices[0]));
+	ikScn.init(boxVertices, boxIndices, sizeof(boxVertices) / sizeof(boxVertices[0]), sizeof(boxIndices) / sizeof(boxIndices[0]));
 	ikScn.addShader("./res/shaders/basicShader");
-	ikScn.addShader("./res/shaders/pickingShader");	
+	ikScn.addShader("./res/shaders/pickingShader");
 	//scn.addShape("./res/monkey3.obj","./res/grass.bmp");
 	//Shader shader("./res/basicShader");
 
 	//inputManager input = inputManager();
-	init();	
+	init();
 	//glfwSetInputMode(display.m_window,GLFW_STICKY_MOUSE_BUTTONS,1);
-	
-	while(!glfwWindowShouldClose(display.m_window))
+
+	while (!glfwWindowShouldClose(display.m_window))
 	{
 		//if(scn.shapes[0]->collides_with(scn.shapes[1]))
-		
-		
+
+
 		/*if(ikScn.isActive())
 		{
 			Sleep(30);
 			ikScn.makeIKChange();
 		}*/
-		if (ikScn.movementActive) {
+		if (ikScn.movementActive && !ikScn.gameOver) {
 			Sleep(30);
-			ikScn.makeIKChange();
+			ikScn.calculateSnakeStep();
 		}
-		
-			display.Clear(1.0f, 1.0f, 1.0f, 1.0f);
-			if(display.IsFullscreen())
-			{
-				GLint viewport[4];
-				GLCall(glfwGetFramebufferSize(display.m_window, &viewport[2], &viewport[3] ));
-				window_size_callback(display.m_window, viewport[2],viewport[3]);
+
+		auto shape = ikScn.is_snake_collided();
+		if (shape != NULL) {
+			auto type = shape->type;
+			switch (type) {
+				case OBSTICLE_BOX:
+					ikScn.gameOver = true;
+					break;
+				case INVISIBLE:
+				case SNAKE_LINK:
+				default:
+					break;
 			}
-		ikScn.draw(0,0,false); //change false to true for axis in every joint
+
+			std::cout << "Skane collided with Shape Type = " << type << std::endl;
+		}
+
+		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);
+		if (display.IsFullscreen())
+		{
+			GLint viewport[4];
+			GLCall(glfwGetFramebufferSize(display.m_window, &viewport[2], &viewport[3]));
+			window_size_callback(display.m_window, viewport[2], viewport[3]);
+		}
+
+		ikScn.draw(0, 0, false);
 
 		display.SwapBuffers();
 		glfwPollEvents();

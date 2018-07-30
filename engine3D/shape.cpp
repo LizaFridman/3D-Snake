@@ -38,11 +38,12 @@ Shape::Shape(LineVertex* vertices, unsigned int numVertices, unsigned int* indic
 }
 
 
-Shape::Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,const std::string& textureFileName)
+Shape::Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,const std::string& textureFileName, ShapeType newType)
 {
 	mesh = new Mesh(vertices,numVertices,indices,numIndices);
 	tex = new Texture(textureFileName);
 	isCopy = false;
+	type = newType;
 }
 
 	Shape::Shape(int CylParts,int linkPosition)
@@ -51,13 +52,13 @@ Shape::Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, 
 		tex = 0; 
 		isCopy = false;
 	}
-	Shape::Shape(int CylParts,int linkPosition,const std::string& textureFileName)
+	Shape::Shape(int CylParts,int linkPosition,const std::string& textureFileName, ShapeType newType)
 	{
 		mesh = new Mesh(CylParts,linkPosition);
 		tex = new Texture(textureFileName); 
 		isCopy = false;
-
-		//this->surrounding_box = create_box(mesh->tree.getRoot(), glm::vec3(0.0f, 0.0f, 1.0f));
+		type = newType;
+		//surrounding_box = create_box(mesh->tree.getRoot(), glm::vec3(0.0f, 0.0f, 1.0f));
 	}
 
 void Shape::addMesh(Vertex* vertices, unsigned int numVertices,unsigned int* indices, unsigned int numIndices, const std::string& textureFileName)

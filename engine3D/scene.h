@@ -29,9 +29,9 @@ public:
 	void addShape(const std::string& fileName,int parent);
 	void addShape(const std::string& fileName,const std::string& textureFileName,int parent);
 	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,int parent);
-	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,const std::string& textureFileName,int parent);
+	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,const std::string& textureFileName,int parent, ShapeType type);
 	void addShape(int Cyparts,int linkPosition,int parent);
-	void addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent);
+	void addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent, ShapeType type);
 	
 	void addShader(const std::string& fileName);
 	std::vector<Shape*> GetShapes() { return shapes; }
@@ -39,7 +39,7 @@ public:
 
 	glm::mat4 GetViewProjection(int indx) const;
 	glm::mat4 GetShapeTransformation() const;
-	void draw(int shaderIndx,int cameraIndx,bool drawAxis);
+	void draw(int shaderIndx, int cameraIndx, bool drawAxis);
 	
 	void shapeLocalTranslation(glm::vec3& v, int indx);
 	void shapeTransformation(int type,float amt);
