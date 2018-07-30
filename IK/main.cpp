@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include "vendors/imgui.h"
 #include "vendors/imgui_impl_glfw_gl3.h"
+#pragma comment(lib, "winmm.lib")
 
 void renderGUI();
 
@@ -77,6 +78,8 @@ int main(int argc, char** argv)
 	ikScn.addShader("./res/shaders/pickingShader");	
 	//scn.addShape("./res/monkey3.obj","./res/grass.bmp");
 	//Shader shader("./res/basicShader");
+
+	PlaySound("./res/sound/Fantasy Game Loop.wav", NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
 
 	//inputManager input = inputManager();
 	init();	

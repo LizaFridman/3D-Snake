@@ -112,6 +112,9 @@
     <ClInclude Include="vendors\stb_textedit.h" />
     <ClInclude Include="vendors\stb_truetype.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="res\sound\Fantasy Game Loop.wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
