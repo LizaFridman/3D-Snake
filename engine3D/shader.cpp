@@ -66,7 +66,7 @@ void Shader::Bind()
 	GLCall(glUseProgram(m_program));
 }
 
-void Shader::Update( glm::mat4 MVP ,glm::mat4 Normal , int const shpIndx, std::vector<glm::mat4> trans, int texture)
+void Shader::Update( glm::mat4 MVP ,glm::mat4 Normal , int const shpIndx, std::vector<glm::mat4> trans, unsigned int texture)
 {
 
 	

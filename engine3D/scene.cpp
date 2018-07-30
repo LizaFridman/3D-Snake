@@ -146,9 +146,9 @@ Vertex axisVertices[] =
 			shaders[shaderIndx]->Update(MVP1,Normal1,i, trans, shapes[i]->getTexture());
 			//shaders[shaderIndx]->Update(MVP1,Normal1,cameras[0]->GetPos(), i, transformations);
 
-			//if (i != destinationIndex) {
+			if (i != destinationIndex) {
 				shapes[i]->draw(GL_TRIANGLES);
-			//}
+			}
 			/*else 
 				shapes[i]->draw(GL_TRIANGLES);*/
 		}

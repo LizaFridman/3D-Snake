@@ -404,6 +404,7 @@ using namespace glm;
 		if(dist < delta)
 		{
 			std::cout << "Reached Destination!!" << std::endl;
+			pointsCounter++;
 			dActivate();
 			return;
 		}
