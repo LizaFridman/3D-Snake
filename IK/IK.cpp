@@ -81,6 +81,7 @@ using namespace glm;
 		setParent(headLink, headLink - 1);
 
 		pickedShape = 0;
+		shapeTransformation(zGlobalTranslate, -10.0);
 		// distination point
 
 		//addShape(0,"./res/textures/box0.bmp",-1);
@@ -97,12 +98,18 @@ using namespace glm;
 		/// Grass ///
 		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/grass.bmp", -1);
 		pickedShape = grassIndex;
-
+		auto width= 160, height= 120;
 		shapeTransformation(yGlobalTranslate, -5);
-		shapeTransformation(zScale, 100);
-		shapeTransformation(xScale, 120);
+		shapeTransformation(zScale, height);
+		shapeTransformation(xScale, width);
 		
-		
+		/// Grass ///
+		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1);
+		pickedShape = caveIndex;
+		shapeTransformation(zGlobalTranslate, height/2);
+		//shapeTransformation(xGlobalTranslate, width/2);
+		shapeTransformation(zScale, scaleFactor*2);
+		shapeTransformation(xScale, scaleFactor*4);
 
 		pickedShape = 0;
 		tipPosition = getTipPosition(headLink);
