@@ -54,7 +54,7 @@ using namespace glm;
 		//myRotate(90.0f, vec3(0, 0, 1), -1);
 		pickedShape = -1;
 		shapeTransformation(yCameraTranslate, 100.f);
-		shapeTransformation(zCameraTranslate,250.f);
+		shapeTransformation(zCameraTranslate, 250.f);
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
 		cameraOriginalPosition = GetCameras()[0]->getCameraPosition();
 
@@ -92,25 +92,67 @@ using namespace glm;
 		shapeTransformation(xScale, 0.5);
 		shapeTransformation(yScale, 0.5);
 		shapeTransformation(zScale, 0.5);
-		//shapeTransformation(xGlobalTranslate, -8.0f);
-		//shapeTransformation(yGlobalTranslate, -3.0f);
 		shapeTransformation(zGlobalTranslate, (linksNum + 3) * 4.0f);
+
 		/// Grass ///
 		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/grass.bmp", -1);
 		pickedShape = grassIndex;
-		auto width= 160, height= 120;
+		auto width = 160, height = 120;
 		shapeTransformation(yGlobalTranslate, -5);
 		shapeTransformation(zScale, height);
 		shapeTransformation(xScale, width);
-		
-		/// Grass ///
+
+		/// Cave ///
 		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1);
 		pickedShape = caveIndex;
-		shapeTransformation(zGlobalTranslate, height/2);
+		shapeTransformation(zGlobalTranslate, height / 2 - 10.);
 		//shapeTransformation(xGlobalTranslate, width/2);
-		shapeTransformation(zScale, scaleFactor*2);
-		shapeTransformation(xScale, scaleFactor*4);
+		shapeTransformation(zScale, scaleFactor * 2);
+		shapeTransformation(xScale, scaleFactor * 4);
+		shapeTransformation(yScale, scaleFactor * 2);
 
+		/// Obsticles ///
+		for (int i = obsticlesFirstIndex; i <= obsticlesLastIndex; i++) {
+			addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_NRM.bmp", -1);
+			pickedShape = i;
+			auto xRand = -(width / 2) + rand() / (RAND_MAX / (width));
+			auto zRand = -(height / 2) + rand() / (RAND_MAX / (height));
+			shapeTransformation(xGlobalTranslate, xRand);
+			shapeTransformation(zGlobalTranslate, zRand);
+
+			shapeTransformation(xScale, scaleFactor);
+			shapeTransformation(yScale, scaleFactor);
+			shapeTransformation(zScale, scaleFactor);
+		}
+
+		/// Walls ///
+
+		/// North
+		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1);
+		pickedShape++;
+		shapeTransformation(zGlobalTranslate, height / 2);
+		shapeTransformation(xScale, scaleFactor*(width / 2));
+		shapeTransformation(zScale, scaleFactor*2);
+		/// South
+		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1);
+		pickedShape++;
+		shapeTransformation(zGlobalTranslate, -height/1.2);
+		shapeTransformation(xScale, scaleFactor*(width / 2));
+		shapeTransformation(zScale, scaleFactor * 2);
+		/// East
+		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1);
+		pickedShape++;
+		shapeTransformation(xGlobalTranslate, -width / 1.3);
+		shapeTransformation(zScale, scaleFactor*(height / 2));
+		shapeTransformation(xScale, scaleFactor * 2);
+		/// West
+		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1);
+		pickedShape++;
+		shapeTransformation(xGlobalTranslate, width / 1.3);
+		shapeTransformation(zScale, scaleFactor*(height / 2));
+		shapeTransformation(xScale, scaleFactor * 2);
+
+		////////////////////////////////////////
 		pickedShape = 0;
 		tipPosition = getTipPosition(headLink);
 		maxDistance = length(tipPosition);
