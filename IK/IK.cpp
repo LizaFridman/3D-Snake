@@ -73,7 +73,7 @@ using namespace glm;
 			setParent(i, i - 1);
 		}
 
-		addShape(0, 3, "./res/textures/Green-Barbed.bmp", -1);
+		addShape(0, 3, "./res/textures/Tiger_Tiled_bmp.bmp", -1);
 		pickedShape = headLink;
 		shapeTransformation(zScale, scaleFactor);
 
@@ -276,7 +276,7 @@ using namespace glm;
 		head.forwardDirection = glm::vec3(velDir);*/
 
 		pickedShape = destinationIndex;
-		shapeTransformation(xLocalTranslate, -DISTANCE_DELTA*2);
+		shapeTransformation(xGlobalTranslate, -DISTANCE_DELTA*2);
 
 		movementActive = true;
 		//Activate();
@@ -291,7 +291,7 @@ using namespace glm;
 		head.forwardDirection = glm::vec3(velDir);*/
 
 		pickedShape = destinationIndex;
-		shapeTransformation(xLocalTranslate, DISTANCE_DELTA*2);
+		shapeTransformation(xGlobalTranslate, DISTANCE_DELTA*2);
 
 		movementActive = true;
 		//Activate();
@@ -309,7 +309,7 @@ using namespace glm;
 		head.upDirection = glm::vec3(up);*/
 		
 		pickedShape = destinationIndex;
-		shapeTransformation(zLocalTranslate, DISTANCE_DELTA);
+		shapeTransformation(zGlobalTranslate, DISTANCE_DELTA);
 		//calculateSnakeStep();
 
 		movementActive = true;
@@ -328,7 +328,7 @@ using namespace glm;
 		head.upDirection = glm::vec3(up);*/
 		
 		pickedShape = destinationIndex;
-		shapeTransformation(zLocalTranslate, -DISTANCE_DELTA);
+		shapeTransformation(zGlobalTranslate, -DISTANCE_DELTA);
 
 		movementActive = true;
 		//Activate();
@@ -409,9 +409,17 @@ using namespace glm;
 			dActivate();
 			return;
 		}
-
-		/*pickedShape = 0;
-		shapeTransformation(zLocalTranslate, 0.05f);*/
+/*
+		if (headView) {
+			auto headPoint = getTipPosition(headLink);
+			ikScn.GetCameras()[0]->setCameraPosition(glm::vec3(headPoint.x, headPoint.y, headPoint.z + 5));
+			ikScn.GetCameras()[0]->setForward(glm::vec3(0, 1, 1));
+		}
+		else  {
+			auto headPoint = getTipPosition(headLink);
+			GetCameras()[0]->setCameraPosition(glm::vec3(headPoint.x, headPoint.y, headPoint.z + 50));
+			ikScn.GetCameras()[0]->setForward(glm::vec3(0, 0, 1));
+		}*/
 	}
 
 void IK::reset_euler_angles(int shapeIndex)

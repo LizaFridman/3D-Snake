@@ -19,6 +19,7 @@ void main()
     //gl_FragColor = clamp(vec4(color0,1.0), 0.0, 1.0);//clamp(texColor,0.0,1.0);
 
 	//gl_FragColor = texture2D(u_Texture, texCoord0) * clamp(vec4(color0,1.0), 0.0, 1.0);;
-	FragColor = clamp(vec4(lightIntensity0 + texColor, 1.0), 0.0, 1.0);
+	vec3 finalColor = texColor;//lightIntensity0 + texColor;
+	FragColor = clamp(vec4(finalColor, 1.0), 0.0, 1.0);
 
 }
