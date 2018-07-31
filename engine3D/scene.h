@@ -6,17 +6,19 @@
 
 class Scene : public MovableGLM
 {
+protected:
 	std::vector<Shader*> shaders;
 	std::vector<Camera*> cameras; //light will have the properties of camera
-	
+
 	Shape *axisMesh;
-	
-protected:
+
 	std::vector<int> chainParents;
 	int pickedShape;
 	static const int scaleFactor = 3;
 
+
 public:
+	bool headView = 0;
 	std::vector<Shape*> shapes;
 	int destinationIndex;
 	glm::vec3 cameraOriginalPosition;

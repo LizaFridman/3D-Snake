@@ -16,6 +16,10 @@ public:
 		this->fov = fov;
 	}
 
+	void setForward(glm::vec3 normal) {
+		this->forward = normal;
+	}
+
 	void setProjection( float aspect, float zNear, float zFar)
 	{
 		this->projection = glm::perspective(fov,aspect, zNear, zFar);
