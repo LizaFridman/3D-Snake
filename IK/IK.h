@@ -9,6 +9,7 @@ const int maximumIterations = 1;
 const int headLink = linksNum - 1;
 
 const int grassIndex = linksNum + 1;
+const int caveIndex = grassIndex + 1;
 
 class IK : public Scene
 {
