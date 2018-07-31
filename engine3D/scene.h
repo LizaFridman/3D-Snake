@@ -19,6 +19,7 @@ protected:
 public:
 	std::vector<Shape*> shapes;
 	int destinationIndex;
+	glm::vec3 cameraOriginalPosition;
 
 	enum axis{xAxis,yAxis,zAxis};
 	enum transformations{xLocalTranslate,yLocalTranslate,zLocalTranslate,xGlobalTranslate,yGlobalTranslate,zGlobalTranslate,
