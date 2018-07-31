@@ -157,17 +157,17 @@ void renderGUI() {
 		ikScn.shapeTransformation(ikScn.yCameraTranslate, change_y);
 		ikScn.shapeTransformation(ikScn.zCameraTranslate, change_z);*/
 		
-		auto headPoint = ikScn.getBase(headLink);
+		auto headPoint = ikScn.shapes[headLink]->getCenterOfRotation(glm::mat4(1));
 		ikScn.GetCameras()[0]->setCameraPosition(glm::vec3(headPoint.x, headPoint.y, headPoint.z - 5));
-		//auto dir = glm::normalize(ikScn.getTipPosition(headLink) - ikScn.getBase(headLink));
-		ikScn.GetCameras()[0]->setForward(glm::vec3(0, 1, 1));
+		auto dir = glm::normalize(ikScn.getTipPosition(headLink) - ikScn.getBase(headLink));
+		ikScn.GetCameras()[0]->setForward(glm::vec3(dir.x, dir.y, dir.z));
 	}
 
 	ImGui::SameLine();
 	if (ImGui::Button("Sky View")) {
-		auto headPoint = ikScn.getBase(headLink);
+		auto headPoint = ikScn.shapes[headLink]->getCenterOfRotation(glm::mat4(1));
 		ikScn.GetCameras()[0]->setCameraPosition(glm::vec3(headPoint.x, headPoint.y, headPoint.z - 50));
-		ikScn.GetCameras()[0]->setForward(glm::vec3(0, 0,  1));
+		ikScn.GetCameras()[0]->setForward(glm::vec3(0., 0.,  1.));
 	}
 	auto cameraPosition = ikScn.GetCameras()[0]->getCameraPosition();
 	ImGui::Text("Camera Position: x = %.2f, y = %.2f, z = %.2f", cameraPosition.x, cameraPosition.y, cameraPosition.z);
