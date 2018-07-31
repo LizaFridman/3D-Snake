@@ -158,7 +158,7 @@ void renderGUI() {
 		ikScn.shapeTransformation(ikScn.zCameraTranslate, change_z);*/
 		
 		auto headPoint = ikScn.shapes[headLink]->getCenterOfRotation(glm::mat4(1));
-		ikScn.GetCameras()[0]->setCameraPosition(glm::vec3(headPoint.x, headPoint.y, headPoint.z - 5));
+		ikScn.GetCameras()[0]->setCameraPosition(glm::vec3(headPoint.x, headPoint.y, headPoint.z + 5));
 		auto dir = glm::normalize(ikScn.getTipPosition(headLink) - ikScn.getBase(headLink));
 		ikScn.GetCameras()[0]->setForward(glm::vec3(dir.x, dir.y, dir.z));
 	}

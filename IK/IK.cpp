@@ -94,10 +94,17 @@ using namespace glm;
 		//shapeTransformation(xGlobalTranslate, -8.0f);
 		//shapeTransformation(yGlobalTranslate, -3.0f);
 		shapeTransformation(zGlobalTranslate, (linksNum + 3) * 4.0f);
+		/// Grass ///
+		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/grass.bmp", -1);
+		pickedShape = grassIndex;
+
+		shapeTransformation(yGlobalTranslate, -5);
+		shapeTransformation(zScale, 100);
+		shapeTransformation(xScale, 120);
+		
+		
+
 		pickedShape = 0;
-
-		//distPosition = getGoalPosition();
-
 		tipPosition = getTipPosition(headLink);
 		maxDistance = length(tipPosition);
 		linkLength = maxDistance / linksNum;

@@ -4,7 +4,7 @@
 
 const int DISPLAY_WIDTH = 1200;
 const int DISPLAY_HEIGHT = 800;
-const float FAR = 100.0f;
+const float FAR = 500.0f;
 const float NEAR = 1.0f;
 const float CAM_ANGLE = 60.0f;
 float relation = (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT;

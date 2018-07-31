@@ -7,6 +7,9 @@
 const int linksNum = 6;
 const int maximumIterations = 1;
 const int headLink = linksNum - 1;
+
+const int grassIndex = linksNum + 1;
+
 class IK : public Scene
 {
 	bool cameraMode;
@@ -21,6 +24,9 @@ class IK : public Scene
 public:
 	bool movementActive = true;
 	int pointsCounter = 0;
+
+	int displayWidth = 1200;
+	int displayHeight = 800;
 
 	IK(void);
 	virtual ~IK(void);

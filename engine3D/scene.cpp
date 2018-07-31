@@ -40,7 +40,7 @@ Vertex axisVertices[] =
 	{
 		glLineWidth(3);
 		cameraOriginalPosition = vec3(0, 0, -20.0f);
-		cameras.push_back(new Camera(cameraOriginalPosition,60.0f,1.0f,0.1f,100.0f));
+		cameras.push_back(new Camera(cameraOriginalPosition,60.0f,1.0f,1.f,500.0f));
 		pickedShape = -1;
 		
 	}
