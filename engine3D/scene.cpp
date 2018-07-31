@@ -39,8 +39,8 @@ Vertex axisVertices[] =
 	Scene::Scene()
 	{
 		glLineWidth(3);
-		
-		cameras.push_back(new Camera(vec3(0,0,-20.0f),60.0f,1.0f,0.1f,100.0f));
+		cameraOriginalPosition = vec3(0, 0, -20.0f);
+		cameras.push_back(new Camera(cameraOriginalPosition,60.0f,1.0f,0.1f,100.0f));
 		pickedShape = -1;
 		
 	}

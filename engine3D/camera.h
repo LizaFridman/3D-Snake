@@ -55,6 +55,10 @@ public:
 	}
 
 	glm::vec3 getCameraPosition() { return this->pos; }
+	void setCameraPosition(glm::vec3 newPosition) {
+		this->pos = newPosition;
+	}
+
 protected:
 private:
 	glm::mat4 projection;

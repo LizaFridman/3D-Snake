@@ -56,6 +56,7 @@ using namespace glm;
 		shapeTransformation(yCameraTranslate, 100.f);
 		shapeTransformation(zCameraTranslate,250.f);
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
+		cameraOriginalPosition = GetCameras()[0]->getCameraPosition();
 
 		addShape(0, 2, "./res/textures/Green-Barbed.bmp", -1);
 		//shapeTransformation(xLocalRotate, -90.f);
