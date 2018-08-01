@@ -125,14 +125,14 @@ Vertex axisVertices[] =
 			
 			if(shaderIndx==0 && drawAxis && chainParents[i]>=0)
 			{
-				shaders[shaderIndx]->Update(axisMesh->makeTransScale(MVP1), axisMesh->makeTransScale(Normal1), 0, trans, 0, cameras[viewIndex]->getCameraPosition());
+				shaders[shaderIndx]->Update(axisMesh->makeTransScale(MVP1), axisMesh->makeTransScale(Normal1), 0, trans, 0, cameras[viewIndex]->getCameraPosition(), sceneColor);
 				axisMesh->draw(GL_LINES);
 			}
 
 			MVP1 = MVP1 * shapes[i]->makeTransScale(mat4(1));
 			Normal1 = Normal1 * shapes[i]->makeTrans();
 			trans.push_back(MVP1);
-			shaders[shaderIndx]->Update(MVP1,Normal1,i, trans, shapes[i]->getTexture(), cameras[viewIndex]->getCameraPosition());
+			shaders[shaderIndx]->Update(MVP1,Normal1,i, trans, shapes[i]->getTexture(), cameras[viewIndex]->getCameraPosition(), sceneColor);
 			//shaders[shaderIndx]->Update(MVP1,Normal1,cameras[0]->GetPos(), i, transformations);
 
 			if (shapes[i]->type != INVISIBLE) {
@@ -144,7 +144,7 @@ Vertex axisVertices[] =
 		if(shaderIndx==0 )
 		{
 			shaders[shaderIndx]->Bind();
-			shaders[shaderIndx]->Update(cameras[viewIndex]->GetViewProjection()*scale(vec3(10,10,10)),Normal*scale(vec3(10,10,10)),0, trans, 0, cameras[viewIndex]->getCameraPosition());
+			shaders[shaderIndx]->Update(cameras[viewIndex]->GetViewProjection()*scale(vec3(10,10,10)),Normal*scale(vec3(10,10,10)),0, trans, 0, cameras[viewIndex]->getCameraPosition(),sceneColor);
 			//shaders[shaderIndx]->Update(cameras[0]->GetViewProjection()*scale(vec3(10, 10, 10)), Normal*scale(vec3(10, 10, 10)), cameras[0]->GetPos(), 0, transformations);
 			axisMesh->draw(GL_LINES);
 		}

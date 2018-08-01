@@ -76,13 +76,6 @@
     <ClCompile Include="res\vendors\imgui_demo.cpp" />
     <ClCompile Include="res\vendors\imgui_draw.cpp" />
     <ClCompile Include="res\vendors\imgui_impl_glfw_gl3.cpp" />
-    <ClCompile Include="vendors\imgui.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="vendors\imgui_demo.cpp" />
-    <ClCompile Include="vendors\imgui_draw.cpp" />
-    <ClCompile Include="vendors\imgui_impl_glfw_gl3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\display\display.vcxproj">
@@ -101,16 +94,6 @@
     <ClInclude Include="res\vendors\stb_rect_pack.h" />
     <ClInclude Include="res\vendors\stb_textedit.h" />
     <ClInclude Include="res\vendors\stb_truetype.h" />
-    <ClInclude Include="vendors\imconfig.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="vendors\imgui.h" />
-    <ClInclude Include="vendors\imgui_impl_glfw_gl3.h" />
-    <ClInclude Include="vendors\imgui_internal.h" />
-    <ClInclude Include="vendors\stb_rect_pack.h" />
-    <ClInclude Include="vendors\stb_textedit.h" />
-    <ClInclude Include="vendors\stb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="res\sound\Fantasy Game Loop.wav" />
