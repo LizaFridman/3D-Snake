@@ -13,11 +13,17 @@ const int obsticlesFirstIndex = caveIndex + 1;
 const int numOfObsticles = 6;
 const int obsticlesLastIndex = obsticlesFirstIndex + numOfObsticles - 1;
 
+const int foodFirstIndex = obsticlesLastIndex + 1;
+const int numOfFood = 3;
+const int foodLastIndex = foodFirstIndex + numOfFood - 1;
+/////
+const int skyViewIndex = 0;
+const int snakeViewIndex = 1;
+
 class IK : public Scene
 {
 	bool cameraMode;
 	glm::vec3 tipPosition;
-	glm::vec3 destinationPosition;
 	bool isIKactive;
 	double delta;
     float maxDistance;
@@ -35,7 +41,8 @@ public:
 	IK(void);
 	virtual ~IK(void);
 	IK(glm::vec3 position,float angle,float hwRelation,float near, float far);
-	
+	void changeCamera();
+	void update_movement();
 	void init(Vertex *vertices,unsigned int *indices,int verticesSize,int indicesSize);
 	//void buildLevel();
 
@@ -51,7 +58,7 @@ public:
 	bool inline getMode() { return cameraMode; }
 	
 	void IK::UpdateSnakeMovement(int dirFactor);
-	void makeIKChange();
+	void chaneScene();
 	
 	void reset_euler_angles(int shapeIndex);
 	void calculateSnakeStep();

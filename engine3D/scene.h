@@ -9,7 +9,6 @@ class Scene : public MovableGLM
 protected:
 	std::vector<Shader*> shaders;
 	std::vector<Camera*> cameras; //light will have the properties of camera
-
 	Shape *axisMesh;
 
 	std::vector<int> chainParents;
@@ -18,10 +17,11 @@ protected:
 
 
 public:
-	bool headView = 0;
+	int viewIndex = 0;
 	std::vector<Shape*> shapes;
 	int destinationIndex;
 	glm::vec3 cameraOriginalPosition;
+	glm::vec3 destinationPosition;
 
 	enum axis{xAxis,yAxis,zAxis};
 	enum transformations{xLocalTranslate,yLocalTranslate,zLocalTranslate,xGlobalTranslate,yGlobalTranslate,zGlobalTranslate,

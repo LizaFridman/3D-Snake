@@ -5,7 +5,7 @@
 #include "texture.h"
 #include "kdtree.h"
 
-enum ShapeType { SNAKE_LINK, OBSTICLE_BOX , INVISIBLE};
+enum ShapeType { SNAKE_LINK, OBSTICLE_BOX, FOOD, WALL, FLOOR, CAVE, INVISIBLE };
 
 class Shape : public MovableGLM
 {

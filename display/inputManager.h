@@ -73,6 +73,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		}
 		//ikScn.UpdateSnakeMovement();
 	}
+	else {
+		ikScn.destinationPosition = glm::vec3(0, 0, 100);
+		ikScn.movementActive = true;
+	}
 }
 	
 	void updatePosition(double xpos, double ypos)
