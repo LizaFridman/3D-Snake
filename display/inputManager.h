@@ -4,7 +4,7 @@
 
 const int DISPLAY_WIDTH = 1200;
 const int DISPLAY_HEIGHT = 800;
-const float FAR = 100.0f;
+const float FAR = 500.0f;
 const float NEAR = 1.0f;
 const float CAM_ANGLE = 60.0f;
 float relation = (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT;
@@ -52,36 +52,21 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			ikScn.setDirectionDown();
 			//ikScn.UpdateSnakeMovement();
 			break;
-		case GLFW_KEY_SPACE:
-			// Starts and stops the IK Solver
-			//ikScn.isActive() ? ikScn.dActivate() : ikScn.Activate();
-			//std::cout<< "change direction "<<std::endl;
-			//scn.changeDirection();
+		case GLFW_KEY_D:
+			ikScn.setPicked(0);
+			ikScn.shapeTransformation(ikScn.xGlobalTranslate, -1.f);
 			break;
-		case GLFW_KEY_B:
-			// Pick the box if it's not picked, else - pick the first link.
-			// The first link is picked by default
-			//ikScn.pick_box();
+		case GLFW_KEY_A:
+			ikScn.setPicked(0);
+			ikScn.shapeTransformation(ikScn.xGlobalTranslate, 1.f);
 			break;
-		case GLFW_KEY_N:
-			// Change the picked link to the next one (modulu)
-			//ikScn.pick_next_box();
+		case GLFW_KEY_W:
+			ikScn.setPicked(0);
+			ikScn.shapeTransformation(ikScn.zGlobalTranslate, 1.f);
 			break;
-		case GLFW_KEY_P:
-			// Change the picked linke to the previous one (modulu)
-			//ikScn.pick_previous_box();
-			break;
-		case GLFW_KEY_C:
-			// Camera Mode - in this mode the arrows will rotate
-			// the camera around the origin of the scene
-			/*ikScn.changeMode();
-			if(ikScn.getMode())
-			{
-				ikScn.setPicked(linksNum);
-			}else
-			{
-				ikScn.setPicked(0);
-			}*/
+		case GLFW_KEY_S:
+			ikScn.setPicked(0);
+			ikScn.shapeTransformation(ikScn.zGlobalTranslate, -1.f);
 			break;
 		default:
 			break;

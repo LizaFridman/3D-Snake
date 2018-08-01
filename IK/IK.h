@@ -6,8 +6,11 @@
 const int linksNum = 6;
 const int maximumIterations = 1;
 const int headLink = linksNum - 1;
-const int numOfObsticles = 1;
-const int obsticlesFirstIndex = linksNum + 1;
+const int grassIndex = linksNum + 1;
+const int caveIndex = grassIndex + 1;
+
+const int obsticlesFirstIndex = caveIndex + 1;
+const int numOfObsticles = 6;
 const int obsticlesLastIndex = obsticlesFirstIndex + numOfObsticles - 1;
 
 class IK : public Scene
@@ -23,6 +26,10 @@ class IK : public Scene
 	//Direction headDirection;
 public:
 	bool movementActive = true;
+	int pointsCounter = 0;
+
+	int displayWidth = 1200;
+	int displayHeight = 800;
 	bool gameOver = false;
 
 	IK(void);

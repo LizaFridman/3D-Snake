@@ -39,8 +39,8 @@ Vertex axisVertices[] =
 	Scene::Scene()
 	{
 		glLineWidth(3);
-		
-		cameras.push_back(new Camera(vec3(0,0,-20.0f),60.0f,1.0f,0.1f,100.0f));
+		cameraOriginalPosition = vec3(0, 0, -20.0f);
+		cameras.push_back(new Camera(cameraOriginalPosition,60.0f,1.0f,1.f,500.0f));
 		pickedShape = -1;
 		
 	}
@@ -136,14 +136,14 @@ Vertex axisVertices[] =
 			
 			if(shaderIndx==0 && drawAxis && chainParents[i]>=0)
 			{
-				shaders[shaderIndx]->Update(axisMesh->makeTransScale(MVP1), axisMesh->makeTransScale(Normal1), 0, trans, 0);
+				shaders[shaderIndx]->Update(axisMesh->makeTransScale(MVP1), axisMesh->makeTransScale(Normal1), 0, trans, 0, cameras[0]->getCameraPosition());
 				axisMesh->draw(GL_LINES);
 			}
 
 			MVP1 = MVP1 * shapes[i]->makeTransScale(mat4(1));
 			Normal1 = Normal1 * shapes[i]->makeTrans();
 			trans.push_back(MVP1);
-			shaders[shaderIndx]->Update(MVP1,Normal1,i, trans, shapes[i]->getTexture());
+			shaders[shaderIndx]->Update(MVP1,Normal1,i, trans, shapes[i]->getTexture(), cameras[0]->getCameraPosition());
 			//shaders[shaderIndx]->Update(MVP1,Normal1,cameras[0]->GetPos(), i, transformations);
 
 			if (shapes[i]->type != INVISIBLE) {
@@ -155,7 +155,7 @@ Vertex axisVertices[] =
 		if(shaderIndx==0 )
 		{
 			shaders[shaderIndx]->Bind();
-			shaders[shaderIndx]->Update(cameras[0]->GetViewProjection()*scale(vec3(10,10,10)),Normal*scale(vec3(10,10,10)),0, trans, 0);
+			shaders[shaderIndx]->Update(cameras[0]->GetViewProjection()*scale(vec3(10,10,10)),Normal*scale(vec3(10,10,10)),0, trans, 0, cameras[0]->getCameraPosition());
 			//shaders[shaderIndx]->Update(cameras[0]->GetViewProjection()*scale(vec3(10, 10, 10)), Normal*scale(vec3(10, 10, 10)), cameras[0]->GetPos(), 0, transformations);
 			axisMesh->draw(GL_LINES);
 		}

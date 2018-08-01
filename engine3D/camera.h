@@ -16,6 +16,14 @@ public:
 		this->fov = fov;
 	}
 
+	void setForward(glm::vec3 normal) {
+		this->forward = normal;
+	}
+
+	void setUp(glm::vec3 normal) {
+		this->up = normal;
+	}
+
 	void setProjection( float aspect, float zNear, float zFar)
 	{
 		this->projection = glm::perspective(fov,aspect, zNear, zFar);
@@ -52,6 +60,11 @@ public:
 
 		forward = glm::vec3(glm::normalize(rotation * glm::vec4(forward, 0.0)));
 		up = glm::vec3(glm::normalize(rotation * glm::vec4(up, 0.0)));
+	}
+
+	glm::vec3 getCameraPosition() { return this->pos; }
+	void setCameraPosition(glm::vec3 newPosition) {
+		this->pos = newPosition;
 	}
 
 protected:

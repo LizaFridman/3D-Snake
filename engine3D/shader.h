@@ -11,7 +11,7 @@ public:
 	Shader(const std::string& fileName);
 
 	void Bind();
-	void Update(glm::mat4 MVP, glm::mat4 Normal, int const shpIndx, std::vector<glm::mat4> trans, int texture);
+	void Update(glm::mat4 MVP, glm::mat4 Normal, int const shpIndx, std::vector<glm::mat4> trans, unsigned int texture, glm::vec3 cameraPosition);
 
 	virtual ~Shader();
 protected:
