@@ -17,8 +17,8 @@ void init()
 
 int main(int argc, char** argv)
 {
-	
-	Vertex vertices[] =
+
+	Vertex boxVertices[] =
 	{
 		Vertex(glm::vec3(-1, -1, -1), glm::vec2(1, 0), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
 		Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 0), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 
 
 
-	unsigned int indices[] = {0, 1, 2,
+	unsigned int boxIndices[] = { 0, 1, 2,
 							  0, 2, 3,
 
 							  6, 5, 4,
@@ -70,21 +70,21 @@ int main(int argc, char** argv)
 
 							  22, 21, 20,
 							  23, 22, 20
-	                          };
+	};
 
 
-	ikScn.init(vertices,indices,sizeof(vertices)/sizeof(vertices[0]), sizeof(indices)/sizeof(indices[0]));
+	ikScn.init(boxVertices, boxIndices, sizeof(boxVertices) / sizeof(boxVertices[0]), sizeof(boxIndices) / sizeof(boxIndices[0]));
 	ikScn.addShader("./res/shaders/basicShader");
-	ikScn.addShader("./res/shaders/pickingShader");	
+	ikScn.addShader("./res/shaders/pickingShader");
 	//scn.addShape("./res/monkey3.obj","./res/grass.bmp");
 	//Shader shader("./res/basicShader");
 
 	PlaySound("./res/sound/Fantasy Game Loop.wav", NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
 
 	//inputManager input = inputManager();
-	init();	
+	init();
 	//glfwSetInputMode(display.m_window,GLFW_STICKY_MOUSE_BUTTONS,1);
-	
+  
 	/// Create GUI ///
 	//GLFWwindow* menuWindow = glfwCreateWindow(1280, 720, "Snake Menu", NULL, NULL);
 	ImGui::CreateContext();
@@ -105,7 +105,27 @@ int main(int argc, char** argv)
 			Sleep(50);
 			ikScn.makeIKChange();
 		}
-		
+	
+		if (ikScn.movementActive && !ikScn.gameOver) {
+			Sleep(30);
+			ikScn.calculateSnakeStep();
+		}
+
+		auto shape = ikScn.is_snake_collided();
+		if (shape != NULL) {
+			auto type = shape->type;
+			switch (type) {
+				case OBSTICLE_BOX:
+					ikScn.gameOver = true;
+					break;
+				case INVISIBLE:
+				case SNAKE_LINK:
+				default:
+					break;
+			}
+
+			std::cout << "Skane collided with Shape Type = " << type << std::endl;
+		}
 		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);
 		if (display.IsFullscreen())
 		{
@@ -113,8 +133,8 @@ int main(int argc, char** argv)
 			GLCall(glfwGetFramebufferSize(display.m_window, &viewport[2], &viewport[3]));
 			window_size_callback(display.m_window, viewport[2], viewport[3]);
 		}
-
-		ikScn.draw(0,0,false); //change false to true for axis in every joint
+    
+		ikScn.draw(0,0,false);
 
 		renderGUI();
 		

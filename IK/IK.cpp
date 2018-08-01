@@ -1,4 +1,5 @@
 #include "IK.h"
+#include "shape.h"
 #include <iostream>
 #include <Windows.h>
 using namespace std;
@@ -53,19 +54,21 @@ using namespace glm;
 		myRotate(-90.0f, vec3(1, 0, 0), -1);
 		//myRotate(90.0f, vec3(0, 0, 1), -1);
 		pickedShape = -1;
+    
 		shapeTransformation(yCameraTranslate, 100.f);
 		shapeTransformation(zCameraTranslate, 250.f);
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
 		cameraOriginalPosition = GetCameras()[0]->getCameraPosition();
 
-		addShape(0, 2, "./res/textures/Green-Barbed.bmp", -1);
+		addShape(0, 2, "./res/textures/red_snake.jpg", -1, SNAKE_LINK);
+    
 		//shapeTransformation(xLocalRotate, -90.f);
 		pickedShape = 0;
 		shapeTransformation(zScale, scaleFactor);
 
 		for (int i = 1; i < headLink; i++)
 		{
-			addShape(1, 1, "./res/textures/Green-Barbed.bmp", -1);
+			addShape(1, 1, "./res/textures/red_snake.jpg", -1, SNAKE_LINK);
 			pickedShape = i;
 			shapeTransformation(zScale, scaleFactor);
 
@@ -73,7 +76,7 @@ using namespace glm;
 			setParent(i, i - 1);
 		}
 
-		addShape(0, 3, "./res/textures/Tiger_Tiled_bmp.bmp", -1);
+		addShape(0, 3, "./res/textures/Tiger_Tiled_bmp.bmp", -1, SNAKE_LINK);
 		pickedShape = headLink;
 		shapeTransformation(zScale, scaleFactor);
 
@@ -82,10 +85,9 @@ using namespace glm;
 
 		pickedShape = 0;
 		shapeTransformation(zGlobalTranslate, -10.0);
-		// distination point
 
-		//addShape(0,"./res/textures/box0.bmp",-1);
-		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/box0.bmp", -1);
+		//// Pointer shape ////
+		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/box0.bmp", -1, INVISIBLE);
 		pickedShape = linksNum;
 		destinationIndex = pickedShape;
 
@@ -95,7 +97,7 @@ using namespace glm;
 		shapeTransformation(zGlobalTranslate, (linksNum + 3) * 4.0f);
 
 		/// Grass ///
-		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/grass.bmp", -1);
+		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/grass.bmp", -1, INVISIBLE);
 		pickedShape = grassIndex;
 		auto width = 160, height = 120;
 		shapeTransformation(yGlobalTranslate, -5);
@@ -103,7 +105,7 @@ using namespace glm;
 		shapeTransformation(xScale, width);
 
 		/// Cave ///
-		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1);
+		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1, OBSTICLE_BOX);
 		pickedShape = caveIndex;
 		shapeTransformation(zGlobalTranslate, height / 2 - 10.);
 		//shapeTransformation(xGlobalTranslate, width/2);
@@ -113,7 +115,7 @@ using namespace glm;
 
 		/// Obsticles ///
 		for (int i = obsticlesFirstIndex; i <= obsticlesLastIndex; i++) {
-			addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_NRM.bmp", -1);
+			addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_NRM.bmp", -1, OBSTICLE_BOX);
 			pickedShape = i;
 			auto xRand = -(width / 2) + rand() / (RAND_MAX / (width));
 			auto zRand = -(height / 2) + rand() / (RAND_MAX / (height));
@@ -128,25 +130,25 @@ using namespace glm;
 		/// Walls ///
 
 		/// North
-		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1);
+		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1, OBSTICLE_BOX);
 		pickedShape++;
 		shapeTransformation(zGlobalTranslate, height / 2);
 		shapeTransformation(xScale, scaleFactor*(width / 2));
 		shapeTransformation(zScale, scaleFactor*2);
 		/// South
-		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1);
+		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1, OBSTICLE_BOX);
 		pickedShape++;
 		shapeTransformation(zGlobalTranslate, -height/1.2);
 		shapeTransformation(xScale, scaleFactor*(width / 2));
 		shapeTransformation(zScale, scaleFactor * 2);
 		/// East
-		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1);
+		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1, OBSTICLE_BOX);
 		pickedShape++;
 		shapeTransformation(xGlobalTranslate, -width / 1.3);
 		shapeTransformation(zScale, scaleFactor*(height / 2));
 		shapeTransformation(xScale, scaleFactor * 2);
 		/// West
-		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1);
+		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_COLOR.bmp", -1, OBSTICLE_BOX);
 		pickedShape++;
 		shapeTransformation(xGlobalTranslate, width / 1.3);
 		shapeTransformation(zScale, scaleFactor*(height / 2));
@@ -158,9 +160,11 @@ using namespace glm;
 		maxDistance = length(tipPosition);
 		linkLength = maxDistance / linksNum;
 		//pickedShape = linksNum;
+
+
 	}
 
-	/*void IK::buildLevel() {
+	/*void IK::buildLevel(boxVertices,boxIndices,sizeof(boxVertices)/sizeof(boxVertices[0]), sizeof(boxIndices)/sizeof(boxIndices[0])) {
 		pickedShape = 0;
 		// distination point
 		pickedShape = linksNum;
@@ -183,9 +187,9 @@ using namespace glm;
 		__super::addShape(CylParts,linkPosition,parent);
 	}
 
-	void IK::addShape(int CylParts,int linkPosition,const std::string& fileName,int parent)
+	void IK::addShape(int CylParts,int linkPosition,const std::string& fileName,int parent, ShapeType type)
 	{	
-		__super::addShape(CylParts,linkPosition,fileName,parent);
+		__super::addShape(CylParts,linkPosition,fileName,parent, type);
 	}
 
 	void IK::addShape(int type, int parent) 
@@ -212,10 +216,10 @@ using namespace glm;
 		__super::addShape(vertices,numVertices,indices,numIndices,parent);
 	}
 	
-	void IK::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string &textureFlieName, int parent)
+	void IK::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string &textureFlieName, int parent, ShapeType type)
 	{
 		
-		__super::addShape(vertices,numVertices,indices,numIndices,textureFlieName,parent);
+		__super::addShape(vertices,numVertices,indices,numIndices,textureFlieName,parent, type);
 	}
 	
 	void IK::calculateSnakeStep()
@@ -483,29 +487,41 @@ void IK::reset_euler_angles(int shapeIndex)
 	shapes[shapeIndex]->reset_euler_angles();
 }
 
+
+
 void IK::pick_box()
+{
+	if (pickedShape != linksNum)
 	{
-		if (pickedShape != linksNum)
-		{
-			pickedShape = linksNum;
-		}
-		else
-		{
-			pickedShape = 0;
-		}
+		pickedShape = linksNum;
+	}
+	else
+	{
+		pickedShape = 0;
+	}
+}
+
+void IK::pick_next_box()
+{
+	pickedShape = (pickedShape + 1) % linksNum;
+}
+
+void IK::pick_previous_box()
+{
+	pickedShape = (linksNum + pickedShape - 1) % linksNum;
+}
+
+Shape* IK::is_snake_collided() {
+	for (int i = 0; i < linksNum ; i++) {
+			for (int j = linksNum + 1; j < shapes.size(); j++) {
+				if (shapes[i]->type != INVISIBLE &&
+					shapes[j]->type != INVISIBLE &&
+					shapes[j]->collides_with(shapes[i])) {
+					return shapes[j];
+				}
+			}
+		
 	}
 
-	void IK::pick_next_box()
-	{
-		pickedShape = (pickedShape + 1) % linksNum;
-	}
-
-	void IK::pick_previous_box()
-	{
-		pickedShape = (linksNum + pickedShape - 1) % linksNum;
-	}
-
-
-
-
-	
+	return NULL;
+}

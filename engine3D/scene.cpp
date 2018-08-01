@@ -58,10 +58,10 @@ Vertex axisVertices[] =
 		chainParents.push_back(parent);
 		shapes.push_back(new Shape(Cylparts,linkPosition));
 	}
-	void Scene::addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent)
+	void Scene::addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent, ShapeType type)
 	{
 		chainParents.push_back(parent);
-		shapes.push_back(new Shape(CylParts,linkPosition,textureFileName));
+		shapes.push_back(new Shape(CylParts,linkPosition,textureFileName,type));
 	}
 	void Scene::addShape(int type,int parent)
 	{
@@ -87,10 +87,10 @@ Vertex axisVertices[] =
 		shapes.push_back(new Shape(vertices,numVertices,indices,numIndices));
 	}
 	
-	void Scene::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string &textureFlieName,int parent)
+	void Scene::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string &textureFlieName,int parent, ShapeType type)
 	{
 		chainParents.push_back(parent);
-		shapes.push_back(new Shape(vertices,numVertices,indices,numIndices,textureFlieName));
+		shapes.push_back(new Shape(vertices,numVertices,indices,numIndices,textureFlieName, type));
 	}
 
 	void Scene::addShader(const std::string& fileName)
@@ -146,7 +146,7 @@ Vertex axisVertices[] =
 			shaders[shaderIndx]->Update(MVP1,Normal1,i, trans, shapes[i]->getTexture(), cameras[0]->getCameraPosition());
 			//shaders[shaderIndx]->Update(MVP1,Normal1,cameras[0]->GetPos(), i, transformations);
 
-			if (i != destinationIndex) {
+			if (shapes[i]->type != INVISIBLE) {
 				shapes[i]->draw(GL_TRIANGLES);
 			}
 			/*else 

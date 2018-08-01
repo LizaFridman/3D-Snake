@@ -292,7 +292,7 @@ IndexedModel Surface::ToIndexedModel()
 			{
 				for (int k = 0; k < degree; k++) //p1, h1,h2,p2
 				{
-					int indx1 = k + m*degree + n*degree2*degree + degree2 * 2 * degree*o;
+					int indx1 = k + m*degree + n*degree2*degree + degree2 * 4 * degree*o;
 					s.push_back(contSurface[indx1]);
 				}
 			}

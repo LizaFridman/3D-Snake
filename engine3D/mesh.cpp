@@ -13,12 +13,16 @@
 
 Mesh::Mesh(int CylParts,int linkPosition)
 {
-	InitMesh(Surface(CylParts,8,8,linkPosition).ToIndexedModel());
+	auto indexedModel = Surface(CylParts, 8, 8, linkPosition).ToIndexedModel();
+	tree.make_tree(indexedModel);
+	InitMesh(indexedModel);
 }
 
 Mesh::Mesh(const std::string& fileName)
 {
-    InitMesh(OBJModel(fileName).ToIndexedModel());	
+	auto indexedModel = OBJModel(fileName).ToIndexedModel();
+	tree.make_tree(indexedModel);
+    InitMesh(indexedModel);	
 }
 
 void Mesh::InitMesh(const IndexedModel& model)
@@ -79,7 +83,8 @@ Mesh::Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, un
 	
 	for(unsigned int i = 0; i < numIndices; i++)
         model.indices.push_back(indices[i]);
-
+	
+	tree.make_tree(model);
     InitMesh(model);
 }
 
