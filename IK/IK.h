@@ -47,11 +47,11 @@ public:
 	virtual ~IK(void);
 	IK(glm::vec3 position,float angle,float hwRelation,float near, float far);
 	void updateViews();
-	void update_movement();
+	void updatePositions();
 	void pausePressed();
 
 	void init(Vertex *vertices,unsigned int *indices,int verticesSize,int indicesSize);
-	//void buildLevel();
+	void buildLevel(Vertex *vertices, unsigned int *indices, int verticesSize, int indicesSize);
 
 	void addShape(int type, int parent);
 	void addShape(const std::string& fileName, int parent);
@@ -64,7 +64,6 @@ public:
 	void inline changeMode(){cameraMode = !cameraMode;}
 	bool inline getMode() { return cameraMode; }
 	
-	void IK::UpdateSnakeMovement(int dirFactor);
 	void changeScene();
 	
 	void reset_euler_angles(int shapeIndex);

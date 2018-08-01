@@ -48,9 +48,9 @@ using namespace glm;
 	
 	void IK::updateViews()
 	{
-		int snake = headLink - 2;
-		auto pos = getBase(snake);
-		auto direction = glm::normalize(getTipPosition(snake) - getBase(snake));
+		int focusLink = linksNum/2;
+		auto pos = getBase(focusLink);
+		auto direction = glm::normalize(getTipPosition(focusLink) - getBase(focusLink));
 
 		cameras[snakeViewIndex]->pos = glm::vec3(pos.x, pos.z, pos.y - 15);
 		cameras[snakeViewIndex]->forward = glm::normalize((glm::vec3(direction.x, direction.z, 0) * (1.0f / 2.0f)) + glm::vec3(0, 0, 0.5));
@@ -74,17 +74,9 @@ using namespace glm;
 	void IK::init(Vertex *vertices, unsigned int *indices, int verticesSize, int indicesSize)
 	{
 		myRotate(-90.0f, vec3(1, 0, 0), -1);
-		//myRotate(90.0f, vec3(0, 0, 1), -1);
-		pickedShape = -1;
-    
-		//shapeTransformation(yCameraTranslate, 100.f);
-		//shapeTransformation(zCameraTranslate, 250.f);
-		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
 		cameraOriginalPosition = GetCameras()[0]->getCameraPosition();
 
 		addShape(0, 2, "./res/textures/red_snake.jpg", -1, SNAKE_LINK);
-    
-		//shapeTransformation(xLocalRotate, -90.f);
 		pickedShape = 0;
 		shapeTransformation(zScale, scaleFactor);
 
@@ -118,11 +110,23 @@ using namespace glm;
 		shapeTransformation(zScale, 0.5);
 		shapeTransformation(zGlobalTranslate, (linksNum + 3) * 4.0f);
 
+		buildLevel(vertices,indices,verticesSize,indicesSize);
+		////////////////////////////////////////
+		pickedShape = 0;
+		tipPosition = getTipPosition(headLink);
+		maxDistance = length(tipPosition);
+		linkLength = maxDistance / linksNum;
+		//pickedShape = linksNum;
+
+
+	}
+
+	void IK::buildLevel(Vertex *vertices, unsigned int *indices, int verticesSize, int indicesSize) {
 		/// Grass ///
 		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/grass.bmp", -1, FLOOR);
 		pickedShape = grassIndex;
 		auto width = 160, height = 120;
-		shapeTransformation(yGlobalTranslate, -5);
+		shapeTransformation(yGlobalTranslate, -10);
 		shapeTransformation(zScale, height);
 		shapeTransformation(xScale, width);
 
@@ -192,32 +196,7 @@ using namespace glm;
 		shapeTransformation(zScale, scaleFactor*(height / 2));
 		shapeTransformation(xScale, scaleFactor * 2);
 
-		////////////////////////////////////////
-		pickedShape = 0;
-		tipPosition = getTipPosition(headLink);
-		maxDistance = length(tipPosition);
-		linkLength = maxDistance / linksNum;
-		//pickedShape = linksNum;
-
-
 	}
-
-	/*void IK::buildLevel(boxVertices,boxIndices,sizeof(boxVertices)/sizeof(boxVertices[0]), sizeof(boxIndices)/sizeof(boxIndices[0])) {
-		pickedShape = 0;
-		// distination point
-		pickedShape = linksNum;
-
-		//addShape(0,"./res/textures/box0.bmp",-1);
-		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/box0.bmp", -1);
-		shapeTransformation(xScale, 0.5);
-		shapeTransformation(yScale, 0.5);
-		shapeTransformation(zScale, 0.5);
-		shapeTransformation(xGlobalTranslate, -8.0f);
-		shapeTransformation(yGlobalTranslate, -3.0f);
-		shapeTransformation(zGlobalTranslate, -5.0f);
-		pickedShape = 0;
-
-	}*/
 
 	void IK::addShape(int CylParts,int linkPosition,int parent)
 	{
@@ -270,18 +249,8 @@ using namespace glm;
 		linkTipPositions.push_back(getTipPosition(headLink));
 
 		//std::cout << "==> Starting Step 1" << std::endl;
-
-		auto tailBase = getBase(0);
-		//auto nextGoal = getNextGoalPosition();
-
 		auto last_tip_position = linkTipPositions[linksNum];
-		auto factor = 0.1f;
-		/*
-		auto velocity = shapes[headLink]->forwardDirection;
-		vec3 movement = DISTANCE_DELTA * 2.f* velocity;
-		auto directionToMove = vec3(getNormalForShape(headLink) * vec4(movement, 0));
-		auto goal = getTipPosition(headLink) + directionToMove;//factor * getGoalPosition() + (1.0f - factor) * last_tip_position;*/
-		auto goal = getNextGoalPosition();//factor * nextGoal + (1.0f - factor) * last_tip_position;;
+		auto goal = getNextGoalPosition();
 		auto targetDiff = goal - last_tip_position;
 		auto distance = dot(targetDiff, targetDiff);
 
@@ -377,45 +346,6 @@ using namespace glm;
 		//Sleep(50);
 		destinationPosition = glm::vec3(0, -50, 0);
 	}
-
-	void IK::UpdateSnakeMovement(int dirFactor) {
-		Sleep(50);
-		
-
-		auto prevLinkDirection = getAxisDirection(headLink, xAxis);
-
-		
-		//auto prevDirection = vec3(shapes[pickedShape]->getTraslate());
-		/*auto prevRotate = shapes[pickedShape]->getRotationMatrix();
-		auto preTrans0 = shapes[pickedShape]->getTranslationMatrix(0);
-		auto preTrans1 = shapes[pickedShape]->getTranslationMatrix(1);
-		auto prevCenter = shapes[pickedShape]->getCenterOfRotation(mat4(1));*/
-		pickedShape = headLink;
-		shapeTransformation(xLocalTranslate, 0.01f, prevLinkDirection);
-		
-
-		/*for (int i = 1 ; i < linksNum; i++) {
-			pickedShape = i;
-			
-			shapes[pickedShape + 1]->setRotationMatrix(prevRotate);
-		}*/
-
-		for (int i = headLink - 1; i > -1; i--) {
-			
-			auto temp = getAxisDirection(i, xAxis);
-			//shapes[i]->changeCenterOfRotation(prevCenter);
-			pickedShape = i;
-			shapeTransformation(xLocalTranslate, 0.01f, normalize(prevLinkDirection));
-			prevLinkDirection = temp;
-			//pickedShape = i;
-			//shapeTransformation(xGlobalTranslate, 0.01f, snakeDirection);
-		}
-		
-			pickedShape = 0;
-			shapeTransformation(zLocalTranslate, dirFactor * DISTANCE_DELTA);
-			
-		//}
-	}
 	
 	void IK::changeScene()
 	{
@@ -463,9 +393,10 @@ void IK::reset_euler_angles(int shapeIndex)
 	shapes[shapeIndex]->reset_euler_angles();
 }
 
-void IK::update_movement()
+void IK::updatePositions()
 {
-	auto direction = glm::normalize(getTipPosition(headLink) - getBase(headLink))  * 0.1f;
+	auto focusLink = headLink - 2;
+	auto direction = glm::normalize(getTipPosition(focusLink) - getBase(focusLink))  * 0.1f;
 	pickedShape = 0;
 
 	int i = pickedShape;
