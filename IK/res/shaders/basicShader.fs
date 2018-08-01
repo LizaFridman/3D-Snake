@@ -27,7 +27,7 @@ void main()
 	float specularColor = max(dot(v,r), 0);
 	vec3 intensity = diffuseColor + pow(specularColor, 10)*vec3(0.2,0.2,0.2);
 
-    float textureFactor = 0.5;
+    float textureFactor = 0.3;
     float intensityFactor = 1-textureFactor;
 	vec3 finalColor = intensityFactor * intensity + textureFactor * texColor;
 	FragColor = clamp(vec4(finalColor, 1.0), 0.0, 1.0);

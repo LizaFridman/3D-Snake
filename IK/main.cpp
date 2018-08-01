@@ -144,10 +144,9 @@ void renderGUI() {
 		/// Uncomment this if you want to save Sky View as latest Zoom
 		//ikScn.cameraOriginalPosition = ikScn.GetCameras()[0]->getCameraPosition();
 	} 
-	
-	static glm::vec3 color = glm::vec3(20, 5, 0);
-	ImGui::ColorEdit3("Scene Color", (float*)&color); // Edit 3 floats representing a color
-	ikScn.sceneColor = color;
+	static glm::vec4 color(20, 5., 0, 1.);
+	ImGui::ColorEdit3("Scene Color", (float*)&ikScn.sceneColor, ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_RGB); // Edit 3 floats representing a color
+	//ikScn.sceneColor = glm::vec3(color);
 
 	auto cameraPosition = ikScn.GetCameras()[ikScn.viewIndex]->getCameraPosition();
 	ImGui::Text("Camera Position: x = %.2f, y = %.2f, z = %.2f", cameraPosition.x, cameraPosition.y, cameraPosition.z);
