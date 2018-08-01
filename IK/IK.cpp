@@ -26,10 +26,9 @@ using namespace glm;
 	{
 		cameraMode = false;
 		isIKactive = false;
-		delta = 1e-1;
 		//headDirection = direction;
 		//direction = UP;
-		destinationPosition = vec3(1,0,0);
+		//destinationPosition = vec3(1,0,0);
 		tipPosition = vec3(0,0,2*linksNum*scaleFactor);
 		maxDistance = linksNum*2.0f*scaleFactor;
 	}
@@ -38,17 +37,16 @@ using namespace glm;
 	{
 		cameraMode = false;
 		isIKactive = false;
-		delta = 1e-1;
 		//direction = UP;
-		destinationPosition = vec3(1,0,0);
+		//destinationPosition = vec3(1,0,0);
 		tipPosition = vec3(0,0,2*linksNum*scaleFactor);
 		maxDistance = linksNum*2.0f*scaleFactor;
 
-		cameras.push_back(new Camera(glm::vec3(0), glm::vec3(0.0f, 0.5f, 0.5f), angle, hwRelation, nearf, farf));
+		cameras.push_back(new Camera(glm::vec3(0), glm::vec3(0.0f, 0.5f, 0.5f), glm::vec3(0.0f, 0.0f, -1.0f), angle, hwRelation, nearf, farf));
 	}
 
 	
-	void IK::changeCamera()
+	void IK::updateViews()
 	{
 		int snake = headLink - 2;
 		auto pos = getBase(snake);
@@ -60,6 +58,15 @@ using namespace glm;
 		cameras[skyViewIndex]->pos = glm::vec3(pos.x, pos.z, pos.y - 50);
 		cameras[skyViewIndex]->forward = glm::vec3(0, 0, 1);
 	}
+
+	void IK::pausePressed() {
+		if (gameMode == ONGOING)
+			gameMode = PAUSED;
+		else {
+			gameMode = ONGOING;
+		}
+	}
+
 	IK::~IK(void)
 	{
 	}
@@ -70,8 +77,8 @@ using namespace glm;
 		//myRotate(90.0f, vec3(0, 0, 1), -1);
 		pickedShape = -1;
     
-		shapeTransformation(yCameraTranslate, 100.f);
-		shapeTransformation(zCameraTranslate, 250.f);
+		//shapeTransformation(yCameraTranslate, 100.f);
+		//shapeTransformation(zCameraTranslate, 250.f);
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
 		cameraOriginalPosition = GetCameras()[0]->getCameraPosition();
 
@@ -99,7 +106,7 @@ using namespace glm;
 		setParent(headLink, headLink - 1);
 
 		pickedShape = 0;
-		shapeTransformation(zGlobalTranslate, -10.0);
+		shapeTransformation(zGlobalTranslate, -15.0);
 
 		//// Pointer shape ////
 		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/box0.bmp", -1, INVISIBLE);
@@ -146,7 +153,7 @@ using namespace glm;
 
 		/// Apples ///
 		for (int i = foodFirstIndex; i <= foodLastIndex; i++) {
-			addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/Stone_02_NRM.bmp", -1, OBSTICLE_BOX);
+			addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/apple.jpg", -1, FOOD);
 			pickedShape = i;
 			auto xRand = (-width / 2) + rand() / (RAND_MAX / (width));
 			auto zRand = (-height / 2) + rand() / (RAND_MAX / (height));
@@ -302,10 +309,6 @@ using namespace glm;
 		}
 
 		linkTipPositions[linksNum] = goal;
-		/*
-		auto translationVec = linkTipPositions[0] - tailBase;
-		shapeLocalTranslation(translationVec, 0);
-		*/
 		//Rotation
 		//std::cout << "==> Starting Rotation" << std::endl;
 		auto yAxis = vec3(0, 1, 0);
@@ -358,66 +361,20 @@ using namespace glm;
 
 	void IK::setDirectionRight() {
 		//Sleep(50);
-		/*
-		Shape& head = getSnakeHead();
-		auto rotation = glm::rotate(-ROTATION_ANGLE, head.upDirection);
-		auto velDir = rotation * vec4(head.forwardDirection, 0);
-		head.forwardDirection = glm::vec3(velDir);*/
-
-		/*pickedShape = destinationIndex;
-		shapeTransformation(xGlobalTranslate, -DISTANCE_DELTA*2);*/
-
-		movementActive = false;
 		destinationPosition = glm::vec3(-50,0,-50);
 	}
 	void IK::setDirectionLeft() {
 		//Sleep(50);
-		/*
-		Shape& head = getSnakeHead();
-		//auto velocity = shapes[headLink]->forwardDirection;
-		auto rotation = glm::rotate(ROTATION_ANGLE, head.upDirection);
-		auto velDir = rotation * vec4(head.forwardDirection, 0);
-		head.forwardDirection = glm::vec3(velDir);*/
-
-		/*pickedShape = destinationIndex;
-		shapeTransformation(xGlobalTranslate, DISTANCE_DELTA*2);*/
-
-		movementActive = false;
 		destinationPosition = glm::vec3(50, 0, -50);
-		//Activate();
 	}
 
 	void IK::setDirectionUp() {
 		//Sleep(50);
-		/*
-		Shape& head = getSnakeHead();
-		auto right = head.getRightDirection();
-		auto rotation = glm::rotate(ROTATION_ANGLE, right);
-		auto forward = rotation * glm::vec4(head.forwardDirection, 0);
-		auto up = rotation * glm::vec4(head.upDirection, 0);
-		head.forwardDirection = glm::vec3(forward);
-		head.upDirection = glm::vec3(up);*/
-		
-		/*pickedShape = destinationIndex;
-		shapeTransformation(zGlobalTranslate, DISTANCE_DELTA);*/
-		
 		destinationPosition = glm::vec3(0, 50, 0);
 	}
 
 	void IK::setDirectionDown() {
 		//Sleep(50);
-		/*
-		Shape& head = getSnakeHead();
-		auto right = head.getRightDirection();
-		auto rotation = glm::rotate(-ROTATION_ANGLE, right);
-		auto forward = rotation * glm::vec4(head.forwardDirection, 0);
-		auto up = rotation * glm::vec4(head.upDirection, 0);
-		head.forwardDirection = glm::vec3(forward);
-		head.upDirection = glm::vec3(up);*/
-		
-		/*pickedShape = destinationIndex;
-		shapeTransformation(zGlobalTranslate, -DISTANCE_DELTA);*/
-
 		destinationPosition = glm::vec3(0, -50, 0);
 	}
 
@@ -460,32 +417,45 @@ using namespace glm;
 		//}
 	}
 	
-	void IK::chaneScene()
+	void IK::changeScene()
 	{
-		/*destinationPosition=getNextGoalPosition();
-		tipPosition = getTipPosition(headLink);
-		auto distFromBase = distance(getBase(0), destinationPosition);
-		auto diff = (maxDistance - delta);
-		// Unreachable
-		if(distFromBase >= diff)
-		{
-			std::cout << "De-activating" << std::endl;
-			dActivate();
-			return;
-		}*/
-
+		detectCollision();
 		calculateSnakeStep();
+		updateViews();
+	}
 
-		tipPosition = getTipPosition(headLink);
-		auto dist = distance(tipPosition, destinationPosition);
-		if(dist < delta)
-		{
-			std::cout << "Reached Destination!!" << std::endl;
-			pointsCounter++;
-			dActivate();
-			return;
+	void IK::detectCollision() {
+		for (int i = linksNum + 1; i < shapes.size(); i++) {
+			auto type = shapes[i]->type;
+			if(type != INVISIBLE && areShapesCollided(headLink, i)){
+				switch (type) {
+				case OBSTICLE_BOX:
+				case WALL:
+					gameMode = GAME_LOST;
+					break;
+				case FOOD:
+					pointsCounter+=foodPoints;
+					shapes[i]->type = INVISIBLE;
+					break;
+				case CAVE:
+					gameMode = GAME_WON;
+					break;
+				case FLOOR:
+				case SNAKE_LINK:
+				case INVISIBLE:
+				default:
+					break;
+				}
+				std::cout << "Snake head collided with shape index: " << i << " type: " << type << std::endl;
+			}
 		}
-		changeCamera();
+	}
+
+	bool IK::areShapesCollided(int firstIndex, int otherIndex) {
+		auto firstPosition = getBase(firstIndex);
+		auto otherPosition = getBase(otherIndex);
+		auto dist = distance(firstPosition, otherPosition);
+		return dist < minDistance;
 	}
 
 void IK::reset_euler_angles(int shapeIndex)
@@ -495,9 +465,9 @@ void IK::reset_euler_angles(int shapeIndex)
 
 void IK::update_movement()
 {
-	auto direction = glm::normalize(getTipPosition((headLink - 0) / 2) - getBase((headLink - 0) / 2))  * 0.1f;
-	//std::cout << "direction=(" << direction.x << "," << direction.y << "," << direction.z << ")" << std::endl;
-	setPicked(0);
+	auto direction = glm::normalize(getTipPosition(headLink) - getBase(headLink))  * 0.1f;
+	pickedShape = 0;
+
 	int i = pickedShape;
 	for (; chainParents[i] > -1; i = chainParents[i]);
 	shapes[i]->myTranslate(direction, 0);

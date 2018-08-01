@@ -29,7 +29,7 @@ Vertex axisVertices[] =
 	{
 		glLineWidth(3);
 		cameraOriginalPosition = vec3(0, 0, -20.0f);
-		cameras.push_back(new Camera(cameraOriginalPosition, glm::vec3(0.0f, 0.0f, 1.0f),60.0f,1.0f,1.f,500.0f));
+		cameras.push_back(new Camera(cameraOriginalPosition, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f),60.0f,1.0f,1.f,500.0f));
 		pickedShape = -1;
 		
 	}
@@ -37,7 +37,7 @@ Vertex axisVertices[] =
 	Scene::Scene(vec3 position,float angle,float hwRelation,float near, float far)
 	{
 		GLCall(glLineWidth(3));
-		cameras.push_back(new Camera(position, glm::vec3(0.0f, 0.0f, 1.0f),angle,hwRelation,near,far));
+		cameras.push_back(new Camera(position, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f),angle,hwRelation,near,far));
 		//axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
 		pickedShape = -1;
 	}

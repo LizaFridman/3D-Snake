@@ -3,37 +3,42 @@
 #define ROTATION_ANGLE 10.f
 #define DISTANCE_DELTA 1.f
 
-const int linksNum = 6;
 const int maximumIterations = 1;
+const double minDistance = 5.;
+/// Snake ///
+const int linksNum = 6;
 const int headLink = linksNum - 1;
+/// Scene Objects ///
 const int grassIndex = linksNum + 1;
 const int caveIndex = grassIndex + 1;
-
+/// Obsticles ///
 const int obsticlesFirstIndex = caveIndex + 1;
 const int numOfObsticles = 6;
 const int obsticlesLastIndex = obsticlesFirstIndex + numOfObsticles - 1;
-
+/// Food ///
 const int foodFirstIndex = obsticlesLastIndex + 1;
 const int numOfFood = 3;
 const int foodLastIndex = foodFirstIndex + numOfFood - 1;
-/////
+const int foodPoints = 10;
+/// Camera ///
 const int skyViewIndex = 0;
 const int snakeViewIndex = 1;
+
+enum GameMode { PAUSED, GAME_LOST, GAME_WON, ONGOING};
 
 class IK : public Scene
 {
 	bool cameraMode;
 	glm::vec3 tipPosition;
 	bool isIKactive;
-	double delta;
+	
     float maxDistance;
 	float linkLength;
-	//glm::mat4 prevRotate;
-	//Direction headDirection;
+
 public:
 	bool movementActive = true;
 	int pointsCounter = 0;
-
+	GameMode gameMode = ONGOING;
 	int displayWidth = 1200;
 	int displayHeight = 800;
 	bool gameOver = false;
@@ -41,8 +46,10 @@ public:
 	IK(void);
 	virtual ~IK(void);
 	IK(glm::vec3 position,float angle,float hwRelation,float near, float far);
-	void changeCamera();
+	void updateViews();
 	void update_movement();
+	void pausePressed();
+
 	void init(Vertex *vertices,unsigned int *indices,int verticesSize,int indicesSize);
 	//void buildLevel();
 
@@ -58,10 +65,12 @@ public:
 	bool inline getMode() { return cameraMode; }
 	
 	void IK::UpdateSnakeMovement(int dirFactor);
-	void chaneScene();
+	void changeScene();
 	
 	void reset_euler_angles(int shapeIndex);
 	void calculateSnakeStep();
+	void detectCollision();
+	bool areShapesCollided(int firstIndex, int otherIndex);
 	Shape & getSnakeHead();
 
 	//float Distance(int indx1, int indx2);

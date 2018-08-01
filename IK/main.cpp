@@ -86,9 +86,10 @@ int main(int argc, char** argv)
 	{
 		ImGui_ImplGlfwGL3_NewFrame();
 
-		if (!ikScn.gameOver) {
+		if (ikScn.gameMode == ONGOING) {
 			Sleep(50);
-			ikScn.chaneScene();
+			ikScn.changeScene();
+			ikScn.update_movement();
 		}
 		/*
 		auto shape = ikScn.is_snake_collided();
@@ -129,42 +130,30 @@ int main(int argc, char** argv)
 
 void renderGUI() {
 
+	ImGui::Text("Points: %d", ikScn.pointsCounter);
+	
+	if (ImGui::Button("Pause Game")) {
+		ikScn.pausePressed();
+	}
+	
 	static float f = 0.0f;
-
 	float oldF = f;
-	//ikScn.shapeTransformation(ikScn.zCameraTranslate, (cameraPosition - glm::vec3(0, 0, 250)).z);
 	if (ImGui::SliderFloat("Zoom", &f, -250.0f, 250.0f)) {
 		ikScn.setPicked(-1);
 		ikScn.shapeTransformation(ikScn.zCameraTranslate, f - oldF);
 		/// Uncomment this if you want to save Sky View as latest Zoom
 		//ikScn.cameraOriginalPosition = ikScn.GetCameras()[0]->getCameraPosition();
 	}
-	ImGui::Text("Points: %d", ikScn.pointsCounter);
+	auto cameraPosition = ikScn.GetCameras()[ikScn.viewIndex]->getCameraPosition();
+	ImGui::Text("Camera Position: x = %.2f, y = %.2f, z = %.2f", cameraPosition.x, cameraPosition.y, cameraPosition.z);
 	auto headPosition = ikScn.getBase(headLink);
 	ImGui::Text("Position: x = %.2f, y = %.2f, z = %.2f", headPosition.x, headPosition.y, headPosition.z);
-	auto destPosition = ikScn.getBase(ikScn.destinationIndex);
+	auto destPosition = ikScn.destinationPosition;
 	ImGui::Text("Destination Position: x = %.2f, y = %.2f, z = %.2f", destPosition.x, destPosition.y, destPosition.z);
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
 	if (ImGui::Button("Snake View")) {
-		
-		/*glm::vec3 camera = ikScn.GetCameras()[0]->getCameraPosition();
-		glm::vec3 head = ikScn.getBase(headLink);
-		auto change_x = head.x - camera.x;
-		auto change_y = head.y - camera.y;
-		auto change_z = head.z - camera.z;
-		ikScn.setPicked(-1);
-		ikScn.shapeTransformation(ikScn.xCameraTranslate, change_x);
-		ikScn.shapeTransformation(ikScn.yCameraTranslate, change_y);
-		ikScn.shapeTransformation(ikScn.zCameraTranslate, change_z);*/
-		
-		/*auto headPoint = ikScn.shapes[headLink]->getCenterOfRotation(glm::mat4(1));
-		ikScn.GetCameras()[0]->setCameraPosition(glm::vec3(headPoint.x, headPoint.y, headPoint.z + 5));
-		auto dir = glm::normalize(ikScn.getTipPosition(headLink) - ikScn.getBase(headLink));
-		ikScn.GetCameras()[0]->setForward(glm::vec3(dir.x, dir.y, dir.z));*/
 		ikScn.viewIndex = snakeViewIndex;
 	}
-
 	ImGui::SameLine();
 	if (ImGui::Button("Sky View")) {
 		/*auto headPoint = ikScn.shapes[headLink]->getCenterOfRotation(glm::mat4(1));
@@ -172,9 +161,8 @@ void renderGUI() {
 		ikScn.GetCameras()[0]->setForward(glm::vec3(0., 0.,  1.));*/
 		ikScn.viewIndex = skyViewIndex;
 	}
-	auto cameraPosition = ikScn.GetCameras()[ikScn.viewIndex]->getCameraPosition();
-	ImGui::Text("Camera Position: x = %.2f, y = %.2f, z = %.2f", cameraPosition.x, cameraPosition.y, cameraPosition.z);
 
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::Render();
 	ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
 }
