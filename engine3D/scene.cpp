@@ -8,17 +8,6 @@
 using namespace std;
 using namespace glm;
 
-	/*LineVertex axisVertices[] = 
-	{
-		LineVertex(glm::vec3(1,0,0),glm::vec3(1,0,0)),
-		LineVertex(glm::vec3(-1,0,0),glm::vec3(1,0,0)),
-		LineVertex(glm::vec3(0,1,0),glm::vec3(0,1,0)),
-		LineVertex(glm::vec3(0,-1,0),glm::vec3(0,1,0)),
-		LineVertex(glm::vec3(0,0,1),glm::vec3(0,0,1)),
-		LineVertex(glm::vec3(0,0,-1),glm::vec3(0,0,1)),
-	};*/
-
-
 Vertex axisVertices[] =
 {
 	Vertex(glm::vec3(1,0,0),glm::vec2(1, 0), glm::vec3(0, 0, -1),glm::vec3(1,0,0)),
@@ -39,8 +28,8 @@ Vertex axisVertices[] =
 	Scene::Scene()
 	{
 		glLineWidth(3);
-		
-		cameras.push_back(new Camera(vec3(0,0,-20.0f),60.0f,1.0f,0.1f,100.0f));
+		cameraOriginalPosition = vec3(0, 0, -20.0f);
+		cameras.push_back(new Camera(cameraOriginalPosition, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f),60.0f,1.0f,1.f,500.0f));
 		pickedShape = -1;
 		
 	}
@@ -48,7 +37,7 @@ Vertex axisVertices[] =
 	Scene::Scene(vec3 position,float angle,float hwRelation,float near, float far)
 	{
 		GLCall(glLineWidth(3));
-		cameras.push_back(new Camera(position,angle,hwRelation,near,far));
+		cameras.push_back(new Camera(position, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f),angle,hwRelation,near,far));
 		//axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
 		pickedShape = -1;
 	}
@@ -58,10 +47,10 @@ Vertex axisVertices[] =
 		chainParents.push_back(parent);
 		shapes.push_back(new Shape(Cylparts,linkPosition));
 	}
-	void Scene::addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent)
+	void Scene::addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent, ShapeType type)
 	{
 		chainParents.push_back(parent);
-		shapes.push_back(new Shape(CylParts,linkPosition,textureFileName));
+		shapes.push_back(new Shape(CylParts,linkPosition,textureFileName,type));
 	}
 	void Scene::addShape(int type,int parent)
 	{
@@ -87,10 +76,10 @@ Vertex axisVertices[] =
 		shapes.push_back(new Shape(vertices,numVertices,indices,numIndices));
 	}
 	
-	void Scene::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string &textureFlieName,int parent)
+	void Scene::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string &textureFlieName,int parent, ShapeType type)
 	{
 		chainParents.push_back(parent);
-		shapes.push_back(new Shape(vertices,numVertices,indices,numIndices,textureFlieName));
+		shapes.push_back(new Shape(vertices,numVertices,indices,numIndices,textureFlieName, type));
 	}
 
 	void Scene::addShader(const std::string& fileName)
@@ -117,7 +106,7 @@ Vertex axisVertices[] =
 	void Scene::draw(int shaderIndx,int cameraIndx,bool drawAxis)
 	{
 		mat4 Normal = makeTrans();
-		mat4 MVP = cameras[0]->GetViewProjection() * Normal;
+		mat4 MVP = cameras[viewIndex]->GetViewProjection() * Normal;
 		vector<mat4> trans;
 
 		shaders[shaderIndx]->Bind();
@@ -136,17 +125,17 @@ Vertex axisVertices[] =
 			
 			if(shaderIndx==0 && drawAxis && chainParents[i]>=0)
 			{
-				shaders[shaderIndx]->Update(axisMesh->makeTransScale(MVP1), axisMesh->makeTransScale(Normal1), 0, trans, 0, cameras[0]->getCameraPosition());
+				shaders[shaderIndx]->Update(axisMesh->makeTransScale(MVP1), axisMesh->makeTransScale(Normal1), 0, trans, 0, cameras[viewIndex]->getCameraPosition());
 				axisMesh->draw(GL_LINES);
 			}
 
 			MVP1 = MVP1 * shapes[i]->makeTransScale(mat4(1));
 			Normal1 = Normal1 * shapes[i]->makeTrans();
 			trans.push_back(MVP1);
-			shaders[shaderIndx]->Update(MVP1,Normal1,i, trans, shapes[i]->getTexture(), cameras[0]->getCameraPosition());
+			shaders[shaderIndx]->Update(MVP1,Normal1,i, trans, shapes[i]->getTexture(), cameras[viewIndex]->getCameraPosition());
 			//shaders[shaderIndx]->Update(MVP1,Normal1,cameras[0]->GetPos(), i, transformations);
 
-			if (i != destinationIndex) {
+			if (shapes[i]->type != INVISIBLE) {
 				shapes[i]->draw(GL_TRIANGLES);
 			}
 			/*else 
@@ -155,7 +144,7 @@ Vertex axisVertices[] =
 		if(shaderIndx==0 )
 		{
 			shaders[shaderIndx]->Bind();
-			shaders[shaderIndx]->Update(cameras[0]->GetViewProjection()*scale(vec3(10,10,10)),Normal*scale(vec3(10,10,10)),0, trans, 0, cameras[0]->getCameraPosition());
+			shaders[shaderIndx]->Update(cameras[viewIndex]->GetViewProjection()*scale(vec3(10,10,10)),Normal*scale(vec3(10,10,10)),0, trans, 0, cameras[viewIndex]->getCameraPosition());
 			//shaders[shaderIndx]->Update(cameras[0]->GetViewProjection()*scale(vec3(10, 10, 10)), Normal*scale(vec3(10, 10, 10)), cameras[0]->GetPos(), 0, transformations);
 			axisMesh->draw(GL_LINES);
 		}
@@ -508,7 +497,7 @@ Vertex axisVertices[] =
 	void Scene::resize(int width,int height,int near,int far)
 	{
 		GLCall(glViewport(0,0,width,height));
-		cameras[0]->setProjection((float)width/(float)height,near,far);
+		cameras[viewIndex]->setProjection((float)width/(float)height,near,far);
 	}
 
 	float Scene::picking(double x,double y)
@@ -568,8 +557,13 @@ Vertex axisVertices[] =
 		auto directionToMove = vec3(getNormalForShape(shapeIndex) * vec4(movement, 0));
 		auto goal = vec3(shapes[shapeIndex]->makeTrans()*vec4(0, 0, 0, 1)) ;
 		return goal + directionToMove;*/
-		return vec3(shapes[destinationIndex]->makeTrans()*vec4(0, 0, 0, 1));
+
+		auto translation = glm::translate(shapes[0]->makeTrans(), destinationPosition);
+		return	glm::vec3(translation[3]);
+
+		//return vec3(shapes[destinationIndex]->makeTrans()*vec4(0, 0, 0, 1));
 	}
+
 	/*glm::vec3 Scene::getGoalPosition()
 	{
 		switch (direction) {

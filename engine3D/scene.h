@@ -6,19 +6,22 @@
 
 class Scene : public MovableGLM
 {
+protected:
 	std::vector<Shader*> shaders;
 	std::vector<Camera*> cameras; //light will have the properties of camera
-	
 	Shape *axisMesh;
-	
-protected:
+
 	std::vector<int> chainParents;
 	int pickedShape;
 	static const int scaleFactor = 3;
 
+
 public:
+	int viewIndex = 0;
 	std::vector<Shape*> shapes;
 	int destinationIndex;
+	glm::vec3 cameraOriginalPosition;
+	glm::vec3 destinationPosition;
 
 	enum axis{xAxis,yAxis,zAxis};
 	enum transformations{xLocalTranslate,yLocalTranslate,zLocalTranslate,xGlobalTranslate,yGlobalTranslate,zGlobalTranslate,
@@ -29,9 +32,9 @@ public:
 	void addShape(const std::string& fileName,int parent);
 	void addShape(const std::string& fileName,const std::string& textureFileName,int parent);
 	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,int parent);
-	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,const std::string& textureFileName,int parent);
+	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,const std::string& textureFileName,int parent, ShapeType type);
 	void addShape(int Cyparts,int linkPosition,int parent);
-	void addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent);
+	void addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent, ShapeType type);
 	
 	void addShader(const std::string& fileName);
 	std::vector<Shape*> GetShapes() { return shapes; }
@@ -39,7 +42,7 @@ public:
 
 	glm::mat4 GetViewProjection(int indx) const;
 	glm::mat4 GetShapeTransformation() const;
-	void draw(int shaderIndx,int cameraIndx,bool drawAxis);
+	void draw(int shaderIndx, int cameraIndx, bool drawAxis);
 	
 	void shapeLocalTranslation(glm::vec3& v, int indx);
 	void shapeTransformation(int type,float amt);

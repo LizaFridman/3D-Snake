@@ -8,6 +8,60 @@
 
 void renderGUI();
 
+Vertex boxVertices[] =
+{
+	Vertex(glm::vec3(-1, -1, -1), glm::vec2(1, 0), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
+	Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 0), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
+	Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 1), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
+	Vertex(glm::vec3(1, -1, -1), glm::vec2(1, 1), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
+
+	Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 0), glm::vec3(0, 0, 1),glm::vec3(0, 1, 1)),
+	Vertex(glm::vec3(-1, 1, 1), glm::vec2(0, 0), glm::vec3(0, 0, 1),glm::vec3(0, 1, 1)),
+	Vertex(glm::vec3(1, 1, 1), glm::vec2(0, 1), glm::vec3(0, 0, 1),glm::vec3(0, 1, 1)),
+	Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 1), glm::vec3(0, 0, 1),glm::vec3(0, 1, 1)),
+
+	Vertex(glm::vec3(-1, -1, -1), glm::vec2(0, 1), glm::vec3(0, -1, 0),glm::vec3(0, 1, 0)),
+	Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 1), glm::vec3(0, -1, 0),glm::vec3(0, 1, 0)),
+	Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 0), glm::vec3(0, -1, 0),glm::vec3(0, 1, 0)),
+	Vertex(glm::vec3(1, -1, -1), glm::vec2(0, 0), glm::vec3(0, -1, 0),glm::vec3(0, 1, 0)),
+
+	Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 1), glm::vec3(0, 1, 0),glm::vec3(1, 1, 0)),
+	Vertex(glm::vec3(-1, 1, 1), glm::vec2(1, 1), glm::vec3(0, 1, 0),glm::vec3(1, 1, 0)),
+	Vertex(glm::vec3(1, 1, 1), glm::vec2(1, 0), glm::vec3(0, 1, 0),glm::vec3(1, 1, 0)),
+	Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 0), glm::vec3(0, 1, 0),glm::vec3(1, 1, 0)),
+
+	Vertex(glm::vec3(-1, -1, -1), glm::vec2(1, 1), glm::vec3(-1, 0, 0),glm::vec3(1, 0, 0)),
+	Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 0), glm::vec3(-1, 0, 0),glm::vec3(1, 0, 0)),
+	Vertex(glm::vec3(-1, 1, 1), glm::vec2(0, 0), glm::vec3(-1, 0, 0),glm::vec3(1, 0, 0)),
+	Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 1), glm::vec3(-1, 0, 0),glm::vec3(1, 0, 0)),
+
+	Vertex(glm::vec3(1, -1, -1), glm::vec2(1, 1), glm::vec3(1, 0, 0),glm::vec3(1, 0, 1)),
+	Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 0), glm::vec3(1, 0, 0),glm::vec3(1, 0, 1)),
+	Vertex(glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec3(1, 0, 0),glm::vec3(1, 0, 1)),
+	Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 1), glm::vec3(1, 0, 0),glm::vec3(1, 0, 1))
+};
+
+
+
+unsigned int boxIndices[] = { 0, 1, 2,
+0, 2, 3,
+
+6, 5, 4,
+7, 6, 4,
+
+10, 9, 8,
+11, 10, 8,
+
+12, 13, 14,
+12, 14, 15,
+
+16, 17, 18,
+16, 18, 19,
+
+22, 21, 20,
+23, 22, 20
+};
+
 void init()
 {
 	GLCall(glfwSetKeyCallback(display.m_window,key_callback));
@@ -17,95 +71,43 @@ void init()
 
 int main(int argc, char** argv)
 {
-	
-	Vertex vertices[] =
-	{
-		Vertex(glm::vec3(-1, -1, -1), glm::vec2(1, 0), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
-		Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 0), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
-		Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 1), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
-		Vertex(glm::vec3(1, -1, -1), glm::vec2(1, 1), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
-
-		Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 0), glm::vec3(0, 0, 1),glm::vec3(0, 1, 1)),
-		Vertex(glm::vec3(-1, 1, 1), glm::vec2(0, 0), glm::vec3(0, 0, 1),glm::vec3(0, 1, 1)),
-		Vertex(glm::vec3(1, 1, 1), glm::vec2(0, 1), glm::vec3(0, 0, 1),glm::vec3(0, 1, 1)),
-		Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 1), glm::vec3(0, 0, 1),glm::vec3(0, 1, 1)),
-
-		Vertex(glm::vec3(-1, -1, -1), glm::vec2(0, 1), glm::vec3(0, -1, 0),glm::vec3(0, 1, 0)),
-		Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 1), glm::vec3(0, -1, 0),glm::vec3(0, 1, 0)),
-		Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 0), glm::vec3(0, -1, 0),glm::vec3(0, 1, 0)),
-		Vertex(glm::vec3(1, -1, -1), glm::vec2(0, 0), glm::vec3(0, -1, 0),glm::vec3(0, 1, 0)),
-
-		Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 1), glm::vec3(0, 1, 0),glm::vec3(1, 1, 0)),
-		Vertex(glm::vec3(-1, 1, 1), glm::vec2(1, 1), glm::vec3(0, 1, 0),glm::vec3(1, 1, 0)),
-		Vertex(glm::vec3(1, 1, 1), glm::vec2(1, 0), glm::vec3(0, 1, 0),glm::vec3(1, 1, 0)),
-		Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 0), glm::vec3(0, 1, 0),glm::vec3(1, 1, 0)),
-
-		Vertex(glm::vec3(-1, -1, -1), glm::vec2(1, 1), glm::vec3(-1, 0, 0),glm::vec3(1, 0, 0)),
-		Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 0), glm::vec3(-1, 0, 0),glm::vec3(1, 0, 0)),
-		Vertex(glm::vec3(-1, 1, 1), glm::vec2(0, 0), glm::vec3(-1, 0, 0),glm::vec3(1, 0, 0)),
-		Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 1), glm::vec3(-1, 0, 0),glm::vec3(1, 0, 0)),
-
-		Vertex(glm::vec3(1, -1, -1), glm::vec2(1, 1), glm::vec3(1, 0, 0),glm::vec3(1, 0, 1)),
-		Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 0), glm::vec3(1, 0, 0),glm::vec3(1, 0, 1)),
-		Vertex(glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec3(1, 0, 0),glm::vec3(1, 0, 1)),
-		Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 1), glm::vec3(1, 0, 0),glm::vec3(1, 0, 1))
-	};
-
-
-
-	unsigned int indices[] = {0, 1, 2,
-							  0, 2, 3,
-
-							  6, 5, 4,
-							  7, 6, 4,
-
-							  10, 9, 8,
-							  11, 10, 8,
-
-							  12, 13, 14,
-							  12, 14, 15,
-
-							  16, 17, 18,
-							  16, 18, 19,
-
-							  22, 21, 20,
-							  23, 22, 20
-	                          };
-
-
-	ikScn.init(vertices,indices,sizeof(vertices)/sizeof(vertices[0]), sizeof(indices)/sizeof(indices[0]));
+	ikScn.init(boxVertices, boxIndices, sizeof(boxVertices) / sizeof(boxVertices[0]), sizeof(boxIndices) / sizeof(boxIndices[0]));
 	ikScn.addShader("./res/shaders/basicShader");
-	ikScn.addShader("./res/shaders/pickingShader");	
-	//scn.addShape("./res/monkey3.obj","./res/grass.bmp");
-	//Shader shader("./res/basicShader");
-
+	ikScn.addShader("./res/shaders/pickingShader");
+	init();
 	PlaySound("./res/sound/Fantasy Game Loop.wav", NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
-
-	//inputManager input = inputManager();
-	init();	
-	//glfwSetInputMode(display.m_window,GLFW_STICKY_MOUSE_BUTTONS,1);
-	
 	/// Create GUI ///
-	//GLFWwindow* menuWindow = glfwCreateWindow(1280, 720, "Snake Menu", NULL, NULL);
 	ImGui::CreateContext();
-	
-	//glfwMakeContextCurrent(menuWindow);
 	ImGui_ImplGlfwGL3_Init(display.m_window, false);
 	//glfwSwapInterval(1); // Enable vsync
-	// Setup style
-	//ImGui::StyleColorsDark();
 	ImGui::StyleColorsClassic();
-
 
 	while(!glfwWindowShouldClose(display.m_window))
 	{
 		ImGui_ImplGlfwGL3_NewFrame();
 
-		if (ikScn.movementActive) {
+		if (ikScn.gameMode == ONGOING) {
 			Sleep(50);
-			ikScn.makeIKChange();
+			ikScn.changeScene();
+			ikScn.update_movement();
 		}
-		
+		/*
+		auto shape = ikScn.is_snake_collided();
+		if (shape != NULL) {
+			auto type = shape->type;
+			switch (type) {
+				case OBSTICLE_BOX:
+					ikScn.gameOver = true;
+					break;
+				case INVISIBLE:
+				case SNAKE_LINK:
+				default:
+					break;
+			}
+
+			std::cout << "Skane collided with Shape Type = " << type << std::endl;
+		}*/
+
 		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);
 		if (display.IsFullscreen())
 		{
@@ -113,8 +115,8 @@ int main(int argc, char** argv)
 			GLCall(glfwGetFramebufferSize(display.m_window, &viewport[2], &viewport[3]));
 			window_size_callback(display.m_window, viewport[2], viewport[3]);
 		}
-
-		ikScn.draw(0,0,false); //change false to true for axis in every joint
+    
+		ikScn.draw(0,0,false);
 
 		renderGUI();
 		
@@ -127,22 +129,40 @@ int main(int argc, char** argv)
 }
 
 void renderGUI() {
-	auto cameraPosition = ikScn.getTipPosition(-1);
-	static float f = 0.0f;
 
+	ImGui::Text("Points: %d", ikScn.pointsCounter);
+	
+	if (ImGui::Button("Pause Game")) {
+		ikScn.pausePressed();
+	}
+	
+	static float f = 0.0f;
 	float oldF = f;
-	//ikScn.shapeTransformation(ikScn.zCameraTranslate, (cameraPosition - glm::vec3(0, 0, 250)).z);
 	if (ImGui::SliderFloat("Zoom", &f, -250.0f, 250.0f)) {
 		ikScn.setPicked(-1);
 		ikScn.shapeTransformation(ikScn.zCameraTranslate, f - oldF);
+		/// Uncomment this if you want to save Sky View as latest Zoom
+		//ikScn.cameraOriginalPosition = ikScn.GetCameras()[0]->getCameraPosition();
 	}
-	ImGui::Text("Points: %d", ikScn.pointsCounter);
-	auto headPosition = ikScn.getPointInSystem(glm::mat4(1), ikScn.getTipPosition(headLink));
+	auto cameraPosition = ikScn.GetCameras()[ikScn.viewIndex]->getCameraPosition();
+	ImGui::Text("Camera Position: x = %.2f, y = %.2f, z = %.2f", cameraPosition.x, cameraPosition.y, cameraPosition.z);
+	auto headPosition = ikScn.getBase(headLink);
 	ImGui::Text("Position: x = %.2f, y = %.2f, z = %.2f", headPosition.x, headPosition.y, headPosition.z);
-	auto destPosition = ikScn.getPointInSystem(glm::mat4(1), ikScn.getTipPosition(ikScn.destinationIndex));
+	auto destPosition = ikScn.destinationPosition;
 	ImGui::Text("Destination Position: x = %.2f, y = %.2f, z = %.2f", destPosition.x, destPosition.y, destPosition.z);
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
+	if (ImGui::Button("Snake View")) {
+		ikScn.viewIndex = snakeViewIndex;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Sky View")) {
+		/*auto headPoint = ikScn.shapes[headLink]->getCenterOfRotation(glm::mat4(1));
+		ikScn.GetCameras()[0]->setCameraPosition(glm::vec3(headPoint.x, headPoint.y, headPoint.z - 50));
+		ikScn.GetCameras()[0]->setForward(glm::vec3(0., 0.,  1.));*/
+		ikScn.viewIndex = skyViewIndex;
+	}
+
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::Render();
 	ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
 }
