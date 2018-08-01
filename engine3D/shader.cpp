@@ -72,19 +72,12 @@ int g = 128.;//((shpIndx+1) & 0x0000FF00) >>  8;
 int b = 255.;
 int increment = 1;
 
-void Shader::Update(glm::mat4 MVP, glm::mat4 Normal, int const shpIndx, std::vector<glm::mat4> trans, unsigned int texture, glm::vec3 cameraPosition)
+void Shader::Update(glm::mat4 MVP, glm::mat4 Normal, int const shpIndx, std::vector<glm::mat4> trans, unsigned int texture, glm::vec3 cameraPosition, glm::vec3 color)
 {
+	r = color.r;
+	g = color.g;
+	b = color.b;
 
-
-	//if(Normal[0][3]>0 || Normal[3][0]>0)
-	//{
-	//	printMat(Normal);
-	//	printMat(MVP);
-	//}
-
-	r = 200;//(r + increment) % 255;
-	g = 50;//(g + increment) % 255;
-	b = 0;//(b + increment) % 255;
 	GLCall(glUniformMatrix4fv(m_uniforms[0], 1, GL_FALSE, &MVP[0][0]));
 	GLCall(glUniformMatrix4fv(m_uniforms[1], 1, GL_FALSE, &Normal[0][0]));
 	GLCall(glUniform3f(m_uniforms[2], 0.0f, 0.0f, 1.0f));

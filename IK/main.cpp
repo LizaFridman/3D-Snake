@@ -2,8 +2,8 @@
 #include "display.h"
 #include "inputManager.h"
 #include <Windows.h>
-#include "vendors/imgui.h"
-#include "vendors/imgui_impl_glfw_gl3.h"
+#include "./res/vendors/imgui.h"
+#include "./res/vendors/imgui_impl_glfw_gl3.h"
 #pragma comment(lib, "winmm.lib")
 
 void renderGUI();
@@ -143,7 +143,12 @@ void renderGUI() {
 		ikScn.shapeTransformation(ikScn.zCameraTranslate, f - oldF);
 		/// Uncomment this if you want to save Sky View as latest Zoom
 		//ikScn.cameraOriginalPosition = ikScn.GetCameras()[0]->getCameraPosition();
-	}
+	} 
+	
+	static glm::vec3 color = glm::vec3(20, 5, 0);
+	ImGui::ColorEdit3("Scene Color", (float*)&color); // Edit 3 floats representing a color
+	ikScn.sceneColor = color;
+
 	auto cameraPosition = ikScn.GetCameras()[ikScn.viewIndex]->getCameraPosition();
 	ImGui::Text("Camera Position: x = %.2f, y = %.2f, z = %.2f", cameraPosition.x, cameraPosition.y, cameraPosition.z);
 	auto headPosition = ikScn.getBase(headLink);

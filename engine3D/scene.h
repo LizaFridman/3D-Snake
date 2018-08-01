@@ -18,6 +18,8 @@ protected:
 
 public:
 	int viewIndex = 0;
+	glm::vec3 sceneColor = glm::vec3(20,5,0);
+
 	std::vector<Shape*> shapes;
 	int destinationIndex;
 	glm::vec3 cameraOriginalPosition;
