@@ -10,7 +10,6 @@ Rebuild Solution in Debug mode and Run the program.
 ![Screenshot](res/runProgram.PNG)
 
 ## Game features
-
 ### Game scene components
   * Grass floor.
   * Walls around the grass (to keep the snake from falling down of course!).
@@ -32,12 +31,10 @@ First view of the game:
 1. Points counter - each time you eat an "apple" you get 10 points.
 2. Pause Game button - pauses the game (also available with P_KEY)
 3. Zoom - zoom in and of with the sky camera view.
-
 ![Screenshot](res/skyView.PNG)
 
 4. Scene Color - shows the color of the scene light -
 the color could be changed with the circle of color around the middle arrow.
-
 ![Screenshot](res/colorSelection.PNG)
 
 5. Sky view camera position.
