@@ -362,6 +362,7 @@ using namespace glm;
 				switch (type) {
 				case OBSTICLE_BOX:
 				case WALL:
+					PlaySound("./res/sound/HELLO_DARKNESS.wav", NULL, SND_ASYNC | SND_FILENAME);
 					gameMode = GAME_LOST;
 					break;
 				case FOOD:
@@ -369,6 +370,7 @@ using namespace glm;
 					shapes[i]->type = INVISIBLE;
 					break;
 				case CAVE:
+					PlaySound("./res/sound/FINAL_FANTASY_VICTORY.wav", NULL, SND_ASYNC | SND_FILENAME);
 					gameMode = GAME_WON;
 					break;
 				case FLOOR:
