@@ -28,7 +28,7 @@ First view of the game:
 
 ![Screenshot](res/firstGameView.PNG)
 
-  1. Points counter - each time you eat an "apple" you get 10 points.
+  1. Points counter - each time you eat an "apple" you get 10 points/
   2. Pause Game button - pauses the game (also available with P_KEY)
   3. Zoom - zoom in and of with the sky camera view.
 ![Screenshot](res/skyView.PNG)
