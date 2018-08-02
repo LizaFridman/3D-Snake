@@ -393,10 +393,10 @@ void IK::reset_euler_angles(int shapeIndex)
 	shapes[shapeIndex]->reset_euler_angles();
 }
 
-void IK::updatePositions()
+void IK::updatePositions(float velocityFactor)
 {
 	auto focusLink = headLink - 2;
-	auto direction = glm::normalize(getTipPosition(focusLink) - getBase(focusLink))  * 0.1f;
+	auto direction = glm::normalize(getTipPosition(focusLink) - getBase(focusLink))  * velocityFactor;
 	pickedShape = 0;
 
 	int i = pickedShape;

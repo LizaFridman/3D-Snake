@@ -89,7 +89,7 @@ int main(int argc, char** argv)
 		if (ikScn.gameMode == ONGOING) {
 			Sleep(50);
 			ikScn.changeScene();
-			ikScn.updatePositions();
+			ikScn.updatePositions(0.1f);
 		}
 		/*
 		auto shape = ikScn.is_snake_collided();
