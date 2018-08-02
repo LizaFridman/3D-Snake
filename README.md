@@ -9,7 +9,6 @@ Rebuild Solution in Debug mode and Run the program.
 
 ![Screenshot](res/runProgram.PNG)
 
-
 ## Game features
 
 ### Game scene components
@@ -45,7 +44,6 @@ the color could be changed with the circle of color around the middle arrow.
 6. Position of the snake.
 7. Destination position (the position to which the snake is moving using the FABRIK algorithm).
 8.1 Snake View button - shows the view from the snakes point of view.
-
 ![Screenshot](res/snakeView.PNG)
 
 8.2 Sky View button - shows the view from above the snake.
