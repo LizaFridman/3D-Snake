@@ -89,7 +89,7 @@ int main(int argc, char** argv)
 		if (ikScn.gameMode == ONGOING) {
 			Sleep(50);
 			ikScn.changeScene();
-			ikScn.updatePositions(0.1f);
+			ikScn.updatePositions();
 		}
 		/*
 		auto shape = ikScn.is_snake_collided();
@@ -132,7 +132,7 @@ void renderGUI() {
 
 	ImGui::Text("Points: %d", ikScn.pointsCounter);
 	
-	if (ImGui::Button("Pause Game")) {
+	if (ImGui::Button("Pause Game (P)")) {
 		ikScn.pausePressed();
 	}
 	
@@ -140,7 +140,7 @@ void renderGUI() {
 	float oldF = f;
 	if (ImGui::SliderFloat("Zoom", &f, -250.0f, 250.0f)) {
 		ikScn.setPicked(-1);
-		ikScn.shapeTransformation(ikScn.zCameraTranslate, f - oldF);
+		ikScn.shapeTransformation(ikScn.zCameraTranslate, oldF - f);
 		/// Uncomment this if you want to save Sky View as latest Zoom
 		//ikScn.cameraOriginalPosition = ikScn.GetCameras()[0]->getCameraPosition();
 	} 
@@ -165,7 +165,7 @@ void renderGUI() {
 		ikScn.GetCameras()[0]->setForward(glm::vec3(0., 0.,  1.));*/
 		ikScn.viewIndex = skyViewIndex;
 	}
-
+	ImGui::SliderFloat("Velocity ", &ikScn.velocityFactor, 0.1f, 1.0f);
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::Render();
 	ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());

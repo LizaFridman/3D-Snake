@@ -29,7 +29,7 @@ void main()
 
     float textureFactor = 0.3;
     float intensityFactor = 1-textureFactor;
-	vec3 finalColor = intensityFactor * intensity + textureFactor * texColor;
+	vec3 finalColor =intensity + texColor;
 	FragColor = clamp(vec4(finalColor, 1.0), 0.0, 1.0);
 
 }

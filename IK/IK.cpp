@@ -148,7 +148,8 @@ using namespace glm;
 			auto xRand = minWidth + rand() / (RAND_MAX / (maxWidth - minWidth));
 			auto zRand = minHeight + rand() / (RAND_MAX / (maxHeight - minHeight));
 			shapeTransformation(xGlobalTranslate, xRand);
-			shapeTransformation(zGlobalTranslate, zRand);
+			shapeTransformation(zGlobalTranslate,
+				zRand);
 
 			shapeTransformation(xScale, scaleFactor);
 			shapeTransformation(yScale, scaleFactor);
@@ -393,7 +394,7 @@ void IK::reset_euler_angles(int shapeIndex)
 	shapes[shapeIndex]->reset_euler_angles();
 }
 
-void IK::updatePositions(float velocityFactor)
+void IK::updatePositions()
 {
 	auto focusLink = headLink - 2;
 	auto direction = glm::normalize(getTipPosition(focusLink) - getBase(focusLink))  * velocityFactor;

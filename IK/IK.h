@@ -42,6 +42,7 @@ public:
 	int displayWidth = 1200;
 	int displayHeight = 800;
 	bool gameOver = false;
+	float velocityFactor = 0.1f;
 
 	IK(void);
 	virtual ~IK(void);
