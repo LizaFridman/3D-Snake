@@ -1,4 +1,4 @@
-#include "IK.h"
+#include "SnakeScene.h"
 #include "shape.h"
 #include <iostream>
 #include <Windows.h>
@@ -22,7 +22,7 @@ using namespace glm;
 		cout<<std::endl;
 	}
 	
-	IK::IK(void)
+	SnakeScene::SnakeScene(void)
 	{
 		cameraMode = false;
 		isIKactive = false;
@@ -33,7 +33,7 @@ using namespace glm;
 		maxDistance = linksNum*2.0f*scaleFactor;
 	}
 
-	IK::IK(vec3 position,float angle,float hwRelation,float nearf, float farf) : Scene( position,  angle,  hwRelation,  nearf,  farf)
+	SnakeScene::SnakeScene(vec3 position,float angle,float hwRelation,float nearf, float farf) : Scene( position,  angle,  hwRelation,  nearf,  farf)
 	{
 		cameraMode = false;
 		isIKactive = false;
@@ -46,7 +46,7 @@ using namespace glm;
 	}
 
 	
-	void IK::updateViews()
+	void SnakeScene::updateViews()
 	{
 		int focusLink = linksNum/2;
 		auto pos = getBase(focusLink);
@@ -59,7 +59,7 @@ using namespace glm;
 		cameras[skyViewIndex]->forward = glm::vec3(0, 0, 1);
 	}
 
-	void IK::pausePressed() {
+	void SnakeScene::pausePressed() {
 		if (gameMode == ONGOING)
 			gameMode = PAUSED;
 		else {
@@ -67,11 +67,11 @@ using namespace glm;
 		}
 	}
 
-	IK::~IK(void)
+	SnakeScene::~SnakeScene(void)
 	{
 	}
 
-	void IK::init(Vertex *vertices, unsigned int *indices, int verticesSize, int indicesSize)
+	void SnakeScene::init(Vertex *vertices, unsigned int *indices, int verticesSize, int indicesSize)
 	{
 		myRotate(-90.0f, vec3(1, 0, 0), -1);
 		cameraOriginalPosition = GetCameras()[0]->getCameraPosition();
@@ -121,7 +121,7 @@ using namespace glm;
 
 	}
 
-	void IK::buildLevel(Vertex *vertices, unsigned int *indices, int verticesSize, int indicesSize) {
+	void SnakeScene::buildLevel(Vertex *vertices, unsigned int *indices, int verticesSize, int indicesSize) {
 		/// Grass ///
 		addShape(vertices, verticesSize, indices, indicesSize, "./res/textures/grass.bmp", -1, FLOOR);
 		pickedShape = grassIndex;
@@ -199,48 +199,48 @@ using namespace glm;
 
 	}
 
-	void IK::addShape(int CylParts,int linkPosition,int parent)
+	void SnakeScene::addShape(int CylParts,int linkPosition,int parent)
 	{
 		
 		__super::addShape(CylParts,linkPosition,parent);
 	}
 
-	void IK::addShape(int CylParts,int linkPosition,const std::string& fileName,int parent, ShapeType type)
+	void SnakeScene::addShape(int CylParts,int linkPosition,const std::string& fileName,int parent, ShapeType type)
 	{	
 		__super::addShape(CylParts,linkPosition,fileName,parent, type);
 	}
 
-	void IK::addShape(int type, int parent) 
+	void SnakeScene::addShape(int type, int parent) 
 	{
 		
 		__super::addShape(type,parent);
 	}
 
-	void IK::addShape(const std::string& fileName, int parent)
+	void SnakeScene::addShape(const std::string& fileName, int parent)
 	{
 		
 		__super::addShape(fileName,parent);
 	}
 
-	void IK::addShape(const std::string& fileName,const std::string& textureFileName, int parent)
+	void SnakeScene::addShape(const std::string& fileName,const std::string& textureFileName, int parent)
 	{
 		
 		__super::addShape(fileName,textureFileName,parent);
 	}
 
-	void IK::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, int parent)
+	void SnakeScene::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, int parent)
 	{
 		
 		__super::addShape(vertices,numVertices,indices,numIndices,parent);
 	}
 	
-	void IK::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string &textureFlieName, int parent, ShapeType type)
+	void SnakeScene::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string &textureFlieName, int parent, ShapeType type)
 	{
 		
 		__super::addShape(vertices,numVertices,indices,numIndices,textureFlieName,parent, type);
 	}
 	
-	void IK::calculateSnakeStep()
+	void SnakeScene::calculateSnakeStep()
 	{
 		vector<vec3> linkTipPositions;
 		for (int i = 0; i < linksNum; i++)
@@ -324,38 +324,38 @@ using namespace glm;
 	}
 		
 
-	Shape & IK::getSnakeHead()
+	Shape & SnakeScene::getSnakeHead()
 	{
 		return *(shapes[headLink]);
 	}
 
-	void IK::setDirectionRight() {
+	void SnakeScene::setDirectionRight() {
 		//Sleep(50);
 		destinationPosition = glm::vec3(-50,0,-50);
 	}
-	void IK::setDirectionLeft() {
+	void SnakeScene::setDirectionLeft() {
 		//Sleep(50);
 		destinationPosition = glm::vec3(50, 0, -50);
 	}
 
-	void IK::setDirectionUp() {
+	void SnakeScene::setDirectionUp() {
 		//Sleep(50);
 		destinationPosition = glm::vec3(0, 50, 0);
 	}
 
-	void IK::setDirectionDown() {
+	void SnakeScene::setDirectionDown() {
 		//Sleep(50);
 		destinationPosition = glm::vec3(0, -50, 0);
 	}
 	
-	void IK::changeScene()
+	void SnakeScene::changeScene()
 	{
 		detectCollision();
 		calculateSnakeStep();
 		updateViews();
 	}
 
-	void IK::detectCollision() {
+	void SnakeScene::detectCollision() {
 		for (int i = linksNum + 1; i < shapes.size(); i++) {
 			auto type = shapes[i]->type;
 			if(type != INVISIBLE && areShapesCollided(headLink, i)){
@@ -382,19 +382,19 @@ using namespace glm;
 		}
 	}
 
-	bool IK::areShapesCollided(int firstIndex, int otherIndex) {
+	bool SnakeScene::areShapesCollided(int firstIndex, int otherIndex) {
 		auto firstPosition = getBase(firstIndex);
 		auto otherPosition = getBase(otherIndex);
 		auto dist = distance(firstPosition, otherPosition);
 		return dist < minDistance;
 	}
 
-void IK::reset_euler_angles(int shapeIndex)
+void SnakeScene::reset_euler_angles(int shapeIndex)
 {
 	shapes[shapeIndex]->reset_euler_angles();
 }
 
-void IK::updatePositions()
+void SnakeScene::updatePositions()
 {
 	auto focusLink = headLink - 2;
 	auto direction = glm::normalize(getTipPosition(focusLink) - getBase(focusLink))  * velocityFactor;
@@ -405,7 +405,7 @@ void IK::updatePositions()
 	shapes[i]->myTranslate(direction, 0);
 }
 
-void IK::pick_box()
+void SnakeScene::pick_box()
 {
 	if (pickedShape != linksNum)
 	{
@@ -417,17 +417,17 @@ void IK::pick_box()
 	}
 }
 
-void IK::pick_next_box()
+void SnakeScene::pick_next_box()
 {
 	pickedShape = (pickedShape + 1) % linksNum;
 }
 
-void IK::pick_previous_box()
+void SnakeScene::pick_previous_box()
 {
 	pickedShape = (linksNum + pickedShape - 1) % linksNum;
 }
 
-Shape* IK::is_snake_collided() {
+Shape* SnakeScene::is_snake_collided() {
 	for (int i = 0; i < linksNum ; i++) {
 			for (int j = linksNum + 1; j < shapes.size(); j++) {
 				if (shapes[i]->type != INVISIBLE &&

@@ -2,7 +2,7 @@
 #include <GL\glew.h>
 #include "scene.h"
 #include <iostream>
-#include "../IK/IK.h"
+#include "../IK/SnakeScene.h"
 #include "GLErrorHandler.h"
 
 using namespace std;

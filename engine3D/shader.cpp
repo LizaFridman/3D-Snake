@@ -3,7 +3,7 @@
 #include <GL\glew.h>
 #include <iostream>
 #include <fstream>
-#include "../IK/IK.h"
+#include "../IK/SnakeScene.h"
 
 static void printMat(glm::mat4 phi)
 {

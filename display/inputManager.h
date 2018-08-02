@@ -1,6 +1,6 @@
 #pragma once   //maybe should be static class
 #include "GLFW\glfw3.h"
-#include "IK.h"
+#include "SnakeScene.h"
 
 const int DISPLAY_WIDTH = 1200;
 const int DISPLAY_HEIGHT = 800;
@@ -11,7 +11,7 @@ float relation = (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT;
 
 Display display(DISPLAY_WIDTH, DISPLAY_HEIGHT, "Snake 3D");
 
-IK ikScn(glm::vec3(0.0f, 5.0f, -250.0f), CAM_ANGLE, relation, NEAR, FAR);
+SnakeScene ikScn(glm::vec3(0.0f, 5.0f, -250.0f), CAM_ANGLE, relation, NEAR, FAR);
 
 float factor = 1.0;
 

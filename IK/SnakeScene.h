@@ -26,7 +26,7 @@ const int snakeViewIndex = 1;
 
 enum GameMode { PAUSED, GAME_LOST, GAME_WON, ONGOING};
 
-class IK : public Scene
+class SnakeScene : public Scene
 {
 	bool cameraMode;
 	glm::vec3 tipPosition;
@@ -44,9 +44,9 @@ public:
 	bool gameOver = false;
 	float velocityFactor = 0.1f;
 
-	IK(void);
-	virtual ~IK(void);
-	IK(glm::vec3 position,float angle,float hwRelation,float near, float far);
+	SnakeScene(void);
+	virtual ~SnakeScene(void);
+	SnakeScene(glm::vec3 position,float angle,float hwRelation,float near, float far);
 	void updateViews();
 	void updatePositions();
 	void pausePressed();
