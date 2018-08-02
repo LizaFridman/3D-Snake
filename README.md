@@ -12,6 +12,18 @@ Rebuild Solution in Debug mode and Run the program.
 
 ## Game features
 
+### Game scene components
+  * Grass floor.
+  * Walls around the grass (to keep the snake from falling down of course!).
+  * Blue obstacles - be careful, don't hit them!
+  * Apples - help the snake to score some points to compare with his buddies in the cave.
+  * The Cave - the ultimate Bachelor Pad.
+  
+### Movement around the scene
+  * LEFT_ARROW and RIGHT_ARROW are for turning the head of the snake.
+  * UP_ARRON and DOWN_ARROW are for moving towards/away from floor.
+  * W/S/A/D KEYs are for moving the snake in the X-Y plane (on the floor).
+  
 ### Interface
 
 First view of the game:
@@ -40,16 +52,3 @@ the color could be changed with the circle of color around the middle arrow.
 
 9. Velocity - control the speed of the snake.
 10. FPS indicator.
-
-
-### Movement around the scene
-  * LEFT_ARROW and RIGHT_ARROW are for turning the head of the snake.
-  * UP_ARRON and DOWN_ARROW are for moving towards/away from floor.
-  * W/S/A/D KEYs are for moving the snake in the X-Y plane (on the floor).
- 
-### Game scene components
-  * Grass floor.
-  * Walls around the grass (to keep the snake from falling down of course!).
-  * Blue obstacles - be careful, don't hit them!
-  * Apples - help the snake to score some points to compare with his buddies in the cave.
-  * The Cave - the ultimate Bachelor Pad.
