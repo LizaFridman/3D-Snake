@@ -8,7 +8,7 @@ Rebuild Solution in Debug mode and Run the program.
 
 ![Screenshot](res/runProgram.PNG)
 
-## Game feature
+## Game features
 
 ### Interface
 First view of the game:
@@ -43,3 +43,10 @@ the color can be changed with the circle of color around the middle arrow.
   * LEFT_ARROW and RIGHT_ARROW are for turning the head of the snake
   * UP_ARRON and DOWN_ARROW are for moving towards/away from floor.
   * W/S/A/D KEYs are for moving the whole snake in the X-Y plane (on the floor)
+  
+### Game scene components
+  * Grass floor
+  * Walls around the grass (to keep the snake from falling down of course!)
+  * Blue obsticles - be careful, don't hit them!
+  * Apples - help the snake to score some points to compare with his buddies in the cave
+  * The Cave - the ultimate Bachelor Pad. 
