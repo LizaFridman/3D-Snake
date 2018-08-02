@@ -28,21 +28,21 @@ First view of the game:
 
 ![Screenshot](res/firstGameView.PNG)
 
-1. Points counter - each time you eat an "apple" you get 10 points.
-2. Pause Game button - pauses the game (also available with P_KEY)
-3. Zoom - zoom in and of with the sky camera view.
+  1. Points counter - each time you eat an "apple" you get 10 points.
+  2. Pause Game button - pauses the game (also available with P_KEY)
+  3. Zoom - zoom in and of with the sky camera view.
 ![Screenshot](res/skyView.PNG)
 
-4. Scene Color - shows the color of the scene light -
-the color could be changed with the circle of color around the middle arrow.
+  4. Scene Color - shows the color of the scene light -
+     the color could be changed with the circle of color around the middle arrow.
 ![Screenshot](res/colorSelection.PNG)
 
-5. Sky view camera position.
-6. Position of the snake.
-7. Destination position (the position to which the snake is moving using the FABRIK algorithm).
-8.1 Snake View button - shows the view from the snakes point of view.
+  5. Sky view camera position.
+  6. Position of the snake.
+  7. Destination position (the position to which the snake is moving using the FABRIK algorithm).
+  8.1 Snake View button - shows the view from the snakes point of view.
 ![Screenshot](res/snakeView.PNG)
 
-8.2 Sky View button - shows the view from above the snake.
-9. Velocity - control the speed of the snake.
-10. FPS indicator.
+  8.2 Sky View button - shows the view from above the snake.
+  9. Velocity - control the speed of the snake.
+  10. FPS indicator.
