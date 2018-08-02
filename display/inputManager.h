@@ -9,7 +9,7 @@ const float NEAR = 1.0f;
 const float CAM_ANGLE = 60.0f;
 float relation = (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT;
 
-Display display(DISPLAY_WIDTH, DISPLAY_HEIGHT, "OpenGL");
+Display display(DISPLAY_WIDTH, DISPLAY_HEIGHT, "Snake 3D");
 
 IK ikScn(glm::vec3(0.0f, 5.0f, -250.0f), CAM_ANGLE, relation, NEAR, FAR);
 
