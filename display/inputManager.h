@@ -21,7 +21,7 @@ float depth;
 	
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && ikScn.gameMode == ONGOING)
+	if (action == GLFW_PRESS || action == GLFW_REPEAT)
 	{
 		switch (key)
 		{
@@ -30,21 +30,25 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_RIGHT:
 			/// Go to the right of the screen
+			if(ikScn.gameMode == ONGOING)
 				ikScn.setDirectionRight();
 			//ikScn.UpdateSnakeMovement();
 			break;
 		case GLFW_KEY_LEFT:
 			/// Go to the left of the screen
+			if (ikScn.gameMode == ONGOING)
 				ikScn.setDirectionLeft();
 			//ikScn.UpdateSnakeMovement();
 			break;
 		case GLFW_KEY_UP:
 			/// Go to the up of the screen
+			if (ikScn.gameMode == ONGOING)
 				ikScn.setDirectionUp();
 			//ikScn.UpdateSnakeMovement();
 			break;
 		case GLFW_KEY_DOWN:
 			/// Go to the down of the screen
+			if (ikScn.gameMode == ONGOING)
 				ikScn.setDirectionDown();
 			//ikScn.UpdateSnakeMovement();
 			break;
