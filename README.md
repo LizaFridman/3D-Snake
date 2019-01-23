@@ -1,6 +1,7 @@
 # 3D-Snake
 
 Final Project for Video Games Programming course.
+Demo video at: https://drive.google.com/file/d/1vzMOMM6TvIj3pEVimMvinf9v-qPJi3Ls/view?usp=sharing
 
 ### Installing
 
